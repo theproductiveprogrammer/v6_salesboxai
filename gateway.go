@@ -18,6 +18,7 @@ func loadMap() map[string]string {
 	m["rules"] = "http://localhost:8080/data/rules"
 	m["activities"] = "http://localhost:8080/data/activities"
 	m["import"] = "http://localhost:3001/import"
+	m["lists"] = "http://localhost:8080/data/lists"
 	return m
 }
 
