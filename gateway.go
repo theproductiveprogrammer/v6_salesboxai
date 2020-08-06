@@ -76,6 +76,11 @@ func routeTo(uri string, r *http.Request, w http.ResponseWriter) {
 	var resp *http.Response
 	var err error
 
+	if r.Method == "OPTIONS" {
+		setCORSHeaders(r, w)
+		return
+	}
+
 	defer r.Body.Close()
 
 	req, err = http.NewRequest(r.Method, uri, r.Body)
@@ -95,20 +100,20 @@ func routeTo(uri string, r *http.Request, w http.ResponseWriter) {
 		return
 	}
 
-  hasCORS := false
+	hasCORS := false
 
 	for k, val := range resp.Header {
 		for _, v := range val {
-      if strings.HasPrefix(k, "Access-Control-") {
-        hasCORS = true
-      }
+			if strings.HasPrefix(k, "Access-Control-") {
+				hasCORS = true
+			}
 			w.Header().Add(k, v)
 		}
 	}
 
-  if !hasCORS {
-    setCORSHeaders(r, w)
-  }
+	if !hasCORS {
+		setCORSHeaders(r, w)
+	}
 
 	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
