@@ -36,8 +36,6 @@ func startServer(map_ map[string]string) {
 
 func routeReq(r *http.Request, w http.ResponseWriter, map_ map[string]string) {
 
-	setCORSHeaders(r, w)
-
 	uri := r.RequestURI
 	if uri[0] == '/' {
 		uri = uri[1:]
@@ -95,11 +93,21 @@ func routeTo(uri string, r *http.Request, w http.ResponseWriter) {
 		return
 	}
 
+  hasCORS := false
+
 	for k, val := range resp.Header {
 		for _, v := range val {
+      if strings.HasPrefix(k, "Access-Control-") {
+        hasCORS = true
+      }
 			w.Header().Add(k, v)
 		}
 	}
+
+  if !hasCORS {
+    setCORSHeaders(r, w)
+  }
+
 	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
 	resp.Body.Close()
