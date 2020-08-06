@@ -16,6 +16,7 @@ func loadMap() map[string]string {
 	m := make(map[string]string)
 	m["leads"] = "http://localhost:8080/data/leads"
 	m["rules"] = "http://localhost:8080/data/rules"
+	m["activities"] = "http://localhost:8080/data/activities"
 	return m
 }
 
