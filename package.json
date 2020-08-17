@@ -8,6 +8,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tpp/dux": "^3.0.0",
+    "@tpp/htm-x": "^3.2.1",
     "css-loader": "^4.2.1",
     "style-loader": "^1.2.1",
     "svg-inline-loader": "^0.8.2",
