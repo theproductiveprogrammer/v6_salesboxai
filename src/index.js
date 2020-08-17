@@ -104,6 +104,7 @@ let icons = {
   salesforce: require('./salesforce.svg'),
   listadd: require('./listadd.svg'),
   facebook: require('./facebook.svg'),
+  sms: require('./sms.svg'),
 }
 
 function getToolbar(store) {
@@ -114,6 +115,7 @@ function getToolbar(store) {
     { name: 'Twitter', icon: icons.twitter },
     { name: 'LinkedIn', icon: icons.linkedin },
     { name: 'Salesforce', icon: icons.salesforce },
+    { name: 'SMS', icon: icons.sms },
     { name: 'Add To List', icon: icons.listadd },
     { name: 'Facebook', icon: icons.facebook },
   ])
