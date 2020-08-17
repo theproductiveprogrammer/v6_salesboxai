@@ -106,6 +106,7 @@ let icons = {
   facebook: require('./facebook.svg'),
   sms: require('./sms.svg'),
   adaptive: require('./adaptive.svg'),
+  meeting: require('./meeting.svg'),
 }
 
 function getToolbar(store) {
@@ -120,6 +121,7 @@ function getToolbar(store) {
     { name: 'SMS', icon: icons.sms },
     { name: 'Add To List', icon: icons.listadd },
     { name: 'Facebook', icon: icons.facebook },
+    { name: 'Meeting', icon: icons.meeting },
   ])
 }
 
