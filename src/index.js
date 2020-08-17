@@ -1,1 +1,8 @@
-console.log('hello world!')
+'use strict'
+
+import './reset.css'
+
+function main() {
+}
+
+main()
