@@ -105,11 +105,13 @@ let icons = {
   listadd: require('./listadd.svg'),
   facebook: require('./facebook.svg'),
   sms: require('./sms.svg'),
+  adaptive: require('./adaptive.svg'),
 }
 
 function getToolbar(store) {
   store.event('got/toolbar', [
     { name: 'Send Email', icon: icons.email },
+    { name: 'Adaptive', icon: icons.adaptive },
     { name: 'Chat', icon: icons.chat },
     { name: 'Decide', icon: icons.decide },
     { name: 'Twitter', icon: icons.twitter },
