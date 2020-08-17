@@ -98,12 +98,14 @@ function toolbarIcon(store, i) {
 let icons = {
   email: require('./email.svg'),
   chat: require('./chat.svg'),
+  decide: require('./decide.svg'),
 }
 
 function getToolbar(store) {
   store.event('got/toolbar', [
     { name: 'Send Email', icon: icons.email },
     { name: 'Chat', icon: icons.chat },
+    { name: 'Decide', icon: icons.decide },
   ])
 }
 
