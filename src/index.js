@@ -102,6 +102,7 @@ let icons = {
   twitter: require('./twitter.svg'),
   linkedin: require('./linkedin.svg'),
   salesforce: require('./salesforce.svg'),
+  listadd: require('./listadd.svg'),
 }
 
 function getToolbar(store) {
@@ -112,6 +113,7 @@ function getToolbar(store) {
     { name: 'Twitter', icon: icons.twitter },
     { name: 'LinkedIn', icon: icons.linkedin },
     { name: 'Salesforce', icon: icons.salesforce },
+    { name: 'Add To List', icon: icons.listadd },
   ])
 }
 
