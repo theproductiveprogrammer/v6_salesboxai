@@ -100,6 +100,7 @@ let icons = {
   chat: require('./chat.svg'),
   decide: require('./decide.svg'),
   twitter: require('./twitter.svg'),
+  linkedin: require('./linkedin.svg'),
 }
 
 function getToolbar(store) {
@@ -108,6 +109,7 @@ function getToolbar(store) {
     { name: 'Chat', icon: icons.chat },
     { name: 'Decide', icon: icons.decide },
     { name: 'Twitter', icon: icons.twitter },
+    { name: 'LinkedIn', icon: icons.linkedin },
   ])
 }
 
