@@ -58,10 +58,16 @@ function drawToolbar(store, e) {
 
   store.react('workflow.toolbar.items', items => {
     tb.setAttribute("width", 50 * items.length + 50)
-    for(let i = 0;i < items.length;i++) {
+    let i = 0
+    for(;i < items.length;i++) {
       if(icons[i]) continue
       icons[i] = toolbarIcon(store, i)
       tb.appendChild(icons[i].e)
+    }
+    while(i < icons.length) {
+      let icon = icons.pop()
+      store.unreact(icon.fn)
+      tb.removeChild(icon.e)
     }
   })
 
