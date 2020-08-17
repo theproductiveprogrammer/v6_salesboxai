@@ -101,6 +101,7 @@ let icons = {
   decide: require('./decide.svg'),
   twitter: require('./twitter.svg'),
   linkedin: require('./linkedin.svg'),
+  salesforce: require('./salesforce.svg'),
 }
 
 function getToolbar(store) {
@@ -110,6 +111,7 @@ function getToolbar(store) {
     { name: 'Decide', icon: icons.decide },
     { name: 'Twitter', icon: icons.twitter },
     { name: 'LinkedIn', icon: icons.linkedin },
+    { name: 'Salesforce', icon: icons.salesforce },
   ])
 }
 
