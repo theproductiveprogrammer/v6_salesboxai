@@ -99,6 +99,7 @@ let icons = {
   email: require('./email.svg'),
   chat: require('./chat.svg'),
   decide: require('./decide.svg'),
+  twitter: require('./twitter.svg'),
 }
 
 function getToolbar(store) {
@@ -106,6 +107,7 @@ function getToolbar(store) {
     { name: 'Send Email', icon: icons.email },
     { name: 'Chat', icon: icons.chat },
     { name: 'Decide', icon: icons.decide },
+    { name: 'Twitter', icon: icons.twitter },
   ])
 }
 
