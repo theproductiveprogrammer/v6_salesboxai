@@ -98,6 +98,7 @@ function toolbarIcon(store, i) {
 
 function getToolbar(store) {
   store.event('got/toolbar', [
+    { name: 'Event', icon: require('./event.svg') },
     { name: 'Send Email', icon: require('./email.svg') },
     { name: 'Adaptive', icon: require('./adaptive.svg') },
     { name: 'Chat', icon: require('./chat.svg') },
@@ -109,7 +110,6 @@ function getToolbar(store) {
     { name: 'Add To List', icon: require('./listadd.svg') },
     { name: 'Facebook', icon: require('./facebook.svg') },
     { name: 'Meeting', icon: require('./meeting.svg') },
-    { name: 'Event', icon: require('./event.svg') },
   ])
 }
 
