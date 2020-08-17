@@ -87,6 +87,7 @@ function toolbarIcon(store, i) {
   })
 
   let fn = store.react(`workflow.toolbar.items.${i}`, tool => {
+    e.setAttribute('title', tool.name)
     e.c(
       svg({ width: sz, height: sz }, tool.icon)
     )
