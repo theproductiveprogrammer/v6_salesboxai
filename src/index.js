@@ -96,35 +96,20 @@ function toolbarIcon(store, i) {
   return { e, fn }
 }
 
-let icons = {
-  email: require('./email.svg'),
-  chat: require('./chat.svg'),
-  decide: require('./decide.svg'),
-  twitter: require('./twitter.svg'),
-  linkedin: require('./linkedin.svg'),
-  salesforce: require('./salesforce.svg'),
-  listadd: require('./listadd.svg'),
-  facebook: require('./facebook.svg'),
-  sms: require('./sms.svg'),
-  adaptive: require('./adaptive.svg'),
-  meeting: require('./meeting.svg'),
-  event: require('./event.svg'),
-}
-
 function getToolbar(store) {
   store.event('got/toolbar', [
-    { name: 'Send Email', icon: icons.email },
-    { name: 'Adaptive', icon: icons.adaptive },
-    { name: 'Chat', icon: icons.chat },
-    { name: 'Decide', icon: icons.decide },
-    { name: 'Twitter', icon: icons.twitter },
-    { name: 'LinkedIn', icon: icons.linkedin },
-    { name: 'Salesforce', icon: icons.salesforce },
-    { name: 'SMS', icon: icons.sms },
-    { name: 'Add To List', icon: icons.listadd },
-    { name: 'Facebook', icon: icons.facebook },
-    { name: 'Meeting', icon: icons.meeting },
-    { name: 'Event', icon: icons.event },
+    { name: 'Send Email', icon: require('./email.svg') },
+    { name: 'Adaptive', icon: require('./adaptive.svg') },
+    { name: 'Chat', icon: require('./chat.svg') },
+    { name: 'Decide', icon: require('./decide.svg') },
+    { name: 'Twitter', icon: require('./twitter.svg') },
+    { name: 'LinkedIn', icon: require('./linkedin.svg') },
+    { name: 'Salesforce', icon: require('./salesforce.svg') },
+    { name: 'SMS', icon: require('./sms.svg') },
+    { name: 'Add To List', icon: require('./listadd.svg') },
+    { name: 'Facebook', icon: require('./facebook.svg') },
+    { name: 'Meeting', icon: require('./meeting.svg') },
+    { name: 'Event', icon: require('./event.svg') },
   ])
 }
 
