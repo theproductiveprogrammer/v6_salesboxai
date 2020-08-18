@@ -11,7 +11,7 @@ function main() {
   const store = dux.createStore(reducer, {
     workflow: workflowInit(),
   })
-  workflowShow(store, e)
+  workflowShow(store.fork('workflow'), e)
 
   getToolbar(store)
 
@@ -24,31 +24,42 @@ function reducer(state, type, payload) {
   }
 }
 
-import './workflow.css'
-
 function workflowInit() {
   return {
-    toolbar: { items: [], selected: -1 },
+    toolbar: toolbarInit(),
   }
 }
 
 function workflowReducer(state, type, payload) {
-  switch(type) {
-    case 'got/toolbar': return {
-      ...state,
-      toolbar: { items: payload, selected: 0 },
-    }
-    case 'workflow/toolbar/selected': return {
-      ...state, 
-      toolbar: { ...state.toolbar, selected: payload },
-    }
-    default: return state
+  return {
+    toolbar: toolbarReducer(state.toolbar, type, payload),
   }
 }
 
 function workflowShow(store, e) {
-  drawToolbar(store, e)
+  drawToolbar(store.fork('toolbar'), e)
   drawCanvas(store, e)
+}
+
+
+import './toolbar.css'
+
+function toolbarInit() {
+  return { items: [], selected: -1 }
+}
+
+function toolbarReducer(state, type, payload) {
+  switch(type) {
+    case 'got/toolbar': return {
+      items: payload,
+      selected: 0
+    }
+    case 'toolbar/selected': return {
+      items: state.items,
+      selected: payload
+    }
+    default: return state
+  }
 }
 
 function drawToolbar(store, e) {
@@ -56,7 +67,7 @@ function drawToolbar(store, e) {
   let icons = []
   e.appendChild(tb)
 
-  store.react('workflow.toolbar.items', items => {
+  store.react('items', items => {
     tb.setAttribute("width", 50 * items.length + 50)
     let i = 0
     for(;i < items.length;i++) {
@@ -71,7 +82,7 @@ function drawToolbar(store, e) {
     }
   })
 
-  store.react('workflow.toolbar.selected', sel => {
+  store.react('selected', sel => {
     for(let i = 0;i < icons.length;i++) {
       if(sel == i) icons[i].e.classList.add('selected')
       else icons[i].e.classList.remove('selected')
@@ -89,10 +100,10 @@ function drawCanvas(store, e) {
 function toolbarIcon(store, i) {
   let sz = 32
   let e = h('.icon', {
-    onclick: () => store.event('workflow/toolbar/selected', i)
+    onclick: () => store.event('toolbar/selected', i)
   })
 
-  let fn = store.react(`workflow.toolbar.items.${i}`, tool => {
+  let fn = store.react(`items.${i}`, tool => {
     e.setAttribute('title', tool.name)
     e.c(
       svg({ width: sz, height: sz }, tool.icon)
