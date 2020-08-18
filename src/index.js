@@ -27,18 +27,23 @@ function reducer(state, type, payload) {
 function workflowInit() {
   return {
     toolbar: toolbarInit(),
+    steps: stepsInit(),
   }
 }
 
 function workflowReducer(state, type, payload) {
   return {
     toolbar: toolbarReducer(state.toolbar, type, payload),
+    steps: stepsReducer(state.steps, type, payload)
   }
 }
 
 function workflowShow(store, e) {
   drawToolbar(store.fork('toolbar'), e)
-  drawCanvas(store, e)
+  drawCanvas(store.fork('steps'), () => {
+    let state = store.get()
+    return state.toolbar.items[state.toolbar.selected]
+  }, e)
 }
 
 
@@ -91,11 +96,26 @@ function drawToolbar(store, e) {
 
 }
 
-function drawCanvas(store, e) {
-  let canvas = svg({ viewBox: "0 0 500 500" })
+function drawCanvas(store, currStep, e) {
+  let canvas = svg({
+    width: "100vw",
+    height: "100vh",
+    viewBox: "0 0 500 500",
+    onclick: add_icon_1,
+  })
   e.appendChild(canvas)
-}
 
+  function add_icon_1(e) {
+    let curr = currStep()
+    if(!curr) return
+    store.event("step/add", {
+      curr,
+      x: e.clientX,
+      y: e.clientY
+    })
+  }
+
+}
 
 function toolbarIcon(store, i) {
   let sz = 32
@@ -128,6 +148,24 @@ function getToolbar(store) {
     { name: 'Facebook', icon: require('./facebook.svg') },
     { name: 'Meeting', icon: require('./meeting.svg') },
   ])
+}
+
+import './steps.css'
+
+function stepsInit() {
+  return { lastid: 0 }
+}
+
+function stepsReducer(state, type, payload) {
+  switch(type) {
+    case 'step/add': {
+      payload.id = state.lastid + 1
+      state = { ...state, lastid: payload.id }
+      state[payload.id] = payload
+      return state
+    }
+    default: return state
+  }
 }
 
 main()
