@@ -181,7 +181,7 @@ function drawSteps(store, currStep, e) {
     height: "100vh",
     viewBox: "0 0 800 600",
     preserveAspectRatio: "xMinYMin meet",
-    onclick: add_icon_1,
+    ondblclick: add_icon_1,
   })
   let pt = canvas.createSVGPoint()
   let filter = svg('filter#sel', svg('feDropShadow', {
