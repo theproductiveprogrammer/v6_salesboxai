@@ -21,7 +21,7 @@ export function reducer(state, type, payload) {
     }
     case 'step/add': return {
       ...state,
-      selected: -1,
+      selected: state.steps.length,
       steps: state.steps.concat(payload)
     }
     case 'step/selected': return {
@@ -39,7 +39,6 @@ export function show(store, fns, e) {
     viewBox: "0 0 800 600",
     preserveAspectRatio: "xMinYMin meet",
     ondblclick: add_icon_1,
-    onclick: e => store.event('step/selected',opt(e.sel,-1))
   })
   let pt = canvas.createSVGPoint()
   let filter = svg('filter#sel', svg('feDropShadow', {
@@ -61,10 +60,7 @@ export function show(store, fns, e) {
         pos.x -= info.pic.sz/3
         pos.y -= info.pic.sz/3
       }
-      store.event("step/add", {
-        info,
-        pos,
-      })
+      store.event("step/add", { info, pos })
     } else {
       console.error(`Failed finding info for step: ${curr}`)
     }
@@ -93,7 +89,7 @@ function dispStep(canvas, pt, store, i) {
   let sz = 96
   let e = svg('svg.step', {
     width: sz, height: sz,
-    onclick: e => e.sel = i
+    onclick: e => store.event('step/selected', i)
   })
 
   let fn = store.react(`steps.${i}`, step => {
