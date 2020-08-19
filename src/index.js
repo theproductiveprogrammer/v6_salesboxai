@@ -133,7 +133,7 @@ function getToolbar(store) {
     email: 168,
     adaptive: 64,
     chat: 168,
-    decide: 64,
+    decide: 40,
     twitter: 96,
     linkedin: 168,
     salesforce: 168,
