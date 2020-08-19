@@ -182,6 +182,7 @@ function drawSteps(store, currStep, e) {
     viewBox: "0 0 800 600",
     preserveAspectRatio: "xMinYMin meet",
     ondblclick: add_icon_1,
+    onclick: (e) => store.event('step/selected', e.sel)
   })
   let pt = canvas.createSVGPoint()
   let filter = svg('filter#sel', svg('feDropShadow', {
@@ -226,7 +227,7 @@ function stepTask(canvas, pt, store, i) {
   let sz = 96
   let e = svg('svg.step', {
     width: sz, height: sz,
-    onclick: () => store.event('step/selected', i)
+    onclick: (e) => e.sel = i
   })
 
   let fn = store.react(`tasks.${i}`, task => {
