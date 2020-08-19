@@ -28,13 +28,14 @@ function workflowInit() {
   return {
     toolbar: toolbarInit(),
     steps: stepsInit(),
+    selected: null,
   }
 }
 
 function workflowReducer(state, type, payload) {
   return {
     toolbar: toolbarReducer(state.toolbar, type, payload),
-    steps: stepsReducer(state.steps, type, payload)
+    steps: stepsReducer(state.steps, type, payload),
   }
 }
 
@@ -153,12 +154,23 @@ function getToolbar(store) {
 import './steps.css'
 
 function stepsInit() {
-  return []
+  return {
+    tasks: [],
+    selected: null,
+  }
 }
 
 function stepsReducer(state, type, payload) {
   switch(type) {
-    case 'step/add': return state.concat(payload)
+    case 'step/add': return {
+      ...state,
+      selected: null,
+      tasks: state.tasks.concat(payload)
+    }
+    case 'step/selected': return {
+      ...state,
+      selected: payload
+    }
     default: return state
   }
 }
@@ -172,6 +184,12 @@ function drawSteps(store, currStep, e) {
     onclick: add_icon_1,
   })
   let pt = canvas.createSVGPoint()
+  let filter = svg('filter#sel', svg('feDropShadow', {
+    dx: 0, dy: 0,
+    stdDeviation: 1,
+    "flood-color": "#3333ff",
+  }))
+  canvas.c(filter)
   e.appendChild(canvas)
 
   function add_icon_1(e) {
@@ -186,23 +204,34 @@ function drawSteps(store, currStep, e) {
 
   let ex = []
 
-  store.react(steps => {
-    for(let i = ex.length;i < steps.length;i++) {
-      let step = stepItem(canvas, pt, store, i)
-      ex.push(step)
-      canvas.appendChild(step.e)
+  store.react('tasks', tasks => {
+    for(let i = ex.length;i < tasks.length;i++) {
+      let task = stepTask(canvas, pt, store, i)
+      ex.push(task)
+      canvas.appendChild(task.e)
     }
+  })
+
+  store.react('selected', sel => {
+    for(let i = 0;i < ex.length;i++) {
+      ex[i].e.classList.remove('selected')
+    }
+    if(!sel && sel !== 0) return
+    ex[sel].e.classList.add('selected')
   })
 
 }
 
-function stepItem(canvas, pt, store, i) {
+function stepTask(canvas, pt, store, i) {
   let sz = 96
-  let e = svg('svg', { width: sz, height: sz })
+  let e = svg('svg.step', {
+    width: sz, height: sz,
+    onclick: () => store.event('step/selected', i)
+  })
 
-  let fn = store.react(i, step => {
-    let pos = svgPos(canvas, pt, step)
-    let tool = step.tool
+  let fn = store.react(`tasks.${i}`, task => {
+    let pos = svgPos(canvas, pt, task)
+    let tool = task.tool
     if(tool.pic.sz) {
       e.setAttribute('width', tool.pic.sz)
       e.setAttribute('height', tool.pic.sz)
