@@ -43,7 +43,7 @@ function newStep(state, type, payload, events) {
       ndx = state.steps.length-1
     }
   }
-  let n = opt(curr.numlinks, 1)
+  let n = opt(curr.info.numlinks, 1)
   if(curr.links && curr.links.length >= n) {
     console.log('will not add another link to ' + curr.name)
   } else {
