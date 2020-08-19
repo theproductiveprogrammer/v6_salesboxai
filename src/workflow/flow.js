@@ -60,7 +60,7 @@ export function show(store, fns, e) {
   let canvas = svg({
     width: "100vw",
     height: "100vh",
-    viewBox: "0 0 800 600",
+    viewBox: "0 0 1100 700",
     preserveAspectRatio: "xMinYMin meet",
     ondblclick: add_icon_1,
   })
