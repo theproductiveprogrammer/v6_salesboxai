@@ -40,7 +40,7 @@ function workflowReducer(state, type, payload) {
 
 function workflowShow(store, e) {
   drawToolbar(store.fork('toolbar'), e)
-  drawCanvas(store.fork('steps'), () => {
+  drawSteps(store.fork('steps'), () => {
     let state = store.get()
     return state.toolbar.items[state.toolbar.selected]
   }, e)
@@ -96,27 +96,6 @@ function drawToolbar(store, e) {
 
 }
 
-function drawCanvas(store, currStep, e) {
-  let canvas = svg({
-    width: "100vw",
-    height: "100vh",
-    viewBox: "0 0 500 500",
-    onclick: add_icon_1,
-  })
-  e.appendChild(canvas)
-
-  function add_icon_1(e) {
-    let curr = currStep()
-    if(!curr) return
-    store.event("step/add", {
-      curr,
-      x: e.clientX,
-      y: e.clientY
-    })
-  }
-
-}
-
 function toolbarIcon(store, i) {
   let sz = 32
   let e = h('.icon', {
@@ -153,19 +132,70 @@ function getToolbar(store) {
 import './steps.css'
 
 function stepsInit() {
-  return { lastid: 0 }
+  return []
 }
 
 function stepsReducer(state, type, payload) {
   switch(type) {
-    case 'step/add': {
-      payload.id = state.lastid + 1
-      state = { ...state, lastid: payload.id }
-      state[payload.id] = payload
-      return state
-    }
+    case 'step/add': return state.concat(payload)
     default: return state
   }
+}
+
+function drawSteps(store, currStep, e) {
+  let canvas = svg({
+    width: "100vw",
+    height: "100vh",
+    viewBox: "0 0 800 600",
+    preserveAspectRatio: "xMinYMin meet",
+    onclick: add_icon_1,
+  })
+  let pt = canvas.createSVGPoint()
+  e.appendChild(canvas)
+
+  function add_icon_1(e) {
+    let curr = currStep()
+    if(!curr) return
+    store.event("step/add", {
+      curr,
+      x: e.clientX,
+      y: e.clientY
+    })
+  }
+
+  let ex = []
+
+  store.react(steps => {
+    for(let i = ex.length;i < steps.length;i++) {
+      let step = stepItem(canvas, pt, store, i)
+      ex.push(step)
+      canvas.appendChild(step.e)
+    }
+  })
+
+}
+
+function stepItem(canvas, pt, store, i) {
+  let sz = 96
+  let e = svg('svg', { width: sz, height: sz })
+
+  let fn = store.react(i, step => {
+    let pos = svgPos(canvas, pt, step)
+    pos.x -= sz/3
+    pos.y -= sz/3
+    e.setAttribute('x', pos.x)
+    e.setAttribute('y', pos.y)
+    e.c(svg(step.curr.icon))
+  })
+
+  return { fn, e }
+
+}
+
+function svgPos(svg_, pt, pos) {
+  pt.x = pos.x
+  pt.y = pos.y
+  return pt.matrixTransform(svg_.getScreenCTM().inverse())
 }
 
 main()
