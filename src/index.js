@@ -13,10 +13,47 @@ function main() {
   })
   workflowShow(store.fork('workflow'), e)
 
-  getToolbar(store)
+  getStepMeta(store)
 
   if(window) window.salesbox = { store }
 }
+
+function getStepMeta(store) {
+  let meta = [
+    { name: 'Send Email', id: 'email' },
+    { name: 'Adaptive', id: 'adaptive' },
+    { name: 'Chat', id: 'chat' },
+    { name: 'Decide', id: 'decide' },
+    { name: 'Twitter', id: 'twitter' },
+    { name: 'LinkedIn', id: 'linkedin' },
+    { name: 'Salesforce', id: 'salesforce' },
+    { name: 'SMS', id: 'sms' },
+    { name: 'Add To List', id: 'listadd' },
+    { name: 'Facebook', id: 'facebook' },
+    { name: 'Meeting', id: 'meeting' },
+  ]
+  let szs = {
+    email: 168,
+    adaptive: 64,
+    chat: 168,
+    decide: 40,
+    twitter: 96,
+    linkedin: 168,
+    salesforce: 168,
+    sms: 168,
+    listadd: 96,
+    facebook: 168,
+    meeting: 64,
+  }
+  meta = meta.map(t => {
+    t.icon = require(`./icon-${t.id}.svg`)
+    t.pic = { sz: szs[t.id] }
+    t.pic.svg = require(`./step-${t.id}.svg`)
+    return t
+  })
+  store.event('got/stepmeta', meta)
+}
+
 
 function reducer(state, type, payload) {
   return {
@@ -26,27 +63,59 @@ function reducer(state, type, payload) {
 
 function workflowInit() {
   return {
+    events: eventInit(),
     toolbar: toolbarInit(),
-    steps: stepsInit(),
-    selected: null,
+    flow: flowInit(),
   }
 }
 
 function workflowReducer(state, type, payload) {
   return {
     toolbar: toolbarReducer(state.toolbar, type, payload),
-    steps: stepsReducer(state.steps, type, payload),
+    flow: flowReducer(state.flow, type, payload),
   }
 }
 
 function workflowShow(store, e) {
   drawToolbar(store.fork('toolbar'), e)
-  drawSteps(store.fork('steps'), () => {
-    let state = store.get()
-    return state.toolbar.items[state.toolbar.selected]
-  }, e)
+  let fns = {
+    currStep: () => {
+      let tb = store.get('toolbar')
+      let curr = tb.items[tb.selected]
+      if(curr) return curr.id
+    },
+    events: () => store.get('events'),
+  }
+  drawFlow(store.fork('flow'), fns, e)
 }
 
+
+function eventInit() {
+  let svg = require('./step-event.svg')
+  return [
+    {
+      name: 'Event: New Lead',
+      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'With New Lead') }
+    },
+    {
+      name: 'Event: Email Open',
+      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Email Opened') }
+    },
+    {
+      name: 'Event: Link Clicked',
+      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Link Click') }
+    },
+    {
+      name: 'Event: Email Reply',
+      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Email Reply') }
+    },
+    {
+      name: 'Event: Chat',
+      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Chat Msg') }
+    },
+  ]
+
+}
 
 import './toolbar.css'
 
@@ -56,12 +125,14 @@ function toolbarInit() {
 
 function toolbarReducer(state, type, payload) {
   switch(type) {
-    case 'got/toolbar': return {
-      items: payload,
+    case 'got/stepmeta': return {
+      items: payload.map(m => {
+        return { name:m.name, id: m.id, icon:m.icon }
+      }),
       selected: 0
     }
     case 'toolbar/selected': return {
-      items: state.items,
+      ...state,
       selected: payload
     }
     default: return state
@@ -113,59 +184,26 @@ function toolbarIcon(store, i) {
   return { e, fn }
 }
 
-function getToolbar(store) {
-  let tools = [
-    { name: 'Event', n_: 'event' },
-    { name: 'Send Email', n_: 'email' },
-    { name: 'Adaptive', n_: 'adaptive' },
-    { name: 'Chat', n_: 'chat' },
-    { name: 'Decide', n_: 'decide' },
-    { name: 'Twitter', n_: 'twitter' },
-    { name: 'LinkedIn', n_: 'linkedin' },
-    { name: 'Salesforce', n_: 'salesforce' },
-    { name: 'SMS', n_: 'sms' },
-    { name: 'Add To List', n_: 'listadd' },
-    { name: 'Facebook', n_: 'facebook' },
-    { name: 'Meeting', n_: 'meeting' },
-  ]
-  let szs = {
-    event: 64,
-    email: 168,
-    adaptive: 64,
-    chat: 168,
-    decide: 40,
-    twitter: 96,
-    linkedin: 168,
-    salesforce: 168,
-    sms: 168,
-    listadd: 96,
-    facebook: 168,
-    meeting: 64,
-  }
-  tools = tools.map(t => {
-    t.icon = require(`./icon-${t.n_}.svg`)
-    t.pic = { sz: szs[t.n_] }
-    t.pic.svg = require(`./step-${t.n_}.svg`)
-    return t
-  })
-  store.event('got/toolbar', tools)
-}
+import './flow.css'
 
-import './steps.css'
-
-function stepsInit() {
+function flowInit() {
   return {
-    tasks: [],
-    selected: null,
+    meta: [],
+    steps: [],
+    selected: -1,
   }
 }
 
-function stepsReducer(state, type, payload) {
+function flowReducer(state, type, payload) {
   switch(type) {
+    case 'got/stepmeta': return {
+      ...state,
+      meta: payload,
+    }
     case 'step/add': return {
       ...state,
-      selected: null,
-      tasks: state.tasks.concat(payload)
+      selected: -1,
+      steps: state.steps.concat(payload)
     }
     case 'step/selected': return {
       ...state,
@@ -175,14 +213,14 @@ function stepsReducer(state, type, payload) {
   }
 }
 
-function drawSteps(store, currStep, e) {
+function drawFlow(store, fns, e) {
   let canvas = svg({
     width: "100vw",
     height: "100vh",
     viewBox: "0 0 800 600",
     preserveAspectRatio: "xMinYMin meet",
     ondblclick: add_icon_1,
-    onclick: (e) => store.event('step/selected', e.sel)
+    onclick: e => store.event('step/selected',opt(e.sel,-1))
   })
   let pt = canvas.createSVGPoint()
   let filter = svg('filter#sel', svg('feDropShadow', {
@@ -194,22 +232,32 @@ function drawSteps(store, currStep, e) {
   e.appendChild(canvas)
 
   function add_icon_1(e) {
-    let curr = currStep()
+    let curr = fns.currStep()
     if(!curr) return
-    store.event("step/add", {
-      tool: curr,
-      x: e.clientX,
-      y: e.clientY
-    })
+    let info = store.get('meta').filter(m => m.id == curr)
+    if(info && info.length) {
+      info = info[0]
+      let pos = svgPos(canvas, pt, e)
+      if(info.pic.sz) {
+        pos.x -= info.pic.sz/3
+        pos.y -= info.pic.sz/3
+      }
+      store.event("step/add", {
+        info,
+        pos,
+      })
+    } else {
+      console.error(`Failed finding info for step: ${curr}`)
+    }
   }
 
   let ex = []
 
-  store.react('tasks', tasks => {
-    for(let i = ex.length;i < tasks.length;i++) {
-      let task = stepTask(canvas, pt, store, i)
-      ex.push(task)
-      canvas.appendChild(task.e)
+  store.react('steps', steps => {
+    for(let i = ex.length;i < steps.length;i++) {
+      let inf = dispStep(canvas, pt, store, i)
+      ex.push(inf)
+      canvas.appendChild(inf.e)
     }
   })
 
@@ -217,42 +265,38 @@ function drawSteps(store, currStep, e) {
     for(let i = 0;i < ex.length;i++) {
       ex[i].e.classList.remove('selected')
     }
-    if(!sel && sel !== 0) return
-    ex[sel].e.classList.add('selected')
+    if(ex[sel]) ex[sel].e.classList.add('selected')
   })
 
 }
 
-function stepTask(canvas, pt, store, i) {
+function dispStep(canvas, pt, store, i) {
   let sz = 96
   let e = svg('svg.step', {
     width: sz, height: sz,
     onclick: (e) => e.sel = i
   })
 
-  let fn = store.react(`tasks.${i}`, task => {
-    let pos = svgPos(canvas, pt, task)
-    let tool = task.tool
-    if(tool.pic.sz) {
-      e.setAttribute('width', tool.pic.sz)
-      e.setAttribute('height', tool.pic.sz)
-      pos.x -= tool.pic.sz/3
-      pos.y -= tool.pic.sz/3
+  let fn = store.react(`steps.${i}`, step => {
+    if(step.info.pic.sz) {
+      e.setAttribute('width', step.info.pic.sz)
+      e.setAttribute('height', step.info.pic.sz)
     }
-    e.setAttribute('x', pos.x)
-    e.setAttribute('y', pos.y)
-    let img = tool.pic.svg ? tool.pic.svg : tool.icon
-    e.c(svg(img))
+    e.setAttribute('x', step.pos.x)
+    e.setAttribute('y', step.pos.y)
+    e.c(svg(step.info.pic.svg))
   })
 
   return { fn, e }
 
 }
 
-function svgPos(svg_, pt, pos) {
-  pt.x = pos.x
-  pt.y = pos.y
+function svgPos(svg_, pt, e) {
+  pt.x = e.clientX
+  pt.y = e.clientY
   return pt.matrixTransform(svg_.getScreenCTM().inverse())
 }
 
 main()
+
+function opt(v,d) { (v || v === 0) ? v : d }
