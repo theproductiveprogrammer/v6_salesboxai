@@ -14,8 +14,9 @@ export function init() {
 
 export function reducer(state, type, payload) {
   return {
+    ...state,
     toolbar: toolbar.reducer(state.toolbar, type, payload),
-    flow: flow.reducer(state.flow, type, payload),
+    flow: flow.reducer(state.flow, type, payload, state.events),
   }
 }
 
@@ -39,23 +40,23 @@ function eventsInit() {
   return [
     {
       name: 'Event: New Lead',
-      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'With New Lead') }
+      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'With New Lead') }
     },
     {
       name: 'Event: Email Open',
-      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Email Opened') }
+      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Email Opened') }
     },
     {
       name: 'Event: Link Clicked',
-      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Link Click') }
+      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Link Click') }
     },
     {
       name: 'Event: Email Reply',
-      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Email Reply') }
+      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Email Reply') }
     },
     {
       name: 'Event: Chat',
-      pic: { sz: 64, svg: svg.replace('EVENT_TEXT', 'On Chat Msg') }
+      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Chat Msg') }
     },
   ]
 

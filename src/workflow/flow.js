@@ -13,23 +13,41 @@ export function init() {
   }
 }
 
-export function reducer(state, type, payload) {
+export function reducer(state, type, payload, events) {
   switch(type) {
     case 'got/stepmeta': return {
       ...state,
       meta: payload,
     }
-    case 'step/add': return {
-      ...state,
-      selected: state.steps.length,
-      steps: state.steps.concat(payload)
-    }
+    case 'step/new':
+      return newStep(state,type,payload,events)
     case 'step/selected': return {
       ...state,
       selected: payload
     }
     default: return state
   }
+}
+
+function newStep(state, type, payload, events) {
+  state = { ...state  }
+  let curr = state.steps[state.selected]
+  let ndx = state.selected
+  if(!curr) {
+    if(!state.steps.length) {
+      curr = { info: events[0], pos: { x: 10, y: 10 } }
+      state.steps = state.steps.concat(curr)
+      ndx = 0
+    } else {
+      curr = state.steps[state.steps.length-1]
+      ndx = state.steps.length-1
+    }
+  }
+  curr = { ...curr, link: state.steps.length }
+  state.selected = state.steps.length
+  state.steps = state.steps.concat(payload)
+  state.steps[ndx] = curr
+  return state
 }
 
 export function show(store, fns, e) {
@@ -60,7 +78,7 @@ export function show(store, fns, e) {
         pos.x -= info.pic.sz/3
         pos.y -= info.pic.sz/3
       }
-      store.event("step/add", { info, pos })
+      store.event("step/new", { info, pos })
     } else {
       console.error(`Failed finding info for step: ${curr}`)
     }
@@ -72,6 +90,7 @@ export function show(store, fns, e) {
     for(let i = ex.length;i < steps.length;i++) {
       let inf = dispStep(canvas, pt, store, i)
       ex.push(inf)
+      canvas.appendChild(inf.line)
       canvas.appendChild(inf.e)
     }
   })
@@ -91,6 +110,12 @@ function dispStep(canvas, pt, store, i) {
     width: sz, height: sz,
     onclick: e => store.event('step/selected', i)
   })
+  let line = svg('line', {
+    style: {
+      stroke: "#000",
+      'stroke-width': 2,
+    }
+  })
 
   let fn = store.react(`steps.${i}`, step => {
     if(step.info.pic.sz) {
@@ -100,9 +125,25 @@ function dispStep(canvas, pt, store, i) {
     e.setAttribute('x', step.pos.x)
     e.setAttribute('y', step.pos.y)
     e.c(svg(step.info.pic.svg))
+
+    line.setAttribute('x1', 0)
+    line.setAttribute('y1', 0)
+    line.setAttribute('x2', 0)
+    line.setAttribute('y2', 0)
+    if(step.link) {
+      let dst = store.get(`steps.${step.link}`)
+      if(dst) {
+        let soff = opt(step.info.pic.sz,sz) / 2
+        let doff = opt(dst.info.pic.sz,sz) / 2
+        line.setAttribute('x1', step.pos.x + soff)
+        line.setAttribute('y1', step.pos.y + soff)
+        line.setAttribute('x2', dst.pos.x + doff)
+        line.setAttribute('y2', dst.pos.y + doff)
+      }
+    }
   })
 
-  return { fn, e }
+  return { fn, e, line }
 
 }
 
