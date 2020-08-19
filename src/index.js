@@ -127,8 +127,13 @@ function getToolbar(store) {
     { name: 'Facebook', n_: 'facebook' },
     { name: 'Meeting', n_: 'meeting' },
   ]
+  let szs = {
+    event: 64,
+    email: 168,
+  }
   tools = tools.map(t => {
     t.icon = require(`./icon-${t.n_}.svg`)
+    t.pic = { sz: szs[t.n_] }
     if(['email', 'event'].filter(v => v == t.n_).length) {
       t.pic.svg = require(`./step-${t.n_}.svg`)
     }
@@ -194,6 +199,10 @@ function stepItem(canvas, pt, store, i) {
     e.setAttribute('x', pos.x)
     e.setAttribute('y', pos.y)
     let tool = step.tool
+    if(tool.pic.sz) {
+      e.setAttribute('width', tool.pic.sz)
+      e.setAttribute('height', tool.pic.sz)
+    }
     let img = tool.pic.svg ? tool.pic.svg : tool.icon
     e.c(svg(img))
   })
