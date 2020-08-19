@@ -25,7 +25,7 @@ function getStepMeta(store) {
     { name: 'Send Email', id: 'email' },
     { name: 'Adaptive', id: 'adaptive' },
     { name: 'Chat', id: 'chat' },
-    { name: 'Decide', id: 'decide' },
+    { name: 'Decide', id: 'decide', numlinks: 2 },
     { name: 'Twitter', id: 'twitter' },
     { name: 'LinkedIn', id: 'linkedin' },
     { name: 'Salesforce', id: 'salesforce' },
