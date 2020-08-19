@@ -43,7 +43,13 @@ function newStep(state, type, payload, events) {
       ndx = state.steps.length-1
     }
   }
-  curr = { ...curr, link: state.steps.length }
+  let n = opt(curr.numlinks, 1)
+  if(curr.links && curr.links.length >= n) {
+    console.log('will not add another link to ' + curr.name)
+  } else {
+    let links = opt(curr.links,[])
+    curr = { ...curr, links: links.concat(state.steps.length) }
+  }
   state.selected = state.steps.length
   state.steps = state.steps.concat(payload)
   state.steps[ndx] = curr
@@ -90,8 +96,47 @@ export function show(store, fns, e) {
     for(let i = ex.length;i < steps.length;i++) {
       let inf = dispStep(canvas, pt, store, i)
       ex.push(inf)
-      canvas.appendChild(inf.line)
       canvas.appendChild(inf.e)
+    }
+  })
+
+  let exLines = []
+  store.react('steps', steps => {
+    for(let i = 0;i < steps.length;i++) {
+      let step = steps[i]
+      let links = opt(steps[i].links, [])
+      let lines = opt(exLines[i],[])
+      if(links.length != lines.length) {
+        for(let i = 0;i < lines.length;i++) {
+          canvas.removeChild(lines[i])
+        }
+      }
+      lines = []
+      exLines[i] = lines
+      for(let i = 0;i < links.length;i++) {
+        let l = line_1(step, steps[links[i]])
+        if(!l) continue
+        lines.push(l)
+        canvas.insertBefore(l, canvas.firstChild)
+      }
+    }
+
+    function line_1(from, to) {
+      if(!from || !to) return
+
+      let foff = opt(from.info.pic.sz,0) / 2
+      let toff = opt(to.info.pic.sz,0) / 2
+
+      return svg('line', {
+        style: {
+          stroke: "#000",
+          'stroke-width': 2,
+        },
+        x1: from.pos.x + foff,
+        y1: from.pos.y + foff,
+        x2: to.pos.x + toff,
+        y2: to.pos.y + toff,
+      })
     }
   })
 
@@ -110,12 +155,6 @@ function dispStep(canvas, pt, store, i) {
     width: sz, height: sz,
     onclick: e => store.event('step/selected', i)
   })
-  let line = svg('line', {
-    style: {
-      stroke: "#000",
-      'stroke-width': 2,
-    }
-  })
 
   let fn = store.react(`steps.${i}`, step => {
     if(step.info.pic.sz) {
@@ -125,25 +164,9 @@ function dispStep(canvas, pt, store, i) {
     e.setAttribute('x', step.pos.x)
     e.setAttribute('y', step.pos.y)
     e.c(svg(step.info.pic.svg))
-
-    line.setAttribute('x1', 0)
-    line.setAttribute('y1', 0)
-    line.setAttribute('x2', 0)
-    line.setAttribute('y2', 0)
-    if(step.link) {
-      let dst = store.get(`steps.${step.link}`)
-      if(dst) {
-        let soff = opt(step.info.pic.sz,sz) / 2
-        let doff = opt(dst.info.pic.sz,sz) / 2
-        line.setAttribute('x1', step.pos.x + soff)
-        line.setAttribute('y1', step.pos.y + soff)
-        line.setAttribute('x2', dst.pos.x + doff)
-        line.setAttribute('y2', dst.pos.y + doff)
-      }
-    }
   })
 
-  return { fn, e, line }
+  return { fn, e }
 
 }
 
