@@ -93,7 +93,7 @@ function dispStep(canvas, pt, store, i) {
   let sz = 96
   let e = svg('svg.step', {
     width: sz, height: sz,
-    onclick: (e) => e.sel = i
+    onclick: e => e.sel = i
   })
 
   let fn = store.react(`steps.${i}`, step => {

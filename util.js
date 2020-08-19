@@ -6,4 +6,4 @@ export function svgPos(svg_, pt, e) {
   return pt.matrixTransform(svg_.getScreenCTM().inverse())
 }
 
-export function opt(v,d) { (v || v === 0) ? v : d }
+export function opt(v,d) { return (v || v === 0) ? v : d }
