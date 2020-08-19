@@ -206,8 +206,8 @@ function stepItem(canvas, pt, store, i) {
     if(tool.pic.sz) {
       e.setAttribute('width', tool.pic.sz)
       e.setAttribute('height', tool.pic.sz)
-      pos.x -= sz/3
-      pos.y -= sz/3
+      pos.x -= tool.pic.sz/3
+      pos.y -= tool.pic.sz/3
     }
     e.setAttribute('x', pos.x)
     e.setAttribute('y', pos.y)
