@@ -130,13 +130,21 @@ function getToolbar(store) {
   let szs = {
     event: 64,
     email: 168,
+    adaptive: 64,
+    chat: 168,
+    decide: 64,
+    twitter: 96,
+    linkedin: 168,
+    salesforce: 168,
+    sms: 168,
+    listadd: 96,
+    facebook: 168,
+    meeting: 64,
   }
   tools = tools.map(t => {
     t.icon = require(`./icon-${t.n_}.svg`)
     t.pic = { sz: szs[t.n_] }
-    if(['email', 'event'].filter(v => v == t.n_).length) {
-      t.pic.svg = require(`./step-${t.n_}.svg`)
-    }
+    t.pic.svg = require(`./step-${t.n_}.svg`)
     return t
   })
   store.event('got/toolbar', tools)
