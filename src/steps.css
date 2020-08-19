@@ -1,5 +1,6 @@
 .step {
   cursor: pointer;
+  user-select: none;
 }
 .step.selected {
   filter: url('#sel');
