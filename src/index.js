@@ -202,15 +202,15 @@ function stepItem(canvas, pt, store, i) {
 
   let fn = store.react(i, step => {
     let pos = svgPos(canvas, pt, step)
-    pos.x -= sz/3
-    pos.y -= sz/3
-    e.setAttribute('x', pos.x)
-    e.setAttribute('y', pos.y)
     let tool = step.tool
     if(tool.pic.sz) {
       e.setAttribute('width', tool.pic.sz)
       e.setAttribute('height', tool.pic.sz)
+      pos.x -= sz/3
+      pos.y -= sz/3
     }
+    e.setAttribute('x', pos.x)
+    e.setAttribute('y', pos.y)
     let img = tool.pic.svg ? tool.pic.svg : tool.icon
     e.c(svg(img))
   })
