@@ -113,20 +113,28 @@ function toolbarIcon(store, i) {
 }
 
 function getToolbar(store) {
-  store.event('got/toolbar', [
-    { name: 'Event', icon: require('./icon-event.svg') },
-    { name: 'Send Email', icon: require('./icon-email.svg') },
-    { name: 'Adaptive', icon: require('./icon-adaptive.svg') },
-    { name: 'Chat', icon: require('./icon-chat.svg') },
-    { name: 'Decide', icon: require('./icon-decide.svg') },
-    { name: 'Twitter', icon: require('./icon-twitter.svg') },
-    { name: 'LinkedIn', icon: require('./icon-linkedin.svg') },
-    { name: 'Salesforce', icon: require('./icon-salesforce.svg') },
-    { name: 'SMS', icon: require('./icon-sms.svg') },
-    { name: 'Add To List', icon: require('./icon-listadd.svg') },
-    { name: 'Facebook', icon: require('./icon-facebook.svg') },
-    { name: 'Meeting', icon: require('./icon-meeting.svg') },
-  ])
+  let tools = [
+    { name: 'Event', n_: 'event' },
+    { name: 'Send Email', n_: 'email' },
+    { name: 'Adaptive', n_: 'adaptive' },
+    { name: 'Chat', n_: 'chat' },
+    { name: 'Decide', n_: 'decide' },
+    { name: 'Twitter', n_: 'twitter' },
+    { name: 'LinkedIn', n_: 'linkedin' },
+    { name: 'Salesforce', n_: 'salesforce' },
+    { name: 'SMS', n_: 'sms' },
+    { name: 'Add To List', n_: 'listadd' },
+    { name: 'Facebook', n_: 'facebook' },
+    { name: 'Meeting', n_: 'meeting' },
+  ]
+  tools = tools.map(t => {
+    t.icon = require(`./icon-${t.n_}.svg`)
+    if(['email', 'event'].filter(v => v == t.n_).length) {
+      t.pic.svg = require(`./step-${t.n_}.svg`)
+    }
+    return t
+  })
+  store.event('got/toolbar', tools)
 }
 
 import './steps.css'
@@ -157,7 +165,7 @@ function drawSteps(store, currStep, e) {
     let curr = currStep()
     if(!curr) return
     store.event("step/add", {
-      curr,
+      tool: curr,
       x: e.clientX,
       y: e.clientY
     })
@@ -185,7 +193,9 @@ function stepItem(canvas, pt, store, i) {
     pos.y -= sz/3
     e.setAttribute('x', pos.x)
     e.setAttribute('y', pos.y)
-    e.c(svg(step.curr.icon))
+    let tool = step.tool
+    let img = tool.pic.svg ? tool.pic.svg : tool.icon
+    e.c(svg(img))
   })
 
   return { fn, e }
