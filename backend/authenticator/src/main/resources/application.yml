@@ -1,4 +1,6 @@
 micronaut:
+  server:
+    port: 6060
   application:
     name: authenticator
   security:
