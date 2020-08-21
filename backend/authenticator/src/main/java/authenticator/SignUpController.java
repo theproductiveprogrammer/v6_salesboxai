@@ -11,6 +11,7 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 
 import javax.inject.Inject;
+import java.security.Principal;
 import java.util.List;
 
 @Secured(SecurityRule.IS_ANONYMOUS)
@@ -33,6 +34,16 @@ public class SignUpController {
         user = new User(userid, password, tenant, name);
         user = userRepository.save(user);
         return user.getId() != null;
+    }
+
+    @Secured(SecurityRule.IS_AUTHENTICATED)
+    @Get("/profile")
+    public User profile(Principal principal) {
+        User user = userRepository.getByUserid(principal.getName()).orElse(null);
+        if(user == null) return null;
+        user.getTenant();
+        user.setPassword(null);
+        return user;
     }
 
     @Post("/newtenant")
