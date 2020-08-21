@@ -1,17 +1,24 @@
 package authenticator;
 
+import authenticator.db.User;
+import authenticator.db.UserRepository;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.security.authentication.*;
 import io.reactivex.BackpressureStrategy;
-import org.reactivestreams.Publisher;
 import io.reactivex.Flowable;
+import org.reactivestreams.Publisher;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 
 @Singleton
 public class AuthProvider implements AuthenticationProvider {
+
+    @Inject
+    UserRepository userRepository;
+
     @Override
     public Publisher<AuthenticationResponse> authenticate(@Nullable HttpRequest<?> httpRequest, AuthenticationRequest<?, ?> authenticationRequest) {
         return Flowable.create(emitter -> {
@@ -25,8 +32,16 @@ public class AuthProvider implements AuthenticationProvider {
     }
 
     private UserDetails getUserDetails(String identity, String secret) {
-        if(identity.equals("roy") && secret.equals("rajan")) return new UserDetails("Roy Rajan", new ArrayList<>());
-        if(identity.equals("charles") && secret.equals("lobo")) return new UserDetails("Charles Lobo", new ArrayList<>());
+        if(identity == null || secret == null) return null;
+        identity = identity.strip();
+        secret = secret.strip();
+        if(identity.length() ==0 || secret.length() == 0) return null;
+
+        User user = userRepository.findByName(identity).orElse(null);
+        if(user == null) return null;
+        if(user.getName().equals(identity) && user.getPassword().equals(secret)) {
+            return new UserDetails(user.getName(), new ArrayList<>());
+        }
         return null;
     }
 }

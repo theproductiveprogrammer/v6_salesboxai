@@ -11,3 +11,19 @@ micronaut:
           secret:
             generator:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:salesboxArchictectureSecretForDevelopment}"'
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/v6
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ''
+    dialect: MYSQL
+jpa:
+  default:
+    entity-scan:
+      packages: 'authenticator.db'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
