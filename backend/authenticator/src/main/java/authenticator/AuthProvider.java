@@ -39,8 +39,8 @@ public class AuthProvider implements AuthenticationProvider {
 
         User user = userRepository.findByUserid(identity).orElse(null);
         if(user == null) return null;
-        if(user.getName().equals(identity) && user.getPassword().equals(secret)) {
-            return new UserDetails(user.getName(), new ArrayList<>());
+        if(user.getUserid().equals(identity) && user.getPassword().equals(secret)) {
+            return new UserDetails(user.getUserid(), new ArrayList<>());
         }
         return null;
     }
