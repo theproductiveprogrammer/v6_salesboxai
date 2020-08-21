@@ -1,23 +1,25 @@
 package authenticator.db;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String userid;
     private String password;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Tenant tenant;
+    private String name;
 
     public User() {}
 
-    public User(String name, String password) {
-        this.name = name;
+    public User(String userid, String password, Tenant tenant, String name) {
+        this.userid = userid;
         this.password = password;
+        this.tenant = tenant;
+        this.name = name;
     }
 
     public Long getId() {
@@ -28,12 +30,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getPassword() {
@@ -42,5 +44,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
