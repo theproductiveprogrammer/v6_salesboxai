@@ -14,17 +14,16 @@ func main() {
 
 func loadMap() map[string]string {
 	m := make(map[string]string)
-	m["leads"] = "http://localhost:8080/data/leads"
-	m["rules"] = "http://localhost:8080/data/rules"
-	m["activities"] = "http://localhost:8080/data/activities"
-	m["import"] = "http://localhost:3001/import"
-	m["lists"] = "http://localhost:8080/data/lists"
-	m["conversations"] = "http://localhost:8080/data/conversations"
+	m["login"] = "http://localhost:6060/login"
+	m["signup"] = "http://localhost:6060/signup"
+	m["profile"] = "http://localhost:6060/profile"
+	m["tenants"] = "http://localhost:6060/tenants"
+	m["newtenant"] = "http://localhost:6060/newtenant"
 	return m
 }
 
 func startServer(map_ map[string]string) {
-	const PORT = "8888"
+	const PORT = "80"
 	fmt.Println("Gateway serving: ")
 	for k, v := range map_ {
 		fmt.Printf("  %s ==> %s\n", k, v)
