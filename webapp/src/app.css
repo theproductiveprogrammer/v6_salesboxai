@@ -16,3 +16,12 @@
   border: 1px solid #ccc;
   cursor: wait;
 }
+
+.toggle {
+  color: #333;
+  font-size: 16px;
+  font-variant: all-small-caps;
+}
+.toggle:hover {
+  color: #007de5;
+}

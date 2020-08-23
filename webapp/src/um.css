@@ -1,9 +1,16 @@
 .um .card {
   margin: 100px auto;
   width: 300px;
-  height: 400px;
   border: 1px solid #aaa;
   border-radius: 16px;
+}
+
+.um .card.login {
+  height: 360px;
+}
+
+.um .card.signup {
+  height: 500px;
 }
 
 .um .card h1 {

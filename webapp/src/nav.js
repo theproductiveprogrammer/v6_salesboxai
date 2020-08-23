@@ -8,8 +8,11 @@ export function init() {
 
 export function reducer(state, type, payload) {
   switch(type) {
-    case 'ac/unauthorized': return 'login'
+    case 'ac/unauthorized': return 'signup'
     case 'ac/user': return 'dashboard'
+    case 'um/signup': return 'signup'
+    case 'um/login': return 'login'
+    default: return state;
   }
 }
 
