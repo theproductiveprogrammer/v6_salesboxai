@@ -2,6 +2,8 @@
 const { h } = require('@tpp/htm-x')
 const req = require('@tpp/req')
 
+const { btnKey } = require('./common.js')
+
 import './um.css'
 
 export function init() {
@@ -83,11 +85,6 @@ export function showSignup(store, on) {
     })
   }
 
-}
-
-function btnKey(e, fn) {
-  if(e.code == 'Space') return fn()
-  if(e.code == 'Enter') return fn()
 }
 
 export function showLogin(store, on) {
