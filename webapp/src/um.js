@@ -9,6 +9,10 @@ export function init() {
 }
 
 export function reducer(state, type, payload) {
+  switch(type) {
+    case 'um/loggedin': return payload
+    default: return state
+  }
 }
 
 export function showSignup(store, on) {
@@ -92,34 +96,48 @@ export function showLogin(store, on) {
 
   let card = h('.card.login')
   let title = h('h1', "Login")
-  let username = h('.row', [
-    h('.label', "Username"), h('input')
-  ])
-  let password = h('.row', [
-    h('.label', "Password"),
-    h('input', { type: 'password' })
-  ])
-  let btn = h('.btn', { onclick: login_1 }, 'Login')
+  let username = h('input')
+  let password = h('input', { type: 'password' })
+  let btn = h('.btn', {
+    tabindex: 0,
+    onclick: login_1,
+    onkeydown: e => btnKey(e,login_1),
+  }, 'Login')
   let submit = h('.row', btn)
   let toggle = h('.row',
     h('a.toggle', {
       href: '#',
-      onclick: () => store.event('um/signup')
+      onclick: () => store.event('um/signup'),
     }, "Sign Up")
   )
 
   um.c(
     card.c(
       title,
-      username,
-      password,
+      h('.row', [ h('.label', "Username"), username ]),
+      h('.row', [ h('.label', "Password"), password ]),
       submit,
       toggle,
     )
   )
 
   function login_1() {
+    let info = {
+      username: username.value,
+      password: password.value,
+    }
+    if(!info.username || !info.password) {
+      return error_('Please fill in all fields')
+    }
     btn.classList.add('disabled')
+    req.post('login', info, (err, resp) => {
+      btn.classList.remove('disabled')
+      if(err) return error_(err)
+      if(!resp.username || !resp.access_token) {
+        return error_('Login failed')
+      }
+      store.event('um/loggedin', resp)
+    })
   }
 
 }
