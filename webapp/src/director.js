@@ -4,7 +4,7 @@ const dux = require('@tpp/dux')
 
 const header_ = require('./header.js')
 const nav_ = require('./nav.js')
-const um_ = require('./um.js')
+const auth_ = require('./auth.js')
 const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
 
@@ -24,7 +24,7 @@ function setupStore() {
 
 function init() {
   return {
-    user: um_.init(),
+    auth: auth_.init(),
     nav: nav_.init(),
     workflow: wk_.init(),
   }
@@ -32,7 +32,7 @@ function init() {
 
 function reducer(state, type, payload) {
   return {
-    user: um_.reducer(state.user, type, payload),
+    auth: auth_.reducer(state.auth, type, payload),
     nav: nav_.reducer(state.nav, type, payload),
     workflow: wk_.reducer(state.workflow, type, payload),
   }
@@ -62,11 +62,11 @@ function setupView(store, body) {
       }
       case 'login': {
         currview = store.fork('user')
-        return um_.showLogin(currview, display)
+        return auth_.showLogin(currview, display)
       }
       case 'signup': {
         currview = store.fork('user')
-        return um_.showSignup(currview, display)
+        return auth_.showSignup(currview, display)
       }
       default: {
         display.innerHTML = 'Cannot show page "' + nav + '"'
@@ -76,8 +76,8 @@ function setupView(store, body) {
 }
 
 function setupAccessControl(store, body) {
-  store.react('user', user => {
-    if(user == null) return store.event('ac/unauthorized')
-    else store.event('ac/user', user)
+  store.react('auth.user', user => {
+    if(user == null) return store.event('auth/unauthorized')
+    else store.event('auth/user', user)
   })
 }

@@ -1,17 +1,22 @@
 'use strict'
 const { h } = require('@tpp/htm-x')
+const req = require('@tpp/req')
 
-import './um.css'
+import './auth.css'
 
 export function init() {
+  return {
+    tenants: [],
+    user: null,
+  }
 }
 
 export function reducer(state, type, payload) {
 }
 
 export function showSignup(store, on) {
-  let um = h('.um')
-  on.appendChild(um)
+  let auth = h('.auth')
+  on.appendChild(auth)
 
   let card = h('.card.signup')
   let title = h('h1', "Sign Up")
@@ -34,11 +39,11 @@ export function showSignup(store, on) {
   let toggle = h('.row',
     h('a.toggle', {
       href: '#',
-      onclick: () => store.event('um/login')
+      onclick: () => store.event('auth/login')
     }, "Login")
   )
 
-  um.c(
+  auth.c(
     card.c(
       title,
       name,
@@ -57,8 +62,8 @@ export function showSignup(store, on) {
 }
 
 export function showLogin(store, on) {
-  let um = h('.um')
-  on.appendChild(um)
+  let auth = h('.auth')
+  on.appendChild(auth)
 
   let card = h('.card.login')
   let title = h('h1', "Login")
@@ -74,11 +79,11 @@ export function showLogin(store, on) {
   let toggle = h('.row',
     h('a.toggle', {
       href: '#',
-      onclick: () => store.event('um/signup')
+      onclick: () => store.event('auth/signup')
     }, "Sign Up")
   )
 
-  um.c(
+  auth.c(
     card.c(
       title,
       username,
