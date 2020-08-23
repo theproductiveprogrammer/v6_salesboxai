@@ -31,6 +31,7 @@ public class SignUpController {
         User user = userRepository.findByUserid(userid).orElse(null);
         if(user != null) return false;
         Tenant tenant = tenantRepository.findById(tenantId).orElse(null);
+        if(tenant == null) return false;
         user = new User(userid, password, tenant, name);
         user = userRepository.save(user);
         return user.getId() != null;
