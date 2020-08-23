@@ -46,7 +46,7 @@ export function showSignup(store, on) {
     if(err) return error_(err)
     btn.classList.remove('disabled')
     btn.onclick = signup_1
-    btn.onkeydown = signup_1
+    btn.onkeydown = e => btnKey(e, signup_1)
     tenant.appendChild(h('option', {
       disabled: true,
       selected: true,
@@ -79,6 +79,11 @@ export function showSignup(store, on) {
     })
   }
 
+}
+
+function btnKey(e, fn) {
+  if(e.code == 'Space') return fn()
+  if(e.code == 'Enter') return fn()
 }
 
 export function showLogin(store, on) {
