@@ -5,6 +5,7 @@ const dux = require('@tpp/dux')
 const header_ = require('./header.js')
 const nav_ = require('./nav.js')
 const um_ = require('./um.js')
+const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
 
 import './director.css'
@@ -12,6 +13,7 @@ import './director.css'
 export function start(body) {
   let store = setupStore()
   setupView(store, body)
+  setupAccessControl(store, body)
 
   if(window) window.salesbox = { store }
 }
@@ -51,6 +53,9 @@ function setupView(store, body) {
     currview = store.destroy(currview)
     display.innerHTML = ""
     switch(nav) {
+      case 'dashboard': {
+        return dashboard_.show(store, display)
+      }
       case 'workflow': {
         currview = store.fork('workflow')
         return wk_.show(currview, display)
@@ -67,5 +72,12 @@ function setupView(store, body) {
         display.innerHTML = 'Cannot show page "' + nav + '"'
       }
     }
+  })
+}
+
+function setupAccessControl(store, body) {
+  store.react('user', user => {
+    if(user == null) return store.event('ac/unauthorized')
+    else store.event('ac/user', user)
   })
 }

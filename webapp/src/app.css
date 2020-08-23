@@ -1,0 +1,18 @@
+.btn {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 4px;
+  background: linear-gradient(white, #ddd);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: linear-gradient(white, #aaa);
+}
+
+.btn.disabled {
+  background: #ddd;
+  color: #eee;
+  border: 1px solid #ccc;
+  cursor: wait;
+}

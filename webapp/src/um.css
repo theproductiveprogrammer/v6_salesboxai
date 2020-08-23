@@ -1,0 +1,30 @@
+.um .card {
+  margin: 100px auto;
+  width: 300px;
+  height: 400px;
+  border: 1px solid #aaa;
+  border-radius: 16px;
+}
+
+.um .card h1 {
+  text-align: center;
+  margin: 10px auto;
+  font-variant: all-small-caps;
+  letter-spacing: 8px;
+  font-size: 32px;
+  border-bottom: 1px solid #aaa;
+  color: #333;
+}
+
+.um .card .row {
+  margin-top: 32px;
+  margin-left: 32px;
+}
+
+.um .card .label {
+  color: #333;
+}
+
+.um .card .btn {
+  width: 100px;
+}
