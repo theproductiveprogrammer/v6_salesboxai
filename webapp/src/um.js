@@ -27,10 +27,8 @@ export function showSignup(store, on) {
     h('.label', "Password"),
     h('input', { type: 'password' })
   ])
-  let tenant = h('.row', [
-    h('.label', "Tenant"),
-    h('select')
-  ])
+  let sel = h('select')
+  let tenant = h('.row', [ h('.label', "Tenant"), sel ])
   let btn = h('.btn.disabled', 'Sign Up')
   let submit = h('.row', btn)
   let toggle = h('.row',
@@ -54,6 +52,15 @@ export function showSignup(store, on) {
 
   req.get('/tenants', (err, tenants) => {
     if(err) return console.error(err)
+    sel.appendChild(h('option', {
+      disabled: true,
+      selected: true,
+    }, '-- select a tenant --'))
+    for(let i = 0;i < tenants.length;i++) {
+      sel.appendChild(h('option', {
+        value: tenants[i].id
+      }, tenants[i].name))
+    }
   })
 
 
