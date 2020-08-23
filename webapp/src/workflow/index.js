@@ -5,6 +5,12 @@ const toolbar = require('./toolbar.js')
 const flow = require('./flow.js')
 
 export function init() {
+}
+
+export function reducer(state, type, payload) {
+}
+
+export function init2() {
   return {
     events: eventsInit(),
     toolbar: toolbar.init(),
@@ -12,7 +18,7 @@ export function init() {
   }
 }
 
-export function reducer(state, type, payload) {
+export function reducer2(state, type, payload) {
   return {
     ...state,
     toolbar: toolbar.reducer(state.toolbar, type, payload),
@@ -33,7 +39,6 @@ export function show(store, e) {
   }
   flow.show(store.fork('flow'), fns, e)
 }
-
 
 function eventsInit() {
   let svg = require('./step/event.svg')
