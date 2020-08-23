@@ -3,10 +3,11 @@
   padding: 4px;
   margin: 4px;
   position: absolute;
-  right: 8px;
+  left: 28px;
   top: 28px;
   border-radius: 4px;
   width: 160px;
+  opacity: 0.9;
 }
 .header {
   box-shadow: 0 1px 6px 0 rgba(32,33,36,.28);

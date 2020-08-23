@@ -5,6 +5,7 @@
 .nav img {
   width: 48px;
   margin: 32px auto;
+  opacity: 0.8;
 }
 
 .nav .navitem {
