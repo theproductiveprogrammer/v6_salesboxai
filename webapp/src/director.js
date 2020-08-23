@@ -24,7 +24,7 @@ function setupStore() {
 
 function init() {
   return {
-    um: um_.init(),
+    user: um_.init(),
     nav: nav_.init(),
     workflow: wk_.init(),
   }
@@ -32,7 +32,7 @@ function init() {
 
 function reducer(state, type, payload) {
   return {
-    um: um_.reducer(state.um, type, payload),
+    user: um_.reducer(state.user, type, payload),
     nav: nav_.reducer(state.nav, type, payload),
     workflow: wk_.reducer(state.workflow, type, payload),
   }
