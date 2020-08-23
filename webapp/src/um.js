@@ -2,21 +2,18 @@
 const { h } = require('@tpp/htm-x')
 const req = require('@tpp/req')
 
-import './auth.css'
+import './um.css'
 
 export function init() {
-  return {
-    tenants: [],
-    user: null,
-  }
+  return null
 }
 
 export function reducer(state, type, payload) {
 }
 
 export function showSignup(store, on) {
-  let auth = h('.auth')
-  on.appendChild(auth)
+  let um = h('.um')
+  on.appendChild(um)
 
   let card = h('.card.signup')
   let title = h('h1', "Sign Up")
@@ -34,16 +31,16 @@ export function showSignup(store, on) {
     h('.label', "Tenant"),
     h('select')
   ])
-  let btn = h('.btn', { onclick: signup_1 }, 'Sign Up')
+  let btn = h('.btn.disabled', 'Sign Up')
   let submit = h('.row', btn)
   let toggle = h('.row',
     h('a.toggle', {
       href: '#',
-      onclick: () => store.event('auth/login')
+      onclick: () => store.event('um/login')
     }, "Login")
   )
 
-  auth.c(
+  um.c(
     card.c(
       title,
       name,
@@ -55,6 +52,11 @@ export function showSignup(store, on) {
     )
   )
 
+  req.get('/tenants', (err, tenants) => {
+    if(err) return console.error(err)
+  })
+
+
   function signup_1() {
     btn.classList.add('disabled')
   }
@@ -62,8 +64,8 @@ export function showSignup(store, on) {
 }
 
 export function showLogin(store, on) {
-  let auth = h('.auth')
-  on.appendChild(auth)
+  let um = h('.um')
+  on.appendChild(um)
 
   let card = h('.card.login')
   let title = h('h1', "Login")
@@ -79,11 +81,11 @@ export function showLogin(store, on) {
   let toggle = h('.row',
     h('a.toggle', {
       href: '#',
-      onclick: () => store.event('auth/signup')
+      onclick: () => store.event('um/signup')
     }, "Sign Up")
   )
 
-  auth.c(
+  um.c(
     card.c(
       title,
       username,

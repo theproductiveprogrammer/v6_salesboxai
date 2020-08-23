@@ -1,19 +1,19 @@
-.auth .card {
+.um .card {
   margin: 100px auto;
   width: 300px;
   border: 1px solid #aaa;
   border-radius: 16px;
 }
 
-.auth .card.login {
+.um .card.login {
   height: 360px;
 }
 
-.auth .card.signup {
+.um .card.signup {
   height: 500px;
 }
 
-.auth .card h1 {
+.um .card h1 {
   text-align: center;
   margin: 10px auto;
   font-variant: all-small-caps;
@@ -23,15 +23,15 @@
   color: #333;
 }
 
-.auth .card .row {
+.um .card .row {
   margin-top: 32px;
   margin-left: 32px;
 }
 
-.auth .card .label {
+.um .card .label {
   color: #333;
 }
 
-.auth .card .btn {
+.um .card .btn {
   width: 100px;
 }
