@@ -12,21 +12,27 @@ func main() {
 	startServer(map_)
 }
 
-func loadMap() map[string]string {
-	m := make(map[string]string)
-	m["login"] = "http://localhost:6060/login"
-	m["signup"] = "http://localhost:6060/signup"
-	m["profile"] = "http://localhost:6060/profile"
-	m["tenants"] = "http://localhost:6060/tenants"
-	m["newtenant"] = "http://localhost:6060/newtenant"
-	return m
+func loadMap() []RouteMap {
+	return []RouteMap{
+		{"login", "http://localhost:6060/login"},
+		{"signup", "http://localhost:6060/signup"},
+		{"profile", "http://localhost:6060/profile"},
+		{"tenants", "http://localhost:6060/tenants"},
+		{"newtenant", "http://localhost:6060/newtenant"},
+		{"", "http://localhost:6090/"},
+	}
 }
 
-func startServer(map_ map[string]string) {
+type RouteMap struct {
+	pfx string
+	pth string
+}
+
+func startServer(map_ []RouteMap) {
 	const PORT = "80"
 	fmt.Println("Gateway serving: ")
-	for k, v := range map_ {
-		fmt.Printf("  %s ==> %s\n", k, v)
+	for _, m := range map_ {
+		fmt.Printf("  %s ==> %s\n", m.pfx, m.pth)
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -37,16 +43,16 @@ func startServer(map_ map[string]string) {
 	http.ListenAndServe(":"+PORT, nil)
 }
 
-func routeReq(r *http.Request, w http.ResponseWriter, map_ map[string]string) {
+func routeReq(r *http.Request, w http.ResponseWriter, map_ []RouteMap) {
 
 	uri := r.RequestURI
 	if uri[0] == '/' {
 		uri = uri[1:]
 	}
 
-	for k, v := range map_ {
-		if strings.HasPrefix(uri, k) {
-			dest := v + uri[len(k):]
+	for _, m := range map_ {
+		if strings.HasPrefix(uri, m.pfx) {
+			dest := m.pth + uri[len(m.pfx):]
 			fmt.Printf("routing '%s' to '%s'\n", uri, dest)
 			routeTo(dest, r, w)
 			return
