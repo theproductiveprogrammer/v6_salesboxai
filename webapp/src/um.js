@@ -17,19 +17,11 @@ export function showSignup(store, on) {
 
   let card = h('.card.signup')
   let title = h('h1', "Sign Up")
-  let name = h('.row', [
-    h('.label', "Name"), h('input')
-  ])
-  let username = h('.row', [
-    h('.label', "Username"), h('input')
-  ])
-  let password = h('.row', [
-    h('.label', "Password"),
-    h('input', { type: 'password' })
-  ])
-  let sel = h('select')
-  let tenant = h('.row', [ h('.label', "Tenant"), sel ])
-  let btn = h('.btn.disabled', 'Sign Up')
+  let name = h('input')
+  let userid = h('input')
+  let password = h('input', { type: 'password' })
+  let tenant = h('select')
+  let btn = h('.btn.disabled', { tabindex:0 }, 'Sign Up')
   let submit = h('.row', btn)
   let toggle = h('.row',
     h('a.toggle', {
@@ -41,23 +33,27 @@ export function showSignup(store, on) {
   um.c(
     card.c(
       title,
-      name,
-      username,
-      password,
-      tenant,
+      h('.row', [ h('.label', "Name"), name ]),
+      h('.row', [ h('.label', "Username"), userid ]),
+      h('.row', [ h('.label', "Password"), password ]),
+      h('.row', [ h('.label', "Tenant"), tenant ]),
       submit,
       toggle,
     )
   )
 
   req.get('/tenants', (err, tenants) => {
-    if(err) return console.error(err)
-    sel.appendChild(h('option', {
+    if(err) return error_(err)
+    btn.classList.remove('disabled')
+    btn.onclick = signup_1
+    btn.onkeydown = signup_1
+    tenant.appendChild(h('option', {
       disabled: true,
       selected: true,
+      value: 0,
     }, '-- select a tenant --'))
     for(let i = 0;i < tenants.length;i++) {
-      sel.appendChild(h('option', {
+      tenant.appendChild(h('option', {
         value: tenants[i].id
       }, tenants[i].name))
     }
@@ -65,7 +61,22 @@ export function showSignup(store, on) {
 
 
   function signup_1() {
+    let info = {
+      userid: userid.value,
+      password: password.value,
+      tenantId: tenant.options[tenant.selectedIndex].value,
+      name: name.value,
+    }
+    if(!info.userid || !info.password
+      || !info.tenantId || info.tenantId == '0' || !info.name) {
+      return error_('Please fill in all fields')
+    }
     btn.classList.add('disabled')
+    req.post('/signup', info, (err, resp) => {
+      if(err) return error_(err)
+      if(resp.response != "true") return error_('Signup failed')
+      store.event('um/login')
+    })
   }
 
 }
@@ -106,4 +117,11 @@ export function showLogin(store, on) {
     btn.classList.add('disabled')
   }
 
+}
+
+function error_(e) {
+  console.log(e)
+  if(e.toString() == '[object Object]') e = JSON.stringify(e)
+  else e = e.toString()
+  alert(e)
 }
