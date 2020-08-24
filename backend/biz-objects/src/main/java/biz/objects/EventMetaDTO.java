@@ -18,4 +18,44 @@ public class EventMetaDTO {
 
         pic = pic = "/events/pic/" + code + ".svg";
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getIconszhint() {
+        return iconszhint;
+    }
+
+    public void setIconszhint(Long iconszhint) {
+        this.iconszhint = iconszhint;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 }
