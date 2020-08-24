@@ -1,4 +1,4 @@
-.header img {
+.header .logo {
   background: white;
   padding: 4px;
   margin: 4px;
@@ -12,4 +12,45 @@
 .header {
   box-shadow: 0 1px 6px 0 rgba(32,33,36,.28);
 }
+.header .ikon {
+  position: absolute;
+  right: 28px;
+  top: 18px;
+}
 
+.header .ikon .pic {
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  font-size: 32px;
+  border-radius: 32px;
+  font-family: Helvetica, Verdana, Georgia;
+  float: left;
+  background: #348de9;
+  background: linear-gradient(#348de9, #1466b8, #348de9);
+  color: white;
+}
+
+.header .ikon .info {
+  float: right;
+  padding: 8px;
+}
+.header .ikon .info:after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  padding-top: 8px;
+  border-bottom: 1px solid #aaa;
+}
+
+.header .ikon .name {
+  font-size: 18px;
+}
+
+.header .ikon .tenant {
+  text-align: center;
+  font-size: 10px;
+  color: #3e4552;
+}
