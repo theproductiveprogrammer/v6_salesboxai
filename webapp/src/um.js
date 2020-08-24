@@ -2,7 +2,7 @@
 const { h } = require('@tpp/htm-x')
 const req = require('@tpp/req')
 
-const { btnKey } = require('./common.js')
+const { btnKey, error_ } = require('./common.js')
 
 import './um.css'
 
@@ -137,11 +137,4 @@ export function showLogin(store, on) {
     })
   }
 
-}
-
-function error_(e) {
-  console.log(e)
-  if(e.toString() == '[object Object]') e = JSON.stringify(e)
-  else e = e.toString()
-  alert(e)
 }
