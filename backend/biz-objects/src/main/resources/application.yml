@@ -1,6 +1,6 @@
 micronaut:
   server:
-    port: 6060
+    port: 6160
   application:
     name: bizObjects
   security:
