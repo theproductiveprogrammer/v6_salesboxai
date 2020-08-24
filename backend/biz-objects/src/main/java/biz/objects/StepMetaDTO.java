@@ -2,7 +2,7 @@ package biz.objects;
 
 import biz.objects.db.StepMeta;
 
-public class StepMetaDAO {
+public class StepMetaDTO {
     private Long id;
     private String code;
     private String name;
@@ -12,7 +12,7 @@ public class StepMetaDAO {
     private String icon;
     private String pic;
 
-    public StepMetaDAO(StepMeta s) {
+    public StepMetaDTO(StepMeta s) {
         id = s.getId();
         code = s.getCode();
         name = s.getName();

@@ -21,9 +21,9 @@ public class StepServer {
     }
 
     @Get("/stepmeta")
-    public List<StepMetaDAO> getStepMeta() {
+    public List<StepMetaDTO> getStepMeta() {
         List<StepMeta> steps = stepMetaRepository.findAll();
-        return steps.stream().map(s -> new StepMetaDAO(s)).collect(Collectors.toList());
+        return steps.stream().map(s -> new StepMetaDTO(s)).collect(Collectors.toList());
     }
 
 }
