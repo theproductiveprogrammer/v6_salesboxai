@@ -80,7 +80,7 @@ export function showSignup(store, on) {
     btn.classList.add('disabled')
     req.post('/signup', info, (err, resp) => {
       if(err) return error_(err)
-      if(resp.response != "true") return error_('Signup failed')
+      if(!resp) return error_('Signup failed')
       store.event('um/login')
     })
   }
