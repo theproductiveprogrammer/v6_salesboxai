@@ -23,6 +23,7 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'org.json:json:20200518'
 
     compile 'mysql:mysql-connector-java:8.0.21'
 
