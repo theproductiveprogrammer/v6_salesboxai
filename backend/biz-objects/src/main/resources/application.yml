@@ -3,6 +3,11 @@ micronaut:
     port: 6160
   application:
     name: bizObjects
+  router:
+    static-resources:
+      main:
+        paths: classpath:steps
+        mapping: /steps/**
   security:
     authentication: bearer
     token:

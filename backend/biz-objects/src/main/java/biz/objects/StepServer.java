@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Post;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class StepServer {
@@ -20,7 +21,9 @@ public class StepServer {
     }
 
     @Get("/stepmeta")
-    public List<StepMeta> getStepMeta() {
-        return stepMetaRepository.findAll();
+    public List<StepMetaDAO> getStepMeta() {
+        List<StepMeta> steps = stepMetaRepository.findAll();
+        return steps.stream().map(s -> new StepMetaDAO(s)).collect(Collectors.toList());
     }
+
 }
