@@ -1,3 +1,7 @@
+## Feature hibernate-jpa documentation
+
+- [Micronaut Hibernate JPA documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#hibernate)
+
 ## Feature http-client documentation
 
 - [Micronaut Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
