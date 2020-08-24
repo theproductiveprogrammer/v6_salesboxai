@@ -1,0 +1,108 @@
+.dashboard {
+  padding: 32px 64px;
+}
+
+.dashboard h1 {
+  font-size: 32px;
+  font-weight: 200;
+  font-variant: all-small-caps;
+  letter-spacing: 8px;
+  position: absolute;
+  right: 28px;
+  bottom: 32px;
+}
+.dashboard h1:after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  border-bottom: 1px solid #aaa;
+}
+
+.dashboard .card {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  float: left;
+  margin: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 1px 1px #a3ccf5, 1px 1px 1px 1px #d1e5fa;
+}
+
+.dashboard .card .title {
+  font-size: 32px;
+  margin: 4px 24px;
+  font-variant: all-small-caps;
+  color: #1466b8;
+}
+
+.dashboard .card .num {
+  text-align: center;
+  font-size: 64px;
+  color: #3e4552;
+}
+
+.dashboard .card img {
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+}
+
+.dashboard .card .row {
+}
+
+.dashboard .card .col {
+  float: left;
+  width: 40%;
+  text-align: center;
+  margin-left: 7%;
+  margin-top: 24px;
+}
+
+.dashboard .card .label {
+  font-size: 32px;
+  color: #3e4552;
+  font-variant: all-small-caps;
+}
+.dashboard .card .label:after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 10%;
+  border-bottom: 1px solid #348de9;
+  margin-bottom: 8px;
+}
+
+.dashboard .card img.edit {
+  width: 24px;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.dashboard .card img.edit:hover {
+  opacity: 1;
+}
+
+.dashboard .card .line {
+  font-size: 24px;
+  line-height: 48px;
+}
+
+.dashboard .card .line .head {
+  font-variant: all-small-caps;
+  margin-left: 25px;
+  color: black;
+  display: inline-block;
+  width: 60%;
+  color: #1466b8;
+}
+.dashboard .card .line .head:after {
+  content: ":"
+}
+
+.dashboard .card .val {
+  display: inline-block;
+  margin-left: 24px;
+}
