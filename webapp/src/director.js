@@ -5,6 +5,7 @@ const dux = require('@tpp/dux')
 const header_ = require('./header.js')
 const nav_ = require('./nav.js')
 const um_ = require('./um.js')
+const profile_ = require('./profile.js')
 const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
 
@@ -14,6 +15,7 @@ export function start(body) {
   let store = setupStore()
   setupView(store, body)
   setupAccessControl(store, body)
+  linkUp(store)
 
   if(window) window.salesbox = { store }
 }
@@ -25,6 +27,7 @@ function setupStore() {
 function init() {
   return {
     user: um_.init(),
+    profile: profile_.init(),
     nav: nav_.init(),
     workflow: wk_.init(),
   }
@@ -33,6 +36,7 @@ function init() {
 function reducer(state, type, payload) {
   return {
     user: um_.reducer(state.user, type, payload),
+    profile: profile_.reducer(state.profile, type, payload),
     nav: nav_.reducer(state.nav, type, payload),
     workflow: wk_.reducer(state.workflow, type, payload),
   }
@@ -80,4 +84,8 @@ function setupAccessControl(store, body) {
     if(user == null) return store.event('ac/unauthorized')
     else store.event('ac/user', user)
   })
+}
+
+function linkUp(store) {
+  profile_.linkUp(store)
 }
