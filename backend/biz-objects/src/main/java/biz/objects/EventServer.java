@@ -1,7 +1,8 @@
 package biz.objects;
 
 import biz.objects.db.EventMeta;
-import biz.objects.db.StepMeta;
+import biz.objects.dto.EventMetaDTO;
+import biz.objects.repo.EventMetaRepository;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;

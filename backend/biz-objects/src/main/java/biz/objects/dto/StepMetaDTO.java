@@ -1,22 +1,26 @@
-package biz.objects;
+package biz.objects.dto;
 
-import biz.objects.db.EventMeta;
+import biz.objects.db.StepMeta;
 
-public class EventMetaDTO {
+public class StepMetaDTO {
     private Long id;
     private String code;
     private String name;
+    private Long numlinks;
     private Long iconszhint;
 
+    private String icon;
     private String pic;
 
-    public EventMetaDTO(EventMeta e) {
-        id = e.getId();
-        code = e.getCode();
-        name = e.getName();
-        iconszhint = e.getIconszhint();
+    public StepMetaDTO(StepMeta s) {
+        id = s.getId();
+        code = s.getCode();
+        name = s.getName();
+        numlinks = s.getNumlinks();
+        iconszhint = s.getIconszhint();
 
-        pic = pic = "/events/pic/" + code + ".svg";
+        icon = "/steps/icon/" + code + ".svg";
+        pic = "/steps/pic/" + code + ".svg";
     }
 
     public Long getId() {
@@ -43,12 +47,28 @@ public class EventMetaDTO {
         this.name = name;
     }
 
+    public Long getNumlinks() {
+        return numlinks;
+    }
+
+    public void setNumlinks(Long numlinks) {
+        this.numlinks = numlinks;
+    }
+
     public Long getIconszhint() {
         return iconszhint;
     }
 
     public void setIconszhint(Long iconszhint) {
         this.iconszhint = iconszhint;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getPic() {
