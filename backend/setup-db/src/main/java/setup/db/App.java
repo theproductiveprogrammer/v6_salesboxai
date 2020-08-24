@@ -133,7 +133,12 @@ public class App {
     }
 
     private static void createWorkflowMeta(Properties props) throws Exception {
-        String url = props.getProperty("workflowmeta.url");
+        createWorkflowSteps(props);
+        createWorkflowEvents(props);
+    }
+
+    private static void createWorkflowSteps(Properties props) throws Exception {
+        String url = props.getProperty("workflowmeta.steps.url");
         createWorkflowMeta(url, new WorkflowMeta("email", "Send Email", 168L));
         createWorkflowMeta(url, new WorkflowMeta("adaptive", "Adaptive", 64L));
         createWorkflowMeta(url, new WorkflowMeta("chat", "Chat", 168L));
@@ -145,6 +150,15 @@ public class App {
         createWorkflowMeta(url, new WorkflowMeta("listadd", "Add To List", 96L));
         createWorkflowMeta(url, new WorkflowMeta("facebook", "Facebook", 168L));
         createWorkflowMeta(url, new WorkflowMeta("meeting", "Meeting", 64L));
+    }
+
+    private static void createWorkflowEvents(Properties props) throws Exception {
+        String url = props.getProperty("workflowmeta.events.url");
+        createWorkflowMeta(url, new WorkflowMeta("evt-new-lead", "Event: New Lead", 96L));
+        createWorkflowMeta(url, new WorkflowMeta("evt-email-open", "Event: Email Open", 96L));
+        createWorkflowMeta(url, new WorkflowMeta("evt-link-click", "Event: Link Click", 96L));
+        createWorkflowMeta(url, new WorkflowMeta("evt-email-reply", "Event: Email Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta("evt-chat-reply", "Event: Chat Reply", 96L));
     }
 
     private static void createWorkflowMeta(String url, WorkflowMeta workflowMeta) throws Exception {
