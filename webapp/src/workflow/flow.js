@@ -12,6 +12,7 @@ export function init() {
     onevent: null,
     steps: [],
     selected: -1,
+    flows: {}
   }
 }
 
@@ -29,12 +30,10 @@ export function reducer(state, type, payload) {
       events: payload,
     }
 
-    case 'workflow/event/sel': return {
-      ...state,
-      onevent: state.events.filter(e => e.id == payload)[0]
-    }
+    case 'workflow/event/sel': return selEvent(state, payload)
 
-    case 'workflow/flow/clear': return {
+    case 'workflow/flow/switch': return switchEvent(state)
+      return {
       ...state,
       steps: [],
       selected: -1,
@@ -50,6 +49,31 @@ export function reducer(state, type, payload) {
 
     default: return state
   }
+}
+
+function switchEvent(state) {
+  state = { ...state  }
+  if(state.onevent && state.flows[state.onevent.code]) {
+    let curr = state.flows[state.onevent.code]
+    state.steps = save2steps(state.meta, state.events, curr.steps)
+    state.selected = curr.selected
+  } else {
+    state.steps = []
+    state.selected = -1
+  }
+  return state
+}
+
+function selEvent(state, payload) {
+  state = { ...state }
+  if(state.onevent) {
+    state.flows[state.onevent.code] = {
+      steps: steps2save(state.steps),
+      selected: state.selected,
+    }
+  }
+  state.onevent = state.events.filter(e => e.id == payload)[0]
+  return state
 }
 
 function newStep(state, type, payload) {
@@ -201,7 +225,7 @@ export function show(store, e) {
       let lines = exLines.pop()
       while(lines.length) canvas.removeChild(lines.pop())
     }
-    store.event('workflow/flow/clear')
+    store.event('workflow/flow/switch')
   })
 
 }
@@ -229,4 +253,30 @@ function dispStep(canvas, pt, store, i) {
 
 function save(store) {
   // TODO
+}
+
+function steps2save(steps) {
+  steps = steps.map(step => {
+    let r = {
+      code: step.info.code,
+      pos: { x: step.pos.x, y: step.pos.y }
+    }
+    if(step.links) r.links = step.links
+    return r
+  })
+  return steps
+}
+
+function save2steps(meta, events, steps) {
+  return steps.map(step => {
+    let info = meta.filter(m => m.code == step.code)[0]
+    if(step.code.startsWith('evt-')) {
+       info = events.filter(e => e.code == step.code)[0]
+    }
+    return {
+      info,
+      links: step.links,
+      pos: step.pos,
+    }
+  })
 }
