@@ -12,16 +12,14 @@ const wk_ = require('./workflow/index.js')
 import './director.css'
 
 export function start(body) {
-  let store = setupStore()
+  let store = dux.createStore(reducer, init())
   setupView(store, body)
   setupAccessControl(store, body)
-  linkUp(store)
+
+  profile_.setup(store)
+  wk_.setup(store)
 
   if(window) window.salesbox = { store }
-}
-
-function setupStore() {
-  return dux.createStore(reducer, init())
 }
 
 function init() {
@@ -84,8 +82,4 @@ function setupAccessControl(store, body) {
     if(user == null) return store.event('ac/unauthorized')
     else store.event('ac/user', user)
   })
-}
-
-function linkUp(store) {
-  profile_.linkUp(store)
 }
