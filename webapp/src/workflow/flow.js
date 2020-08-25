@@ -105,7 +105,11 @@ export function show(store, e) {
       value: e.id,
     }, e.name)))
   })
-  e.appendChild(sel)
+
+  let sav = h('.btn', { onclick: () => save(store) }, "Save")
+
+  let bottomtoolbar = h('.btb').c(sel, sav)
+  e.appendChild(bottomtoolbar)
 
   function add_icon_1(e) {
     let curr = curr_step_1()
@@ -223,3 +227,6 @@ function dispStep(canvas, pt, store, i) {
 
 }
 
+function save(store) {
+  // TODO
+}
