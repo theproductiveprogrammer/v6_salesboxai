@@ -2,11 +2,12 @@
   font-size: 1.4em;
   box-shadow: 1px 1px 1px #d0d0d0;
 }
-.nav img {
+.nav .home {
   display: block;
   width: 48px;
   margin: 32px auto;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .nav .navitem {
