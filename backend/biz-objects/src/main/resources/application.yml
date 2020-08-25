@@ -9,7 +9,7 @@ micronaut:
         paths: classpath:steps
         mapping: /steps/**
       events:
-        paths: classpath:steps
+        paths: classpath:events
         mapping: /events/**
   security:
     authentication: bearer
