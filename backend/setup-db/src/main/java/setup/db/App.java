@@ -139,26 +139,26 @@ public class App {
 
     private static void createWorkflowSteps(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.steps.url");
-        createWorkflowMeta(url, new WorkflowMeta("email", "Send Email", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("adaptive", "Adaptive", 64L));
-        createWorkflowMeta(url, new WorkflowMeta("chat", "Chat", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("decide", "Decide", 40L, 2L));
-        createWorkflowMeta(url, new WorkflowMeta("twitter", "Twitter", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("linkedin", "LinkedIn", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("salesforce", "Salesforce", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("sms", "SMS", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("listadd", "Add To List", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("facebook", "Facebook", 168L));
-        createWorkflowMeta(url, new WorkflowMeta("meeting", "Meeting", 64L));
+        createWorkflowMeta(url, new WorkflowMeta(1L, "email", "Send Email", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(2L, "adaptive", "Adaptive", 64L));
+        createWorkflowMeta(url, new WorkflowMeta(3L, "chat", "Chat", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(4L, "decide", "Decide", 40L, 2L));
+        createWorkflowMeta(url, new WorkflowMeta(5L, "twitter", "Twitter", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(6L, "linkedin", "LinkedIn", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(7L, "salesforce", "Salesforce", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(8L, "sms", "SMS", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(9L, "listadd", "Add To List", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(10L, "facebook", "Facebook", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(11L, "meeting", "Meeting", 64L));
     }
 
     private static void createWorkflowEvents(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.events.url");
-        createWorkflowMeta(url, new WorkflowMeta("evt-new-lead", "Event: New Lead", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("evt-email-open", "Event: Email Open", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("evt-link-click", "Event: Link Click", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("evt-email-reply", "Event: Email Reply", 96L));
-        createWorkflowMeta(url, new WorkflowMeta("evt-chat-reply", "Event: Chat Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(1L, "evt-new-lead", "Event: New Lead", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(2L, "evt-email-open", "Event: Email Open", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(3L, "evt-link-click", "Event: Link Click", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(4L, "evt-email-reply", "Event: Email Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(5L, "evt-chat-reply", "Event: Chat Reply", 96L));
     }
 
     private static void createWorkflowMeta(String url, WorkflowMeta workflowMeta) throws Exception {
@@ -172,19 +172,22 @@ public class App {
     }
 
     static class WorkflowMeta {
-        public WorkflowMeta(String code, String name, Long iconsize) {
+        public WorkflowMeta(Long id, String code, String name, Long iconsize) {
+            this.id = id;
             this.code = code;
             this.name = name;
             this.iconsize = iconsize;
         }
 
-        public WorkflowMeta(String code, String name, Long iconsize, Long numlinks) {
+        public WorkflowMeta(Long id, String code, String name, Long iconsize, Long numlinks) {
+            this.id = id;
             this.code = code;
             this.name = name;
             this.iconsize = iconsize;
             this.numlinks = numlinks;
         }
 
+        Long id;
         String code;
         String name;
         Long iconsize;
