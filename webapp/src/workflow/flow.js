@@ -96,6 +96,17 @@ export function show(store, e) {
   canvas.c(filter)
   e.appendChild(canvas)
 
+  let sel = h('select.evt', {
+    onchange: () => store.event('workflow/event/sel', sel.value)
+  })
+  store.react('flow.events', events => {
+    sel.c()
+    events.forEach(e => sel.appendChild(h('option', {
+      value: e.id,
+    }, e.name)))
+  })
+  e.appendChild(sel)
+
   function add_icon_1(e) {
     let curr = curr_step_1()
     if(!curr) return
