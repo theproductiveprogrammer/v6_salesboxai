@@ -9,13 +9,13 @@ export function init() {
 
 export function reducer(state, type, payload) {
   switch(type) {
-    case 'got/stepmeta': return {
+    case 'workflow/stepmeta/got': return {
       items: payload.map(m => {
-        return { name:m.name, id: m.id, icon:m.icon }
+        return { name:m.name, code: m.code, icon:m.icon }
       }),
       selected: 0
     }
-    case 'toolbar/selected': return {
+    case 'workflow/toolbar/selected': return {
       ...state,
       selected: payload
     }
@@ -53,15 +53,15 @@ export function show(store, e) {
 }
 
 function toolbarIcon(store, i) {
-  let sz = 32
+  let sz = 40
   let e = h('.icon', {
-    onclick: () => store.event('toolbar/selected', i)
+    onclick: () => store.event('workflow/toolbar/selected', i)
   })
 
   let fn = store.react(`items.${i}`, tool => {
     e.setAttribute('title', tool.name)
     e.c(
-      svg({ width: sz, height: sz }, tool.icon)
+      h('img', { width: sz, height: sz, src: tool.icon })
     )
   })
 

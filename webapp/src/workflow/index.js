@@ -1,33 +1,44 @@
 'use strict'
 const { h, svg } = require('@tpp/htm-x')
+const req = require('@tpp/req')
+const { error_ } = require('../common.js')
 
+const events = require('./events.js')
 const toolbar = require('./toolbar.js')
 const flow = require('./flow.js')
 
+export function setup(store) {
+  req.get('/stepmeta', (err, resp) => {
+    if(err) return error_(err)
+    store.event('workflow/stepmeta/got', resp)
+  })
+  req.get('/eventmeta', (err, resp) => {
+    if(err) return error_(err)
+    store.event('workflow/eventmeta/got', resp)
+  })
+}
+
 export function init() {
-}
-
-export function reducer(state, type, payload) {
-}
-
-export function init2() {
   return {
-    events: eventsInit(),
+    events: events.init(),
     toolbar: toolbar.init(),
     flow: flow.init(),
   }
 }
 
-export function reducer2(state, type, payload) {
+export function reducer(state, type, payload) {
   return {
-    ...state,
+    events: events.reducer(state.events, type, payload),
     toolbar: toolbar.reducer(state.toolbar, type, payload),
     flow: flow.reducer(state.flow, type, payload, state.events),
   }
 }
 
 export function show(store, e) {
-  toolbar.show(store.fork('toolbar'), e)
+  let wk = h('.wk')
+  e.appendChild(wk)
+
+  toolbar.show(store.fork('toolbar'), wk)
 
   let fns = {
     currStep: () => {
@@ -37,32 +48,5 @@ export function show(store, e) {
     },
     events: () => store.get('events'),
   }
-  flow.show(store.fork('flow'), fns, e)
-}
-
-function eventsInit() {
-  let svg = require('./step/event.svg')
-  return [
-    {
-      name: 'Event: New Lead',
-      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'With New Lead') }
-    },
-    {
-      name: 'Event: Email Open',
-      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Email Opened') }
-    },
-    {
-      name: 'Event: Link Clicked',
-      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Link Click') }
-    },
-    {
-      name: 'Event: Email Reply',
-      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Email Reply') }
-    },
-    {
-      name: 'Event: Chat',
-      pic: { sz: 96, svg: svg.replace('EVENT_TEXT', 'On Chat Msg') }
-    },
-  ]
-
+  flow.show(store.fork('flow'), fns, wk)
 }
