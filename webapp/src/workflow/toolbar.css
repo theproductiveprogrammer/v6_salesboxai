@@ -12,6 +12,7 @@
   box-shadow: inset 1px 1px 1px #eaeaea;
 }
 .wk .icon {
+  user-select: none;
   display: inline-block;
   margin-left: 12px;
   margin-top: 4px;

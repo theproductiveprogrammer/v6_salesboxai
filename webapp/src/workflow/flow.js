@@ -15,16 +15,19 @@ export function init() {
 
 export function reducer(state, type, payload, events) {
   switch(type) {
-    case 'got/stepmeta': return {
+    case 'workflow/stepmeta/got': return {
       ...state,
       meta: payload,
     }
-    case 'step/new':
-      return newStep(state,type,payload,events)
-    case 'step/selected': return {
+
+    case 'workflow/step/new':
+      return newStep(state, type, payload, events)
+
+    case 'workflow/step/selected': return {
       ...state,
       selected: payload
     }
+
     default: return state
   }
 }
@@ -35,7 +38,7 @@ function newStep(state, type, payload, events) {
   let ndx = state.selected
   if(!curr) {
     if(!state.steps.length) {
-      curr = { info: events[0], pos: { x: 10, y: 10 } }
+      curr = { info: events[0], pos: { x: 10, y: 250 } }
       state.steps = state.steps.concat(curr)
       ndx = 0
     } else {
@@ -76,15 +79,15 @@ export function show(store, fns, e) {
   function add_icon_1(e) {
     let curr = fns.currStep()
     if(!curr) return
-    let info = store.get('meta').filter(m => m.id == curr)
+    let info = store.get('meta').filter(m => m.code == curr)
     if(info && info.length) {
       info = info[0]
       let pos = svgPos(canvas, pt, e)
-      if(info.pic.sz) {
-        pos.x -= info.pic.sz/3
-        pos.y -= info.pic.sz/3
+      if(info.iconszhint) {
+        pos.x -= info.iconszhint/2
+        pos.y -= info.iconszhint/2
       }
-      store.event("step/new", { info, pos })
+      store.event("workflow/step/new", { info, pos })
     } else {
       console.error(`Failed finding info for step: ${curr}`)
     }
@@ -124,8 +127,8 @@ export function show(store, fns, e) {
     function line_1(from, to) {
       if(!from || !to) return
 
-      let foff = opt(from.info.pic.sz,0) / 2
-      let toff = opt(to.info.pic.sz,0) / 2
+      let foff = opt(from.info.iconszhint,0) / 2
+      let toff = opt(to.info.iconszhint,0) / 2
 
       return svg('line', {
         style: {
@@ -153,13 +156,13 @@ function dispStep(canvas, pt, store, i) {
   let sz = 96
   let e = svg('svg.step', {
     width: sz, height: sz,
-    onclick: e => store.event('step/selected', i)
+    onclick: e => store.event('workflow/step/selected', i)
   })
 
   let fn = store.react(`steps.${i}`, step => {
-    if(step.info.pic.sz) {
-      e.setAttribute('width', step.info.pic.sz)
-      e.setAttribute('height', step.info.pic.sz)
+    if(step.info.iconszhint) {
+      e.setAttribute('width', step.info.iconszhint)
+      e.setAttribute('height', step.info.iconszhint)
     }
     e.setAttribute('x', step.pos.x)
     e.setAttribute('y', step.pos.y)

@@ -10,11 +10,11 @@ const flow = require('./flow.js')
 export function setup(store) {
   req.get('/stepmeta', (err, resp) => {
     if(err) return error_(err)
-    store.event('workflow/stepmeta/got', resp)
+    addSVG(resp, m => store.event('workflow/stepmeta/got', m))
   })
   req.get('/eventmeta', (err, resp) => {
     if(err) return error_(err)
-    store.event('workflow/eventmeta/got', resp)
+    addSVG(resp, m => store.event('workflow/eventmeta/got', m))
   })
 }
 
@@ -44,9 +44,20 @@ export function show(store, e) {
     currStep: () => {
       let tb = store.get('toolbar')
       let curr = tb.items[tb.selected]
-      if(curr) return curr.id
+      if(curr) return curr.code
     },
     events: () => store.get('events'),
   }
   flow.show(store.fork('flow'), fns, wk)
+}
+
+function addSVG(meta, cb) {
+  let n = meta.length
+  meta.forEach(m => {
+    req.get(m.pic, (err, svg) => {
+      n--
+      m.pic = { svg: svg.response }
+      if(n == 0) cb(meta)
+    })
+  })
 }
