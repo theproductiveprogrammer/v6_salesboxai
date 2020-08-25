@@ -5,9 +5,12 @@ micronaut:
     name: bizObjects
   router:
     static-resources:
-      main:
+      steps:
         paths: classpath:steps
         mapping: /steps/**
+      events:
+        paths: classpath:steps
+        mapping: /events/**
   security:
     authentication: bearer
     token:
