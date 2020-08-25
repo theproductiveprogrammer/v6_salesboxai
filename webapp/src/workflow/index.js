@@ -3,7 +3,6 @@ const { h, svg } = require('@tpp/htm-x')
 const req = require('@tpp/req')
 const { error_ } = require('../common.js')
 
-const events = require('./events.js')
 const toolbar = require('./toolbar.js')
 const flow = require('./flow.js')
 
@@ -20,7 +19,6 @@ export function setup(store) {
 
 export function init() {
   return {
-    events: events.init(),
     toolbar: toolbar.init(),
     flow: flow.init(),
   }
@@ -28,9 +26,8 @@ export function init() {
 
 export function reducer(state, type, payload) {
   return {
-    events: events.reducer(state.events, type, payload),
     toolbar: toolbar.reducer(state.toolbar, type, payload),
-    flow: flow.reducer(state.flow, type, payload, state.events),
+    flow: flow.reducer(state.flow, type, payload),
   }
 }
 
@@ -39,16 +36,7 @@ export function show(store, e) {
   e.appendChild(wk)
 
   toolbar.show(store.fork('toolbar'), wk)
-
-  let fns = {
-    currStep: () => {
-      let tb = store.get('toolbar')
-      let curr = tb.items[tb.selected]
-      if(curr) return curr.code
-    },
-    events: () => store.get('events'),
-  }
-  flow.show(store.fork('flow'), fns, wk)
+  flow.show(store, wk)
 }
 
 function addSVG(meta, cb) {

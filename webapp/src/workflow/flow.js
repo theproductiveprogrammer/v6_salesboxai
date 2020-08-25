@@ -8,20 +8,40 @@ import './flow.css'
 export function init() {
   return {
     meta: [],
+    events: [],
+    onevent: null,
     steps: [],
     selected: -1,
   }
 }
 
-export function reducer(state, type, payload, events) {
+export function reducer(state, type, payload) {
   switch(type) {
+
     case 'workflow/stepmeta/got': return {
       ...state,
       meta: payload,
     }
 
+    case 'workflow/eventmeta/got': return {
+      ...state,
+      onevent: payload[0],
+      events: payload,
+    }
+
+    case 'workflow/event/sel': return {
+      ...state,
+      onevent: state.events.filter(e => e.id == payload)[0]
+    }
+
+    case 'workflow/flow/clear': return {
+      ...state,
+      steps: [],
+      selected: -1,
+    }
+
     case 'workflow/step/new':
-      return newStep(state, type, payload, events)
+      return newStep(state, type, payload)
 
     case 'workflow/step/selected': return {
       ...state,
@@ -32,13 +52,13 @@ export function reducer(state, type, payload, events) {
   }
 }
 
-function newStep(state, type, payload, events) {
+function newStep(state, type, payload) {
   state = { ...state  }
   let curr = state.steps[state.selected]
   let ndx = state.selected
   if(!curr) {
     if(!state.steps.length) {
-      curr = { info: events[0], pos: { x: 10, y: 250 } }
+      curr = { info: state.onevent, pos: { x: 10, y: 250 } }
       state.steps = state.steps.concat(curr)
       ndx = 0
     } else {
@@ -59,7 +79,7 @@ function newStep(state, type, payload, events) {
   return state
 }
 
-export function show(store, fns, e) {
+export function show(store, e) {
   let canvas = svg({
     width: "100vw",
     height: "100vh",
@@ -77,9 +97,9 @@ export function show(store, fns, e) {
   e.appendChild(canvas)
 
   function add_icon_1(e) {
-    let curr = fns.currStep()
+    let curr = curr_step_1()
     if(!curr) return
-    let info = store.get('meta').filter(m => m.code == curr)
+    let info = store.get('flow.meta').filter(m => m.code==curr)
     if(info && info.length) {
       info = info[0]
       let pos = svgPos(canvas, pt, e)
@@ -93,9 +113,15 @@ export function show(store, fns, e) {
     }
   }
 
+  function curr_step_1() {
+    let tb = store.get('toolbar')
+    let curr = tb.items[tb.selected]
+    if(curr) return curr.code
+  }
+
   let ex = []
 
-  store.react('steps', steps => {
+  store.react('flow.steps', steps => {
     for(let i = ex.length;i < steps.length;i++) {
       let inf = dispStep(canvas, pt, store, i)
       ex.push(inf)
@@ -104,7 +130,7 @@ export function show(store, fns, e) {
   })
 
   let exLines = []
-  store.react('steps', steps => {
+  store.react('flow.steps', steps => {
     for(let i = 0;i < steps.length;i++) {
       let step = steps[i]
       let links = opt(steps[i].links, [])
@@ -113,14 +139,14 @@ export function show(store, fns, e) {
         for(let i = 0;i < lines.length;i++) {
           canvas.removeChild(lines[i])
         }
-      }
-      lines = []
-      exLines[i] = lines
-      for(let i = 0;i < links.length;i++) {
-        let l = line_1(step, steps[links[i]])
-        if(!l) continue
-        lines.push(l)
-        canvas.insertBefore(l, canvas.firstChild)
+        lines = []
+        exLines[i] = lines
+        for(let i = 0;i < links.length;i++) {
+          let l = line_1(step, steps[links[i]])
+          if(!l) continue
+          lines.push(l)
+          canvas.insertBefore(l, canvas.firstChild)
+        }
       }
     }
 
@@ -143,11 +169,24 @@ export function show(store, fns, e) {
     }
   })
 
-  store.react('selected', sel => {
+  store.react('flow.selected', sel => {
     for(let i = 0;i < ex.length;i++) {
       ex[i].e.classList.remove('selected')
     }
     if(ex[sel]) ex[sel].e.classList.add('selected')
+  })
+
+  store.react('flow.onevent', onevent => {
+    while(ex.length) {
+      let inf = ex.pop()
+      canvas.removeChild(inf.e)
+      store.unreact(inf.fn)
+    }
+    while(exLines.length) {
+      let lines = exLines.pop()
+      while(lines.length) canvas.removeChild(lines.pop())
+    }
+    store.event('workflow/flow/clear')
   })
 
 }
@@ -159,7 +198,7 @@ function dispStep(canvas, pt, store, i) {
     onclick: e => store.event('workflow/step/selected', i)
   })
 
-  let fn = store.react(`steps.${i}`, step => {
+  let fn = store.react(`flow.steps.${i}`, step => {
     if(step.info.iconszhint) {
       e.setAttribute('width', step.info.iconszhint)
       e.setAttribute('height', step.info.iconszhint)
