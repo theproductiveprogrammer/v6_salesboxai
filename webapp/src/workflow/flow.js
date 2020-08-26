@@ -6,6 +6,11 @@ const { post, error_ } = require('../common.js')
 
 import './flow.css'
 
+let post_
+export function setup(store) {
+  post_ = (url, data, cb) => post(store, url, data, cb)
+}
+
 export function init() {
   return {
     meta: [],
@@ -104,7 +109,7 @@ function newStep(state, type, payload) {
   return state
 }
 
-export function show(store, e, tmpstore) {
+export function show(store, e) {
   let canvas = svg({
     width: "100vw",
     height: "100vh",
@@ -131,7 +136,7 @@ export function show(store, e, tmpstore) {
     }, e.name)))
   })
 
-  let sav = h('.btn', { onclick: () => save(store, tmpstore) }, "Save")
+  let sav = h('.btn', { onclick: () => save(store) }, "Save")
 
   let bottomtoolbar = h('.btb').c(sel, sav)
   e.appendChild(bottomtoolbar)
@@ -252,7 +257,7 @@ function dispStep(canvas, pt, store, i) {
 
 }
 
-function save(store, tmpstore) {
+function save(store) {
   let onevent = store.get('flow.onevent')
   let flows = store.get('flow.flows')
   let data = []
@@ -278,7 +283,7 @@ function save(store, tmpstore) {
     })
   }
   console.log(data)
-  post(tmpstore, '/newsteps', data, (err, resp) => {
+  post_('/newsteps', data, (err, resp) => {
     if(err) return error_(err)
   })
 }

@@ -15,6 +15,7 @@ export function setup(store) {
     if(err) return error_(err)
     addSVG(resp, m => store.event('workflow/eventmeta/got', m))
   })
+  flow.setup(store)
 }
 
 export function init() {
@@ -31,12 +32,12 @@ export function reducer(state, type, payload) {
   }
 }
 
-export function show(store, e, tmpstore) {
+export function show(store, e) {
   let wk = h('.wk')
   e.appendChild(wk)
 
   toolbar.show(store.fork('toolbar'), wk)
-  flow.show(store, wk, tmpstore)
+  flow.show(store, wk)
 }
 
 function addSVG(meta, cb) {
