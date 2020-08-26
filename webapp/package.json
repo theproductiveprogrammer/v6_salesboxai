@@ -8,7 +8,7 @@
   "author": "charles.lobo@gmail.com",
   "license": "UNLICENSED",
   "dependencies": {
-    "@tpp/dux": "^4.0.3",
+    "@tpp/dux": "^4.0.4",
     "@tpp/htm-x": "^3.2.2",
     "@tpp/req": "^2.0.3",
     "css-loader": "^4.2.1",
