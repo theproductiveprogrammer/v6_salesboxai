@@ -284,6 +284,7 @@ function save(store) {
   console.log(data)
   post_('/newsteps', data, (err, resp) => {
     if(err) return error_(err)
+    else alert('saved')
   })
 }
 
