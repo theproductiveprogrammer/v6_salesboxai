@@ -48,6 +48,21 @@ export function reducer(state, type, payload) {
       events: payload,
     }
 
+    case 'workflow/flow/clear': {
+      state = { ...state }
+      if(state.onevent) {
+        let flows = state.flows
+        state.flows = {}
+        for(let k in flows) {
+          if(k == state.onevent.code) continue
+          state.flows[k] = flows[k]
+        }
+      }
+      state.steps = []
+      state.selected = -1
+      return state
+    }
+
     case 'workflow/event/sel': return selEvent(state, payload)
 
     case 'workflow/flow/switch': return switchEvent(state)
@@ -148,9 +163,12 @@ export function show(store, e) {
     }, e.name)))
   })
 
-  let sav = h('.btn', { onclick: () => save(store) }, "Save")
+  let sav = h('.btn',{ onclick: () => save(store) }, "Save")
+  let clear = h('.btn',{
+    onclick: () => store.event('workflow/flow/clear')
+  }, "Clear")
 
-  let bottomtoolbar = h('.btb').c(sel, sav)
+  let bottomtoolbar = h('.btb').c(sel, sav, clear)
   e.appendChild(bottomtoolbar)
 
   function add_icon_1(e) {
@@ -188,6 +206,7 @@ export function show(store, e) {
 
   let exLines = []
   store.react('flow.steps', steps => {
+    if(!steps || !steps.length) clear_1()
     for(let i = 0;i < steps.length;i++) {
       let step = steps[i]
       let links = opt(steps[i].links, [])
@@ -234,6 +253,11 @@ export function show(store, e) {
   })
 
   store.react('flow.onevent', onevent => {
+    clear_1()
+    store.event('workflow/flow/switch')
+  })
+
+  function clear_1() {
     while(ex.length) {
       let inf = ex.pop()
       canvas.removeChild(inf.e)
@@ -241,10 +265,9 @@ export function show(store, e) {
     }
     while(exLines.length) {
       let lines = exLines.pop()
-      while(lines.length) canvas.removeChild(lines.pop())
+      while(lines && lines.length) canvas.removeChild(lines.pop())
     }
-    store.event('workflow/flow/switch')
-  })
+  }
 
 }
 
@@ -295,7 +318,8 @@ function save(store) {
       data.push({
         eventCode: k,
         code: step.code,
-        pos: { x: step.pos.x, y: step.pos.y }
+        links: step.links,
+        pos: { x: step.pos.x, y: step.pos.y },
       })
     })
   }
@@ -306,6 +330,7 @@ function save(store) {
       data.push({
         eventCode: onevent.code,
         code: step.info.code,
+        links: step.links,
         pos: { x: step.pos.x, y: step.pos.y }
       })
     })
