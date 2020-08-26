@@ -25,7 +25,7 @@ public class EventServer {
     @Get("/eventmeta")
     public List<EventMetaDTO> getStepMeta() {
         List<EventMeta> events = eventMetaRepository.findAll();
-        return events.stream().map(e -> new EventMetaDTO(e)).collect(Collectors.toList());
+        return events.stream().map(EventMetaDTO::new).collect(Collectors.toList());
     }
 
 }
