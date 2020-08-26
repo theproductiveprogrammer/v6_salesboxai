@@ -11,8 +11,11 @@ export function opt(v,d) { return (v || v === 0) ? v : d }
 
 export function error_(e) {
   console.log(e)
-  if(e.toString() == '[object Object]') e = JSON.stringify(e)
-  else e = e.toString()
+  if(typeof e == 'object') {
+    if(e.message) e = e.message
+  } else {
+    e = e.toString()
+  }
   alert(e)
 }
 
