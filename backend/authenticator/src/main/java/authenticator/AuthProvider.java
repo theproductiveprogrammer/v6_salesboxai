@@ -12,6 +12,8 @@ import org.reactivestreams.Publisher;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class AuthProvider implements AuthenticationProvider {
@@ -40,7 +42,9 @@ public class AuthProvider implements AuthenticationProvider {
         User user = userRepository.findByUserid(identity).orElse(null);
         if(user == null) return null;
         if(user.getUserid().equals(identity) && user.getPassword().equals(secret)) {
-            return new UserDetails(user.getUserid(), new ArrayList<>());
+            HashMap<String, Object> attr = new HashMap<>();
+            attr.put("tenant", user.getTenant().getId());
+            return new UserDetails(user.getUserid(), new ArrayList<>(), attr);
         }
         return null;
     }

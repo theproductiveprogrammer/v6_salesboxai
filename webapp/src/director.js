@@ -60,7 +60,7 @@ function setupView(store, body) {
       }
       case 'workflow': {
         currview = store.fork('workflow')
-        return wk_.show(currview, display)
+        return wk_.show(currview, display, store)
       }
       case 'login': {
         currview = store.fork('user')

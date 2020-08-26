@@ -12,6 +12,17 @@ micronaut:
         paths: classpath:events
         mapping: /events/**
   security:
+    intercept-url-map:
+      -
+        pattern: /steps/**
+        http-method: GET
+        access:
+          - isAnonymous()
+      -
+        pattern: /events/**
+        http-method: GET
+        access:
+          - isAnonymous()
     authentication: bearer
     token:
       jwt:

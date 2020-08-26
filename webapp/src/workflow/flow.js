@@ -1,7 +1,8 @@
 'use strict'
 const { h, svg } = require('@tpp/htm-x')
 
-const { opt, svgPos } = require('../../util.js')
+const { opt, svgPos, } = require('../../util.js')
+const { post, error_ } = require('../common.js')
 
 import './flow.css'
 
@@ -103,7 +104,7 @@ function newStep(state, type, payload) {
   return state
 }
 
-export function show(store, e) {
+export function show(store, e, tmpstore) {
   let canvas = svg({
     width: "100vw",
     height: "100vh",
@@ -130,7 +131,7 @@ export function show(store, e) {
     }, e.name)))
   })
 
-  let sav = h('.btn', { onclick: () => save(store) }, "Save")
+  let sav = h('.btn', { onclick: () => save(store, tmpstore) }, "Save")
 
   let bottomtoolbar = h('.btb').c(sel, sav)
   e.appendChild(bottomtoolbar)
@@ -251,8 +252,35 @@ function dispStep(canvas, pt, store, i) {
 
 }
 
-function save(store) {
-  // TODO
+function save(store, tmpstore) {
+  let onevent = store.get('flow.onevent')
+  let flows = store.get('flow.flows')
+  let data = []
+  for(let k in flows) {
+    let steps = flows[k].steps
+    steps.forEach(step => {
+      data.push({
+        eventCode: k,
+        code: step.code,
+        pos: { x: step.pos.x, y: step.pos.y }
+      })
+    })
+  }
+  if(onevent) {
+    data = data.filter(d => d.eventCode != onevent.code)
+    let currsteps = store.get('flow.steps')
+    currsteps.forEach(step => {
+      data.push({
+        eventCode: onevent.code,
+        code: step.info.code,
+        pos: { x: step.pos.x, y: step.pos.y }
+      })
+    })
+  }
+  console.log(data)
+  post(tmpstore, '/newsteps', data, (err, resp) => {
+    if(err) return error_(err)
+  })
 }
 
 function steps2save(steps) {

@@ -31,12 +31,12 @@ export function reducer(state, type, payload) {
   }
 }
 
-export function show(store, e) {
+export function show(store, e, tmpstore) {
   let wk = h('.wk')
   e.appendChild(wk)
 
   toolbar.show(store.fork('toolbar'), wk)
-  flow.show(store, wk)
+  flow.show(store, wk, tmpstore)
 }
 
 function addSVG(meta, cb) {
