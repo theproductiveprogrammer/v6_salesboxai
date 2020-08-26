@@ -1,13 +1,26 @@
 'use strict'
 const { h, svg } = require('@tpp/htm-x')
 
-const { opt, svgPos, post, error_ } = require('../common.js')
+const { opt, svgPos, post, get, error_ }=require('../common.js')
 
 import './flow.css'
 
 let post_
+let get_
 export function setup(store) {
   post_ = (url, data, cb) => post(store, url, data, cb)
+  get_ = (url, data, cb) => get(store, url, data, cb)
+
+  store.react('user', user => {
+    if(user == null) {
+      store.event('workflow/flows/got', {})
+      return
+    }
+    get_('/workflows', (err, resp) => {
+      if(err) return error_(err)
+      else store.event('workflow/flows/got', load(resp))
+    })
+  })
 }
 
 export function init() {
@@ -256,6 +269,22 @@ function dispStep(canvas, pt, store, i) {
 
 }
 
+function load(resp) {
+  let flows = {}
+  for(let i = 0;i < resp.length;i++) {
+    let step = resp[i]
+    if(!flows[step.eventCode]) {
+      flows[step.eventCode] = {
+        steps: [],
+        selected: -1,
+      }
+    }
+    let s = { code: step.code, pos: step.pos }
+    flows[step.eventCode].steps.push(s)
+  }
+  return flows
+}
+
 function save(store) {
   let onevent = store.get('flow.onevent')
   let flows = store.get('flow.flows')
@@ -281,7 +310,6 @@ function save(store) {
       })
     })
   }
-  console.log(data)
   post_('/newsteps', data, (err, resp) => {
     if(err) return error_(err)
     else alert('saved')
