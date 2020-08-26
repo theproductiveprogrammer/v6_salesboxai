@@ -1,8 +1,7 @@
 'use strict'
 const { h, svg } = require('@tpp/htm-x')
 
-const { opt, svgPos, } = require('../../util.js')
-const { post, error_ } = require('../common.js')
+const { opt, svgPos, post, error_ } = require('../common.js')
 
 import './flow.css'
 

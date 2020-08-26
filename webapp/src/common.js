@@ -1,6 +1,14 @@
 'use strict'
 const req = require('@tpp/req')
 
+export function svgPos(svg_, pt, e) {
+  pt.x = e.clientX
+  pt.y = e.clientY
+  return pt.matrixTransform(svg_.getScreenCTM().inverse())
+}
+
+export function opt(v,d) { return (v || v === 0) ? v : d }
+
 export function error_(e) {
   console.log(e)
   if(e.toString() == '[object Object]') e = JSON.stringify(e)
