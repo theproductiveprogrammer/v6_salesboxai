@@ -337,7 +337,7 @@ function save(store) {
   }
   post_('/newsteps', data, (err, resp) => {
     if(err) return error_(err)
-    else alert('saved')
+    else alert('Saved successfully')
   })
 }
 
