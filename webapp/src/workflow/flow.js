@@ -38,10 +38,10 @@ export function reducer(state, type, payload) {
     case 'workflow/event/sel': return selEvent(state, payload)
 
     case 'workflow/flow/switch': return switchEvent(state)
-      return {
+
+    case 'workflow/flows/got': return {
       ...state,
-      steps: [],
-      selected: -1,
+      flows: payload,
     }
 
     case 'workflow/step/new':
