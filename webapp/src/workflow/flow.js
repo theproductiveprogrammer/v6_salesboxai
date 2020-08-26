@@ -302,7 +302,7 @@ function load(resp) {
         selected: -1,
       }
     }
-    let s = { code: step.code, pos: step.pos }
+    let s = { code: step.code, pos: step.pos, links: step.links }
     flows[step.eventCode].steps.push(s)
   }
   return flows

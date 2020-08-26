@@ -16,6 +16,8 @@ public class WorkflowStep {
     private Long tenantId;
     private String eventCode;
     private String code;
+    public Integer link1;
+    public Integer link2;
     private Integer x;
     private Integer y;
 
@@ -27,6 +29,10 @@ public class WorkflowStep {
         this.x = from.pos.x;
         this.y = from.pos.y;
         this.tenantId = tenantId;
+        if(from.links != null) {
+            if(from.links.size() > 0) this.link1 = from.links.get(0);
+            if(from.links.size() > 1) this.link2 = from.links.get(1);
+        }
     }
 
     public Long getId() {
@@ -59,6 +65,22 @@ public class WorkflowStep {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getLink1() {
+        return link1;
+    }
+
+    public void setLink1(Integer link1) {
+        this.link1 = link1;
+    }
+
+    public Integer getLink2() {
+        return link2;
+    }
+
+    public void setLink2(Integer link2) {
+        this.link2 = link2;
     }
 
     public Integer getX() {
