@@ -18,7 +18,6 @@ func loadMap() []RouteMap {
 		{"signup", "http://localhost:6060/signup"},
 		{"profile", "http://localhost:6060/profile"},
 		{"tenants", "http://localhost:6060/tenants"},
-		{"newtenant", "http://localhost:6060/newtenant"},
 		{"eventmeta", "http://localhost:6160/eventmeta"},
 		{"stepmeta", "http://localhost:6160/stepmeta"},
 		{"steps", "http://localhost:6160/steps"},
