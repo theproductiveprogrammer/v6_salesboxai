@@ -6,16 +6,16 @@ const { error_ } = require('../common.js')
 const toolbar = require('./toolbar.js')
 const flow = require('./flow.js')
 
-export function setup(store) {
+export function setup(rootstore) {
   req.get('/stepmeta', (err, resp) => {
     if(err) return error_(err)
-    addSVG(resp, m => store.event('workflow/stepmeta/got', m))
+    addSVG(resp, m => rootstore.event('workflow/stepmeta/got', m))
   })
   req.get('/eventmeta', (err, resp) => {
     if(err) return error_(err)
-    addSVG(resp, m => store.event('workflow/eventmeta/got', m))
+    addSVG(resp, m => rootstore.event('workflow/eventmeta/got', m))
   })
-  flow.setup(store)
+  flow.setup(rootstore)
 }
 
 export function init() {

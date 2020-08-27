@@ -1,12 +1,12 @@
 'use strict'
 const { get, error_ } = require('./common.js')
 
-export function setup(store) {
-  store.react('user', user => {
-    if(user == null) return store.event('profile/set')
-    get(store, '/profile', (err, resp) => {
+export function setup(rootstore) {
+  rootstore.react('user', user => {
+    if(user == null) return rootstore.event('profile/set')
+    get(rootstore, '/profile', (err, resp) => {
       if(err) return error_(err)
-      store.event('profile/set', resp)
+      rootstore.event('profile/set', resp)
     })
   })
 }
