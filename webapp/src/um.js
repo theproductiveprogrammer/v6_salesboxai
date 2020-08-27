@@ -49,7 +49,7 @@ export function showSignup(store, on) {
   )
 
   req.get('/tenants', (err, tenants) => {
-    if(err) return error_(err)
+    if(err) return error_(err, 'get/tenants')
     btn.classList.remove('disabled')
     btn.onclick = signup_1
     btn.onkeydown = e => btnKey(e, signup_1)
@@ -79,7 +79,7 @@ export function showSignup(store, on) {
     }
     btn.classList.add('disabled')
     req.post('/signup', info, (err, resp) => {
-      if(err) return error_(err)
+      if(err) return error_(err, 'signup')
       if(!resp) return error_('Signup failed')
       store.event('um/login')
     })
@@ -129,7 +129,7 @@ export function showLogin(store, on) {
     btn.classList.add('disabled')
     req.post('login', info, (err, resp) => {
       btn.classList.remove('disabled')
-      if(err) return error_(err)
+      if(err) return error_(err, 'login')
       if(!resp.username || !resp.access_token) {
         return error_('Login failed')
       }

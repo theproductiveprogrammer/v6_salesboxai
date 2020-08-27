@@ -9,8 +9,10 @@ export function svgPos(svg_, pt, e) {
 
 export function opt(v,d) { return (v || v === 0) ? v : d }
 
-export function error_(e) {
-  console.log(e)
+export function error_(e, from) {
+  if(from) console.log(from, e)
+  else console.log(e)
+
   if(typeof e == 'object') {
     if(e.message) e = e.message
     else if(e.response) e = e.response
@@ -18,6 +20,8 @@ export function error_(e) {
   } else {
     e = e.toString()
   }
+  if(from) e = `${from}: ${e}`
+
   alert(e)
 }
 

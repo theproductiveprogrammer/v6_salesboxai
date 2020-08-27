@@ -8,11 +8,11 @@ const flow = require('./flow.js')
 
 export function setup(rootstore) {
   req.get('/stepmeta', (err, resp) => {
-    if(err) return error_(err)
+    if(err) return error_(err, 'get/stepmeta')
     addSVG(resp, m => rootstore.event('workflow/stepmeta/got', m))
   })
   req.get('/eventmeta', (err, resp) => {
-    if(err) return error_(err)
+    if(err) return error_(err, 'get/eventmeta')
     addSVG(resp, m => rootstore.event('workflow/eventmeta/got', m))
   })
   flow.setup(rootstore)

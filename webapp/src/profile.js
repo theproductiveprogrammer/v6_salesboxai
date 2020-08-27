@@ -5,7 +5,7 @@ export function setup(rootstore) {
   rootstore.react('user', user => {
     if(user == null) return rootstore.event('profile/set')
     get(rootstore, '/profile', (err, resp) => {
-      if(err) return error_(err)
+      if(err) return error_(err, 'get/profile')
       rootstore.event('profile/set', resp)
     })
   })

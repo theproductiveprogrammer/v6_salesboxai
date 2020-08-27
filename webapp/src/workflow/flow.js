@@ -17,7 +17,7 @@ export function setup(store) {
       return
     }
     get_('/workflows', (err, resp) => {
-      if(err) return error_(err)
+      if(err) return error_(err, 'get/workflows')
       else store.event('workflow/flows/got', load(resp))
     })
   })
@@ -336,7 +336,7 @@ function save(store) {
     })
   }
   post_('/newsteps', data, (err, resp) => {
-    if(err) return error_(err)
+    if(err) return error_(err, 'saving')
     else alert('Saved successfully')
   })
 }
