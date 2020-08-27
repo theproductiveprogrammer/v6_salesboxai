@@ -1,0 +1,50 @@
+.import .title {
+  font-size: 64px;
+  text-align: center;
+  font-variant: all-small-caps;
+  letter-spacing: 6px;
+  margin-top: 64px;
+}
+
+.import .importarea {
+  width: 80%;
+  height: 200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 32px;
+  color: #aaa;
+  font-variant: all-small-caps;
+  font-size: 18px;
+  border-radius: 8px;
+  box-shadow: 0 0 1px 1px #aaa,
+              0 0 0 2px #aaa;
+}
+
+.import table {
+  border-collapse: collapse;
+  border: 1px solid #1466b8;
+}
+
+.import td,
+.import th {
+  border: 1px solid #1466b8;
+  padding: 5px 10px;
+}
+
+.import .cont {
+  margin: 48px;
+  padding: 48px;
+}
+.import .cont:before {
+  content: "";
+  display: block;
+  padding: 24px;
+  width: 100%;
+  border-top: 1px solid #1466b8;
+}
+
+.import .subtitle {
+  font-size: 18px;
+  color: #1466b8;
+  margin-bottom: 16px;
+}

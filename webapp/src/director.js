@@ -8,6 +8,7 @@ const um_ = require('./um.js')
 const profile_ = require('./profile.js')
 const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
+const im_ = require('./importer.js')
 
 import './director.css'
 
@@ -18,6 +19,7 @@ export function start(body) {
 
   profile_.setup(store)
   wk_.setup(store)
+  im_.setup(store)
 
   if(window) window.salesbox = { store }
 }
@@ -55,12 +57,17 @@ function setupView(store, body) {
     currview = store.destroy(currview)
     display.innerHTML = ""
     switch(nav) {
+      case 'importer': {
+        currview = store.fork()
+        return im_.show(currview, display)
+      }
       case 'dashboard': {
-        return dashboard_.show(store, display)
+        currview = store.fork()
+        return dashboard_.show(currview, display)
       }
       case 'workflow': {
         currview = store.fork('workflow')
-        return wk_.show(currview, display, store)
+        return wk_.show(currview, display)
       }
       case 'login': {
         currview = store.fork('user')
