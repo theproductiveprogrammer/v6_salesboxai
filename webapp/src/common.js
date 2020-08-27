@@ -13,6 +13,8 @@ export function error_(e) {
   console.log(e)
   if(typeof e == 'object') {
     if(e.message) e = e.message
+    else if(e.response) e = e.response
+    if(typeof e == 'object') e = JSON.stringify(e)
   } else {
     e = e.toString()
   }
