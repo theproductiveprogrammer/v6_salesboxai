@@ -16,8 +16,8 @@
   font-variant: all-small-caps;
   font-size: 18px;
   border-radius: 8px;
-  box-shadow: 0 0 1px 1px #aaa,
-              0 0 0 2px #aaa;
+  background: linear-gradient(#e8f2fc, #bad9f7);
+  border: 8px dashed #8cbff2;
 }
 
 .import table {
