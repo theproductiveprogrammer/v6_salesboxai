@@ -16,6 +16,11 @@
   font-variant: all-small-caps;
   font-size: 18px;
   border-radius: 8px;
+  background: linear-gradient(#f2f2f2, #d9d9d9);
+  border: 8px dashed #bfbfbf;
+}
+
+.import .importarea.highlight {
   background: linear-gradient(#e8f2fc, #bad9f7);
   border: 8px dashed #8cbff2;
 }
