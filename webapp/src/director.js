@@ -14,12 +14,14 @@ import './director.css'
 
 export function start(body) {
   let store = dux.createStore(reducer, init())
-  setupView(store, body)
-  setupAccessControl(store, body)
 
+  nav_.setup(store)
   profile_.setup(store)
   wk_.setup(store)
   im_.setup(store)
+
+  setupAccessControl(store)
+  setupView(store, body)
 
   if(window) window.store = store
 }
