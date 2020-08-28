@@ -1,0 +1,26 @@
+micronaut:
+  server:
+    port: 6070
+  application:
+    name: importer
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:salesboxArchictectureSecretForDevelopment}"'
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/v6_importer
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ''
+    dialect: MYSQL
+jpa:
+  default:
+    entity-scan:
+      packages: 'importer.db'
+    properties.hibernate.hbm2ddl.auto: update
+kafka.bootstrap.servers: localhost:9092
