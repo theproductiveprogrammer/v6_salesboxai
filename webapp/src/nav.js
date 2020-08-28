@@ -19,6 +19,7 @@ export function reducer(state, type, payload) {
     case 'um/signup': return 'signup'
     case 'um/login': return 'login'
     case 'dash/workflow/go': return 'workflow'
+    case 'dash/importer/go': return 'importer'
     case 'nav/home': return 'dashboard'
     default: return state;
   }
