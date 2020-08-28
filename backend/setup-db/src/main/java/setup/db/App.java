@@ -65,7 +65,8 @@ public class App {
 
     static final String[] dbs = {
             "v6_authenticator",
-            "v6_biz"
+            "v6_biz",
+            "v6_importer",
     };
     private static void createDBs(Connection conn) throws Exception {
         for(String db : dbs) {
