@@ -54,7 +54,10 @@ export function show(store, on) {
       h('.head', "Chats"),
       h('.val', "77"),
     ]),
-    h('img.edit', { src: './edit.svg' })
+    h('img.edit', {
+      src: './edit.svg',
+      onclick: () => store.event('dash/importer/go')
+    })
   )
 
   dashboard.c(
