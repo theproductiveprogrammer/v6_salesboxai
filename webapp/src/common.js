@@ -20,6 +20,13 @@ export function error_(e, from) {
   } else {
     e = e.toString()
   }
+  if(e.indexOf('</html>')) {
+    let x = document.createElement('div')
+    x.innerHTML = e
+    e = x.innerText
+    console.log(JSON.stringify(e))
+    e = e.replace(/\n+/g,'\n')
+  }
   if(from) e = `${from}: ${e}`
 
   alert(e)
