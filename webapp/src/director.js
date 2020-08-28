@@ -21,7 +21,7 @@ export function start(body) {
   wk_.setup(store)
   im_.setup(store)
 
-  if(window) window.salesbox = { store }
+  if(window) window.store = store
 }
 
 function init() {
