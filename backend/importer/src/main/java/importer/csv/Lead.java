@@ -2,7 +2,8 @@ package importer.csv;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class LeadCSV {
+public class Lead {
+    public Long tenantId;
     @CsvBindByName(column="First Name")
     public String firstName;
     @CsvBindByName(column="Last Name")

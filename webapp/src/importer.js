@@ -17,12 +17,20 @@ export function setup(rootstore) {
 }
 
 function getImportList(store) {
-  //TODO
-  return
   get_('/imports', (err, resp) => {
     if(err) return error_(err, 'get/imports')
     store.event('imports/got', resp)
   })
+}
+
+export function init() {
+}
+
+export function reducer(state, type, payload) {
+  switch(type) {
+    case 'imports/got': return payload
+    default: return state
+  }
 }
 
 export function show(store, on) {
@@ -46,6 +54,19 @@ export function show(store, on) {
     ),
     tblbody,
   ])
+
+  store.react(imports => {
+    tblbody.innerHTML = ''
+    if(!imports) return
+    imports.forEach(im => {
+      tblbody.appendChild(h('tr', [
+        h('td', im.id),
+        h('td', (new Date(im.started)).toString()),
+        h('td', im.importFile),
+        h('td', im.count)
+      ]))
+    })
+  })
 
   ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(n => {
     importarea.addEventListener(n, preventDefaults, false)

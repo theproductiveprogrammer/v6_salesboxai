@@ -32,6 +32,7 @@ function init() {
     profile: profile_.init(),
     nav: nav_.init(),
     workflow: wk_.init(),
+    imports: im_.init(),
   }
 }
 
@@ -41,6 +42,7 @@ function reducer(state, type, payload) {
     profile: profile_.reducer(state.profile, type, payload),
     nav: nav_.reducer(state.nav, type, payload),
     workflow: wk_.reducer(state.workflow, type, payload),
+    imports: im_.reducer(state.imports, type, payload),
   }
 }
 
@@ -60,7 +62,7 @@ function setupView(store, body) {
     display.innerHTML = ""
     switch(nav) {
       case 'importer': {
-        currview = store.fork()
+        currview = store.fork('imports')
         return im_.show(currview, display)
       }
       case 'dashboard': {
