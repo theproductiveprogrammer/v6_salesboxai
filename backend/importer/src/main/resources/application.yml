@@ -1,6 +1,9 @@
 micronaut:
   server:
     port: 6070
+    max-request-size: '100MB'
+    multipart:
+      max-file-size: '100MB'
   application:
     name: importer
   security:
