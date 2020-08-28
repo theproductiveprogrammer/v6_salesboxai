@@ -46,16 +46,25 @@ export function post(store, url, data, cb) {
   send_('POST', store, url, data, cb)
 }
 
+export function upload(store, url, param, file, cb) {
+  let data = new FormData()
+  data.append(param, file)
+  post(store, url, data, cb)
+}
+
 function send_(method, store, url, data, cb) {
+  let headers
+
   if(typeof data == 'function') {
     cb = data
     data = undefined
   }
-  let headers
+
   let user = store.get('user')
-  if(user.access_token) headers = {
-    Authorization: `bearer ${user.access_token}`
+  if(user.access_token) {
+    headers = { Authorization: `bearer ${user.access_token}` }
   }
+
   req.send({
     method,
     url,
