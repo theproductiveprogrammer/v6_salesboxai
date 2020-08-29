@@ -9,16 +9,16 @@ const profile_ = require('./profile.js')
 const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
 const im_ = require('./importer.js')
+const leads_ = require('./leads.js')
 
 import './director.css'
 
 export function start(body) {
   let store = dux.createStore(reducer, init())
 
-  nav_.setup(store)
-  profile_.setup(store)
-  wk_.setup(store)
-  im_.setup(store)
+  ;[ nav_, profile_, wk_, im_, leads_ ].forEach(m => {
+    if(m.setup) m.setup(store)
+  })
 
   setupAccessControl(store)
   setupView(store, body)
@@ -33,6 +33,7 @@ function init() {
     nav: nav_.init(),
     workflow: wk_.init(),
     imports: im_.init(),
+    leads: leads_.init(),
   }
 }
 
@@ -43,6 +44,7 @@ function reducer(state, type, payload) {
     nav: nav_.reducer(state.nav, type, payload),
     workflow: wk_.reducer(state.workflow, type, payload),
     imports: im_.reducer(state.imports, type, payload),
+    leads: leads_.reducer(state.leads, type, payload),
   }
 }
 
@@ -61,6 +63,9 @@ function setupView(store, body) {
     currview = store.destroy(currview)
     display.innerHTML = ""
     switch(nav) {
+      case 'leads':
+        currview = store.fork('leads')
+        return leads_.show(currview, display)
       case 'importer': {
         currview = store.fork('imports')
         return im_.show(currview, display)

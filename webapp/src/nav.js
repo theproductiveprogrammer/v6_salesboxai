@@ -3,7 +3,9 @@ const { h } = require('@tpp/htm-x')
 
 import './nav.css'
 
+let anon
 export function setup(rootstore) {
+  anon = () => rootstore.get('user') == null
 }
 
 export function init() {
@@ -17,7 +19,8 @@ export function reducer(state, type, payload) {
     case 'um/login': return 'login'
     case 'dash/workflow/go': return 'workflow'
     case 'dash/importer/go': return 'importer'
-    case 'nav/home': return 'dashboard'
+    case 'dash/leads/go': return 'leads'
+    case 'nav/home': return anon() ? 'login' : 'dashboard'
     default: return state;
   }
 }

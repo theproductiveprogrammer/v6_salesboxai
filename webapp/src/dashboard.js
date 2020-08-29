@@ -24,7 +24,11 @@ export function show(store, on) {
         h('.hot', "12"),
       ])
     ]),
-    h('img.edit', { src: './edit.svg' })
+    h('img.edit', {
+      src: './edit.svg',
+      onclick: () => store.event('dash/leads/go')
+    })
+
   )
 
   workflowcard.c(

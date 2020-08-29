@@ -26,6 +26,7 @@ func loadMap() []RouteMap {
 		{"workflows", "http://localhost:6160/workflows"},
 		{"importleads", "http://localhost:6070/importleads"},
 		{"imports", "http://localhost:6070/imports"},
+		{"leads", "http://localhost:6160/leads"},
 		{"", "http://localhost:6090/"},
 	}
 }

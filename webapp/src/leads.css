@@ -1,0 +1,23 @@
+.leads {
+  padding: 32px;
+}
+.leads .title {
+  font-size: 64px;
+  letter-spacing: 8px;
+  text-align: right;
+  font-variant: all-small-caps;
+  color: #1466b8;
+  margin-bottom: 64px;
+}
+.leads .title:after {
+  content: "";
+  display: block;
+  width: 1em;
+  text-align: right;
+  margin: 0 0 0 auto;
+  border-bottom: 3px solid;
+}
+
+.leads table {
+  width: 100%;
+}
