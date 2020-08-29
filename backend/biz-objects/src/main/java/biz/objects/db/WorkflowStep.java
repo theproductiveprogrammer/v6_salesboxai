@@ -13,6 +13,7 @@ public class WorkflowStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Integer num;
     private Long tenantId;
     private String eventCode;
     private String code;
@@ -24,6 +25,7 @@ public class WorkflowStep {
     public WorkflowStep() {}
 
     public WorkflowStep(WorkflowStepDTO from, Long tenantId) {
+        this.num = from.num;
         this.eventCode = from.eventCode;
         this.code = from.code;
         this.x = from.pos.x;
@@ -41,6 +43,14 @@ public class WorkflowStep {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public Long getTenantId() {

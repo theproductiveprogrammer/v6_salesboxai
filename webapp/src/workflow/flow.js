@@ -314,25 +314,31 @@ function save(store) {
   let data = []
   for(let k in flows) {
     let steps = flows[k].steps
+    let num = 0
     steps.forEach(step => {
       data.push({
+        num,
         eventCode: k,
         code: step.code,
         links: step.links,
         pos: { x: step.pos.x, y: step.pos.y },
       })
+      num++
     })
   }
   if(onevent) {
     data = data.filter(d => d.eventCode != onevent.code)
     let currsteps = store.get('flow.steps')
+    let num = 0
     currsteps.forEach(step => {
       data.push({
+        num,
         eventCode: onevent.code,
         code: step.info.code,
         links: step.links,
         pos: { x: step.pos.x, y: step.pos.y }
       })
+      num++
     })
   }
   post_('/newsteps', data, (err, resp) => {

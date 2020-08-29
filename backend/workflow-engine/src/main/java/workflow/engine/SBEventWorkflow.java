@@ -49,7 +49,7 @@ public class SBEventWorkflow implements ISBEventWorkflow {
         for(WorkflowStepDTO step : workflows) {
             Integer link1 = step.links != null && step.links.length > 0 ? step.links[0] : null;
             Integer link2 = step.links != null && step.links.length > 1 ? step.links[1] : null;
-            logger.info(step.eventCode + "://" + step.code + "->" + link1 + "," + link2);
+            logger.info(step.num + ". " + step.eventCode + "://" + step.code + "->" + link1 + "," + link2);
         }
     }
 

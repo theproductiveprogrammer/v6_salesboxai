@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkflowStepDTO {
+    public Integer num;
     public String eventCode;
     public String code;
     public List<Integer> links;
@@ -15,6 +16,7 @@ public class WorkflowStepDTO {
     public WorkflowStepDTO() {}
 
     public WorkflowStepDTO(WorkflowStep from) {
+        this.num = from.getNum();
         this.eventCode = from.getEventCode();
         this.code = from.getCode();
         this.pos = new Pos(from.getX(), from.getY());
