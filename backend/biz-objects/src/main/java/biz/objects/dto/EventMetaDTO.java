@@ -16,7 +16,13 @@ public class EventMetaDTO {
         name = e.getName();
         iconszhint = e.getIconszhint();
 
-        pic = pic = "/events/pic/" + code + ".svg";
+        pic = pic = "/events/pic/" + toFilename(code) + ".svg";
+    }
+
+    private String toFilename(String code) {
+        return code
+                .replaceFirst("/", "-")
+                .replaceFirst("\\.", "_");
     }
 
     public Long getId() {
