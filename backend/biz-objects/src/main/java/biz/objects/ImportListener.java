@@ -1,6 +1,8 @@
-package biz.objects.kafka;
+package biz.objects;
 
 import biz.objects.db.Lead;
+import biz.objects.kafka.EventProducer;
+import biz.objects.kafka.SBEvent;
 import biz.objects.repo.LeadRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
@@ -17,11 +19,14 @@ public class ImportListener {
 
     @Inject
     LeadRepository leadRepository;
+    @Inject
+    EventProducer eventProducer;
 
     @Topic("import-lead")
     public void onImportLead(@KafkaKey Long tenantId, Lead lead) {
         logger.info("Got lead " + lead.getFirstName() + "(" + lead.getEmail() + ") for tenant " + tenantId);
         lead.setTenantId(tenantId);
-        leadRepository.save(lead);
+        lead = leadRepository.save(lead);
+        eventProducer.event(tenantId, new SBEvent("new-lead", lead.getId()));
     }
 }
