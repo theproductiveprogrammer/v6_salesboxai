@@ -57,4 +57,10 @@ public class StepServer {
         Long tenantId = (Long)principal.getAttributes().get("tenant");
         return workflowStepRepository.getByTenantId(tenantId).stream().map(WorkflowStepDTO::new).collect(Collectors.toList());
     }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Get("/internal/workflows")
+    public List<WorkflowStepDTO> getSteps(Long tenantId) {
+        return workflowStepRepository.getByTenantId(tenantId).stream().map(WorkflowStepDTO::new).collect(Collectors.toList());
+    }
 }
