@@ -356,7 +356,7 @@ function steps2save(steps) {
 function save2steps(meta, events, steps) {
   return steps.map(step => {
     let info = meta.filter(m => m.code == step.code)[0]
-    if(step.code.startsWith('evt-')) {
+    if(step.code.startsWith('evt/')) {
        info = events.filter(e => e.code == step.code)[0]
     }
     return {

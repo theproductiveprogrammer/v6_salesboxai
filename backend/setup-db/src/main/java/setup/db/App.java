@@ -155,11 +155,11 @@ public class App {
 
     private static void createWorkflowEvents(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.events.url");
-        createWorkflowMeta(url, new WorkflowMeta(1L, "evt-new-lead", "Event: New Lead", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(2L, "evt-email-open", "Event: Email Open", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(3L, "evt-link-click", "Event: Link Click", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(4L, "evt-email-reply", "Event: Email Reply", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(5L, "evt-chat-reply", "Event: Chat Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(1L, "evt/new.lead", "Event: New Lead", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(2L, "evt/email.open", "Event: Email Open", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(3L, "evt/link.click", "Event: Link Click", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(4L, "evt/email.reply", "Event: Email Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(5L, "evt/chat.reply", "Event: Chat Reply", 96L));
     }
 
     private static void createWorkflowMeta(String url, WorkflowMeta workflowMeta) throws Exception {

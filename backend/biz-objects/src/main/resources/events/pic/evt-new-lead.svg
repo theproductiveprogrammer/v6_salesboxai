@@ -3,7 +3,7 @@
 <svg width="100%" height="100%" viewBox="0 0 46 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,-3135.03,-538.528)">
         <g transform="matrix(1,0,0,1,-0.556256,0)">
-            <g id="evt-new-lead" transform="matrix(0.75,0,0,0.75,561.457,385.403)">
+            <g id="evt/new.lead" transform="matrix(0.75,0,0,0.75,561.457,385.403)">
                 <g>
                     <g transform="matrix(1,0,0,1,0.556256,0)">
                         <circle cx="3461.98" cy="212.188" r="8.022"/>
