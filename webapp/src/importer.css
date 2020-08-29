@@ -25,6 +25,12 @@
   border: 8px dashed #8cbff2;
 }
 
+.import .importarea.importing {
+  background: #bad9f7;
+  border: 8px dotted #8cbff2;
+  color: #eee;
+}
+
 .import .cont {
   margin: 48px;
   padding: 48px;

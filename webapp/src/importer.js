@@ -9,11 +9,7 @@ let get_
 export function setup(rootstore) {
   get_ = (url, data, cb) => get(rootstore, url, data, cb)
 
-  upload_ = f => upload(rootstore,
-    '/importleads', 'importFile', f, (err, resp) => {
-      if(err) return error_(err, 'uploading')
-      getImportList(rootstore)
-  })
+  upload_ = (f,cb) => upload(rootstore, '/importleads', 'importFile', f, cb)
 }
 
 function getImportList(store) {
@@ -94,7 +90,18 @@ export function show(store, on) {
   function handleDrop(e) {
     let dt = e.dataTransfer
     let files = dt.files
-    if(files[0]) upload_(files[0])
+    if(files[0]) {
+      let txt = importarea.innerText
+      importarea.innerText = 'IMPORTING...'
+      importarea.classList.add('importing')
+      upload_(files[0], (err, resp) => {
+        importarea.innerText = txt
+        importarea.classList.remove('importing')
+        if(err) return error_(err, 'uploading')
+        else alert('import uploaded to server and started')
+        getImportList(rootstore)
+      })
+    }
   }
 
   imp.c(
