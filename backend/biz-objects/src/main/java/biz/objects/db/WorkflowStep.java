@@ -16,8 +16,8 @@ public class WorkflowStep {
     private Long tenantId;
     private String eventCode;
     private String code;
-    public Integer link1;
-    public Integer link2;
+    private Integer link1;
+    private Integer link2;
     private Integer x;
     private Integer y;
 

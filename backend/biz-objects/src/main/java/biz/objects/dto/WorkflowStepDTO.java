@@ -18,8 +18,8 @@ public class WorkflowStepDTO {
         this.eventCode = from.getEventCode();
         this.code = from.getCode();
         this.pos = new Pos(from.getX(), from.getY());
-        addLink(from.link1);
-        addLink(from.link2);
+        addLink(from.getLink1());
+        addLink(from.getLink2());
     }
 
     private void addLink(Integer link) {
