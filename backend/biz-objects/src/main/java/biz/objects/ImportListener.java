@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-@KafkaListener(offsetReset = OffsetReset.LATEST)
+@KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class ImportListener {
     private static final Logger logger = LoggerFactory.getLogger(ImportListener.class);
 

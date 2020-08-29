@@ -1,13 +1,10 @@
 package workflow.engine;
 
-import io.micronaut.configuration.kafka.annotation.KafkaKey;
-import io.micronaut.configuration.kafka.annotation.KafkaListener;
-import io.micronaut.configuration.kafka.annotation.OffsetReset;
-import io.micronaut.configuration.kafka.annotation.Topic;
+import io.micronaut.configuration.kafka.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@KafkaListener(offsetReset = OffsetReset.LATEST)
+@KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class SBEventListener {
     public static final Logger logger = LoggerFactory.getLogger(SBEventListener.class);
 
