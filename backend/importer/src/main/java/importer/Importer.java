@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import importer.csv.Lead;
 import importer.db.Import;
+import importer.kafka.NewLeadProducer;
 import importer.repo.ImportRepository;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;
@@ -33,6 +34,9 @@ public class Importer {
     @Inject
     ImportRepository importRepository;
 
+    @Inject
+    NewLeadProducer newLeadProducer;
+
     @Post("/importleads")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public boolean importLeads(Authentication authentication, CompletedFileUpload importFile) throws IOException {
@@ -44,8 +48,7 @@ public class Importer {
         Import import_ = recordStart(tenantId, importFile.getFilename());
         Long num = 0L;
         for(Lead lead : csv) {
-            lead.tenantId = tenantId;
-            System.out.println(lead.firstName + " " + lead.lastName + " " + lead.email + " (tenant " + lead.tenantId + ")");
+            newLeadProducer.leadImportMessage(tenantId, lead);
             num++;
         }
         import_.setCount(num);
