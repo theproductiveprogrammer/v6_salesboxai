@@ -99,7 +99,7 @@ export function show(store, on) {
         importarea.classList.remove('importing')
         if(err) return error_(err, 'uploading')
         else alert('import uploaded to server and started')
-        getImportList(rootstore)
+        getImportList(store)
       })
     }
   }
