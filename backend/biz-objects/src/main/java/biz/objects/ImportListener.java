@@ -27,6 +27,6 @@ public class ImportListener {
         logger.info("Got lead " + lead.getFirstName() + "(" + lead.getEmail() + ") for tenant " + tenantId);
         lead.setTenantId(tenantId);
         lead = leadRepository.save(lead);
-        eventProducer.event(tenantId, new SBEvent("new-lead", lead.getId()));
+        eventProducer.event(tenantId, new SBEvent("new.lead", lead.getId()));
     }
 }
