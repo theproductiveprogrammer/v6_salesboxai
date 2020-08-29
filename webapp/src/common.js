@@ -61,7 +61,7 @@ function send_(method, store, url, data, cb) {
   }
 
   let user = store.get('user')
-  if(user.access_token) {
+  if(user && user.access_token) {
     headers = { Authorization: `bearer ${user.access_token}` }
   }
 
