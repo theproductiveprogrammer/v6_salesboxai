@@ -26,7 +26,6 @@ The backend is decoupled from the front end and contains all the microservices w
 ## Prerequisities
 
 1. MySQL/MariaDB
-   - Running on localhost with root and no password by default
 2. Java 8+/Java 14
 3. Golang
 4. NodeJS
@@ -35,58 +34,111 @@ The backend is decoupled from the front end and contains all the microservices w
 
 ## How to Use
 
-1. Create all the required databases:
+1. Start all the backend services needed
+
+   ```sh
+   $> cd <kafka folder>
+   $> ./bin/zookeeper-server-start.sh ./config/zookeeper.properties
+   $> ./bin/kafka-server-start.sh ./config/server.properties
+   
+   $> cd <cassandra folder>
+   $> ./bin/cassandra -f
+   
+   $> cd backend/cadence-scripts
+   $> ./start-cadence.sh
+   ```
+
+2. Create the cadence domain
+
+   ```sh
+   $> cd backend/cadence-scripts
+   $> ./setup-domain.sh
+   ```
+
+3. Start the MySQL database
+
+   1. Running on localhost with root and no password by default
+
+   
+
+4. Create all the required databases:
 
    ```sh
    $> cd backend/setup-db
    $> ./gradlew run --args=create-dbs
+   (or to clear and restart)
+   $> ./gradlew run --args=recreate-dbs
    ```
 
-2. Start the Authenticator microservice:
+5. Start the Authenticator microservice:
 
    ```sh
    $> cd backend/authenticator
    $> ./gradlew run
    ```
 
-3. Populate the tenant DB with sample data:
+6. Populate the tenant DB with sample data:
 
    ```sh
    $> cd backend/setup-db
    $> ./gradlew run --args=create-tenants
    ```
 
-4. Start the ‘business object’ REST microservice:
+7. Start the ‘business object’ REST microservice:
 
    ```sh
    $> cd backend/biz-objects
    $> ./gradlew run
    ```
 
-5. Populate the biz objects with sample workflow metadata:
+8. Populate the biz objects with sample workflow metadata:
 
    ```sh
    $> cd backend/setup-db
    $> ./gradlew run --args=create-workflow-meta
    ```
 
-6. Start the front end webapp:
+9. Start the other backend Microservices:
+
+   ```sh
+   $> cd backend/importer
+   $> ./gradlew run
+   $> cd backend/workflow-engine
+   $> ./gradlew run
+   ```
+
+   
+
+10. Start the front end webapp:
 
    ```sh
    $> cd webapp
    $> npm start
    ```
 
-7. Start the API Gateway:
+11. Start the API Gateway:
+
+    ```sh
+    $> cd backend/api-gateway
+    $> go run gateway.go
+    ```
+
+12. Navigate to http://localhost/ and Sign Up to Get Started!
+
+## Trying the Application
+
+1. Go to the workflow area and create the workflows you want for your tenant.
+
+2. Generate a test import file:
 
    ```sh
-   $> cd backend/api-gateway
-   $> go run gateway.go
+   $> cd leadgen
+   $> ./gradlew run --args=<num of leads>
    ```
 
-8. Navigate to http://localhost/ and Sign Up to Get Started!
+3. Go to Import area and drag the import file to start the import. This will trigger the workflow for new leads.
 
-
+4. Go to Lead view and click the buttons that represent the lead performing certain actions. This will trigger the workflow for the appropriate events.
 
 --------
 
