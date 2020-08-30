@@ -67,6 +67,8 @@ public class App {
             "v6_authenticator",
             "v6_biz",
             "v6_importer",
+            "v6_activities",
+            "v6_conversations",
     };
     private static void createDBs(Connection conn) throws Exception {
         for(String db : dbs) {
