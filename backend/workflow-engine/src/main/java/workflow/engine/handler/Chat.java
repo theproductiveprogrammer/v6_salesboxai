@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class Chat extends EventHandlerBase {
 
-    public Chat(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public Chat(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class ConnectFacebook extends EventHandlerBase {
 
-    public ConnectFacebook(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public ConnectFacebook(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

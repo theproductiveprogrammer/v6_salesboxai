@@ -16,8 +16,8 @@ public class SendAdaptive extends EventHandlerBase {
 
     private boolean proceed;
 
-    public SendAdaptive(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public SendAdaptive(HandlerIOC handlerIOC) {
+        super(handlerIOC);
         proceed = false;
     }
 

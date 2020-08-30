@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class Decide implements IEventHandler {
 
-    public Decide(ActivityProducer activityProducer, ConversationProducer conversationProducer) { }
+    public Decide(HandlerIOC handlerIOC) { }
 
     @Override
     public NextStep handle(SBEvent event, WorkflowStep step) {

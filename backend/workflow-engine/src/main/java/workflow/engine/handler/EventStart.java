@@ -8,7 +8,7 @@ import workflow.engine.kafka.ConversationProducer;
 
 public class EventStart implements IEventHandler {
 
-    public EventStart(ActivityProducer activityProducer, ConversationProducer conversationProducer) { }
+    public EventStart(HandlerIOC handlerIOC) { }
 
     @Override
     public NextStep handle(SBEvent event, WorkflowStep step) {

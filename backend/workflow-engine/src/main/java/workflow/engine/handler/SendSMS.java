@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class SendSMS extends EventHandlerBase {
 
-    public SendSMS(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public SendSMS(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

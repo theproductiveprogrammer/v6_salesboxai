@@ -11,12 +11,10 @@ import workflow.engine.workflows.Constants;
 
 public abstract class EventHandlerBase implements IEventHandler {
 
-    private ActivityProducer activityProducer;
-    private ConversationProducer conversationProducer;
+    private HandlerIOC handlerIOC;
 
-    public EventHandlerBase(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        this.activityProducer = activityProducer;
-        this.conversationProducer = conversationProducer;
+    public EventHandlerBase(HandlerIOC handlerIOC) {
+        this.handlerIOC = handlerIOC;
     }
 
     @Override
@@ -31,14 +29,14 @@ public abstract class EventHandlerBase implements IEventHandler {
         activity.whatEntity = Constants.ACTIVITY_ENTITY_LEAD;
         activity.whatId = event.id;
         setActivityDetails(event, step, activity);
-        activityProducer.event(event.tenantId, activity);
+        handlerIOC.activityProducer.event(event.tenantId, activity);
     }
 
     private void sendConversation(SBEvent event, WorkflowStep step) {
         SBConversation conversation = new SBConversation();
         conversation.leadId = event.id;
         setConversationDetails(event, step, conversation);
-        conversationProducer.event(event.tenantId, conversation);
+        handlerIOC.conversationProducer.event(event.tenantId, conversation);
     }
 
     protected abstract void setActivityDetails(SBEvent event, WorkflowStep step, SBActivity activity);

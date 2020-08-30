@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class ConnectLinkedIn extends EventHandlerBase {
 
-    public ConnectLinkedIn(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public ConnectLinkedIn(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

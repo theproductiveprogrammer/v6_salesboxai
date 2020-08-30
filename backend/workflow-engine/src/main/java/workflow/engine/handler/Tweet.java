@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class Tweet extends EventHandlerBase {
 
-    public Tweet(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public Tweet(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

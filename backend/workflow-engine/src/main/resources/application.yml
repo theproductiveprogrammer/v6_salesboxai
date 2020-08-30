@@ -5,6 +5,9 @@ micronaut:
     biz-objects:
       urls:
         - http://localhost:6160/
+    scoring:
+      urls:
+        - http://localhost:6260/
 kafka.bootstrap.servers: localhost:9092
 cadence:
   host: localhost

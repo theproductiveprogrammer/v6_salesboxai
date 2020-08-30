@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class SendEmail extends EventHandlerBase {
 
-    public SendEmail(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        super(activityProducer, conversationProducer);
+    public SendEmail(HandlerIOC handlerIOC) {
+        super(handlerIOC);
     }
 
     @Override

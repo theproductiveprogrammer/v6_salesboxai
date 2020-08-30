@@ -13,10 +13,10 @@ import java.util.Date;
 
 public class SendToSalesForce implements IEventHandler {
 
-    private final ActivityProducer activityProducer;
+    private final HandlerIOC handlerIOC;
 
-    public SendToSalesForce(ActivityProducer activityProducer, ConversationProducer conversationProducer) {
-        this.activityProducer = activityProducer;
+    public SendToSalesForce(HandlerIOC handlerIOC) {
+        this.handlerIOC = handlerIOC;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SendToSalesForce implements IEventHandler {
         activity.whatEntity = Constants.ACTIVITY_ENTITY_LEAD;
         activity.whatId = event.id;
         activity.desc = "Sent lead " + event.id + " to Salesforce on " + new Date();
-        activityProducer.event(event.tenantId, activity);
+        handlerIOC.activityProducer.event(event.tenantId, activity);
         if(step.links == null || step.links.length == 0) return null;
         else return new NextStep(step.links[0], 100);
     }
