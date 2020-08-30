@@ -4,6 +4,7 @@ import com.uber.cadence.worker.Worker;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
+import workflow.engine.activities.Executer;
 import workflow.engine.activities.Getter;
 import workflow.engine.conf.CadenceConfig;
 import workflow.engine.workflows.SBEventChild;
@@ -19,7 +20,8 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
 
     @Inject
     private Getter getter;
-
+    @Inject
+    private Executer executer;
     @Inject
     CadenceConfig cadenceConfig;
 
@@ -38,13 +40,13 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     private void registerEventsWorkers(Worker.Factory factory) {
         Worker worker = factory.newWorker("events-workflow-tasklist");
         worker.registerWorkflowImplementationTypes(SBEventWorkflow.class, SBEventChild.class);
-        worker.registerActivitiesImplementations(getter);
+        worker.registerActivitiesImplementations(getter, executer);
     }
 
     private void registerImportWorkers(Worker.Factory factory) {
         Worker worker = factory.newWorker("import-workflow-tasklist");
         worker.registerWorkflowImplementationTypes(SBImportWorkflow.class, SBImportChild.class);
-        worker.registerActivitiesImplementations(getter);
+        worker.registerActivitiesImplementations(getter, executer);
     }
 
     @Override
