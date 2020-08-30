@@ -5,6 +5,7 @@ import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import workflow.engine.activities.Getter;
+import workflow.engine.conf.CadenceConfig;
 
 import javax.inject.Inject;
 
@@ -15,13 +16,16 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     @Inject
     private Getter getter;
 
+    @Inject
+    CadenceConfig cadenceConfig;
+
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
         registerWorkflowEngine();
     }
 
     private void registerWorkflowEngine() {
-        Worker.Factory factory = new Worker.Factory("salesboxai-domain");
+        Worker.Factory factory = new Worker.Factory(cadenceConfig.getHost(), cadenceConfig.getPort(), cadenceConfig.getDomain());
         Worker worker = factory.newWorker("events-workflow-tasklist");
         worker.registerWorkflowImplementationTypes(SBEventWorkflow.class);
         worker.registerActivitiesImplementations(getter);

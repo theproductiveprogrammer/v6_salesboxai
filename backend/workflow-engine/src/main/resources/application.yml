@@ -2,3 +2,7 @@ micronaut:
   application:
     name: workflowEngine
 kafka.bootstrap.servers: localhost:9092
+cadence:
+  host: localhost
+  port: 7933
+  domain: salesboxai-domain
