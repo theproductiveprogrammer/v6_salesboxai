@@ -37,6 +37,9 @@ public class App {
             case "create-workflow-meta":
                 createWorkflowMeta(properties);
                 break;
+            case "add-workflow-meta":
+                addWorkflowMeta(properties);
+                break;
             default:
                 System.out.println("Did not understand: " + args[0]);
                 showHelp();
@@ -53,6 +56,7 @@ public class App {
         System.out.println("        recreate-dbs:\t Drop & Create Required Databases");
         System.out.println("        create-tenants:\t Populate Sample Tenants");
         System.out.println("        create-workflow-meta:\t Populate Sample Workflow Rules");
+        System.out.println("        add-workflow-meta:\t Populate More Sample Workflow Rules");
     }
 
     private static Connection getConn(Properties properties) throws Exception {
@@ -162,6 +166,11 @@ public class App {
         createWorkflowMeta(url, new WorkflowMeta(3L, "evt/link.click", "Event: Link Click", "workflow.engine.handler.EventStart",96L));
         createWorkflowMeta(url, new WorkflowMeta(4L, "evt/email.reply", "Event: Email Reply", "workflow.engine.handler.EventStart",96L));
         createWorkflowMeta(url, new WorkflowMeta(5L, "evt/chat.reply", "Event: Chat Reply", "workflow.engine.handler.EventStart",96L));
+    }
+
+    private static void addWorkflowMeta(Properties props) throws Exception {
+        String url = props.getProperty("workflowmeta.steps.url");
+        createWorkflowMeta(url, new WorkflowMeta(12L, "score", "Score Lead", "workflow.engine.handler.LeadScore",84L));
     }
 
     private static void createWorkflowMeta(String url, WorkflowMeta workflowMeta) throws Exception {
