@@ -27,7 +27,7 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     private void registerWorkflowEngine() {
         Worker.Factory factory = new Worker.Factory(cadenceConfig.getHost(), cadenceConfig.getPort(), cadenceConfig.getDomain());
         Worker worker = factory.newWorker("events-workflow-tasklist");
-        worker.registerWorkflowImplementationTypes(SBEventWorkflow.class);
+        worker.registerWorkflowImplementationTypes(SBWorkflow.class, SBEventExecute.class);
         worker.registerActivitiesImplementations(getter);
         factory.start();
     }

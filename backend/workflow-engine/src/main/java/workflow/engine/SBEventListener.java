@@ -27,7 +27,7 @@ public class SBEventListener {
                         .setExecutionStartToCloseTimeout(Duration.ofSeconds(30))
                         .build();
         try {
-            ISBEventWorkflow workflow = client.newWorkflowStub(ISBEventWorkflow.class, workflowOptions);
+            ISBWorkflow workflow = client.newWorkflowStub(ISBWorkflow.class, workflowOptions);
             BatchRequest req = client.newSignalWithStartRequest();
             event.tenantId = tenantId;
             req.add(workflow::addEvent, event);
