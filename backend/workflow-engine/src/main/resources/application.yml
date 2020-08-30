@@ -1,6 +1,10 @@
 micronaut:
   application:
     name: workflowEngine
+  http.services:
+    biz-objects:
+      urls:
+        - http://localhost:6160/
 kafka.bootstrap.servers: localhost:9092
 cadence:
   host: localhost
