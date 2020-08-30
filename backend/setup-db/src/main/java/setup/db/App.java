@@ -153,11 +153,6 @@ public class App {
         createWorkflowMeta(url, new WorkflowMeta(4L, "decide", "Decide",40L, "workflow.engine.handler.Decide", 2L));
         createWorkflowMeta(url, new WorkflowMeta(5L, "twitter", "Twitter", "workflow.engine.handler.Tweet", 96L));
         createWorkflowMeta(url, new WorkflowMeta(6L, "linkedin", "LinkedIn", "workflow.engine.handler.ConnectLinkedIn", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(7L, "salesforce", "Salesforce", "workflow.engine.handler.SendToSalesForce", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(8L, "sms", "SMS", "workflow.engine.handler.SendSMS", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(9L, "listadd", "Add To List", "workflow.engine.handler.AddToList", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(10L, "facebook", "Facebook", "workflow.engine.handler.ConnectFacebook", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(11L, "meeting", "Meeting", "workflow.engine.handler.SetupMeeting", 64L));
     }
 
     private static void createWorkflowEvents(Properties props) throws Exception {
@@ -171,6 +166,11 @@ public class App {
 
     private static void addWorkflowMeta(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.steps.url");
+        createWorkflowMeta(url, new WorkflowMeta(7L, "salesforce", "Salesforce", "workflow.engine.handler.SendToSalesForce", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(8L, "sms", "SMS", "workflow.engine.handler.SendSMS", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(9L, "listadd", "Add To List", "workflow.engine.handler.AddToList", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(10L, "facebook", "Facebook", "workflow.engine.handler.ConnectFacebook", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(11L, "meeting", "Meeting", "workflow.engine.handler.SetupMeeting", 64L));
         createWorkflowMeta(url, new WorkflowMeta(12L, "score", "Score Lead", "workflow.engine.handler.LeadScore",84L));
     }
 
