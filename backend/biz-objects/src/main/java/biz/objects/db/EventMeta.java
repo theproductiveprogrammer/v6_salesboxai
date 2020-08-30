@@ -11,6 +11,7 @@ public class EventMeta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
+    private String handler;
     private String name;
     private Long iconszhint;
 
@@ -28,6 +29,14 @@ public class EventMeta {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getHandler() {
+        return handler;
+    }
+
+    public void setHandler(String handler) {
+        this.handler = handler;
     }
 
     public String getName() {

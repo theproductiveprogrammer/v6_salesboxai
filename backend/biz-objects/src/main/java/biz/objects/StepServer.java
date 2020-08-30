@@ -1,9 +1,11 @@
 package biz.objects;
 
+import biz.objects.db.EventMeta;
 import biz.objects.db.StepMeta;
 import biz.objects.db.WorkflowStep;
 import biz.objects.dto.StepMetaDTO;
 import biz.objects.dto.WorkflowStepDTO;
+import biz.objects.repo.EventMetaRepository;
 import biz.objects.repo.StepMetaRepository;
 import biz.objects.repo.WorkflowStepRepository;
 import io.micronaut.http.annotation.Body;
@@ -24,9 +26,10 @@ import java.util.stream.Collectors;
 public class StepServer {
     @Inject
     StepMetaRepository stepMetaRepository;
-
     @Inject
     WorkflowStepRepository workflowStepRepository;
+    @Inject
+    EventMetaRepository eventMetaRepository;
 
     @Post("/newstepmeta")
     public void newStepMeta(@Body StepMeta stepMeta) {
@@ -63,14 +66,18 @@ public class StepServer {
     public List<WorkflowStepDTO> getSteps(Long tenantId) {
         List<WorkflowStepDTO> steps = workflowStepRepository.getByTenantId(tenantId).stream().map(WorkflowStepDTO::new).collect(Collectors.toList());
         List<StepMeta> meta = stepMetaRepository.findAll();
+        List<EventMeta> emeta = eventMetaRepository.findAll();
         for(WorkflowStepDTO step : steps) {
-            step.handler = findHandler(meta, step.code);
+            step.handler = findHandler(meta, emeta, step.code);
         }
         return steps;
     }
 
-    private String findHandler(List<StepMeta> meta, String code) {
+    private String findHandler(List<StepMeta> meta, List<EventMeta> emeta, String code) {
         for(StepMeta m : meta) {
+            if(code.equals(m.getCode())) return m.getHandler();
+        }
+        for(EventMeta m : emeta) {
             if(code.equals(m.getCode())) return m.getHandler();
         }
         return null;
