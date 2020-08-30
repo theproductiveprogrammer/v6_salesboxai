@@ -9,4 +9,6 @@ public interface ISBImportWorkflow {
     public void start();
     @SignalMethod
     public void addImport(SBEvent event);
+    @SignalMethod
+    public void setDripCount(int count);
 }

@@ -26,7 +26,6 @@ public class SBEventListener {
     }
 
     private void launchImportWorkflow(SBEvent event) {
-        System.out.println("import wk");
         WorkflowClient client = WorkflowClient.newInstance("salesboxai-domain");
         WorkflowOptions workflowOptions =
                 new WorkflowOptions.Builder()
@@ -46,8 +45,6 @@ public class SBEventListener {
     }
 
     private void launchEventWorkflow(SBEvent event) {
-        System.out.println("events wk");
-
         WorkflowClient client = WorkflowClient.newInstance("salesboxai-domain");
         WorkflowOptions workflowOptions =
                 new WorkflowOptions.Builder()

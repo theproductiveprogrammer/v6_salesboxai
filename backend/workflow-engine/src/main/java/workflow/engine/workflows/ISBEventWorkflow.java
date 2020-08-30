@@ -9,4 +9,6 @@ public interface ISBEventWorkflow {
     public void start();
     @SignalMethod
     public void addEvent(SBEvent event);
+    @SignalMethod
+    public void setDripCount(int count);
 }

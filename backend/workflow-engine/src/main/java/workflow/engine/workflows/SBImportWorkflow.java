@@ -20,6 +20,8 @@ public class SBImportWorkflow implements ISBImportWorkflow {
     private static final Logger logger = LoggerFactory.getLogger(SBImportWorkflow.class);
     private List<SBEvent> pendingEvents = new ArrayList<>();
     private final IGetter getter;
+    private List<Promise<?>> inflight = new ArrayList<>();
+    private int dripCount = 1; //TODO: Set dynamically
 
 
     public SBImportWorkflow() {
@@ -42,14 +44,18 @@ public class SBImportWorkflow implements ISBImportWorkflow {
                 logger.info("No workflow for " + current.type + " found for tenant " + current.tenantId);
             } else {
                 ISBEventExecute child = Workflow.newChildWorkflowStub(ISBEventExecute.class);
-                Promise<Boolean> ret = Async.function(child::execute, current, workflow);
-                ret.get(); // TODO: allow multiple children to run
+                inflight.add(Async.function(child::execute, current, workflow));
+                while(dripCount > 0 && inflight.size() >= dripCount) {
+                    Promise.anyOf(inflight).get();
+                    inflight = inflight.stream().filter(c -> !c.isCompleted()).collect(Collectors.toList());
+                }
             }
         }
     }
 
-    @SignalMethod
-    public void addImport(SBEvent event) {
-        pendingEvents.add(event);
-    }
+    @Override
+    public void addImport(SBEvent event) { pendingEvents.add(event); }
+
+    @Override
+    public void setDripCount(int count) { this.dripCount = count; }
 }
