@@ -1,9 +1,10 @@
-package workflow.engine;
+package workflow.engine.workflows;
 
 import com.uber.cadence.workflow.SignalMethod;
 import com.uber.cadence.workflow.WorkflowMethod;
+import workflow.engine.SBEvent;
 
-public interface ISBWorkflow {
+public interface ISBEventWorkflow {
     @WorkflowMethod
     public void start();
     @SignalMethod

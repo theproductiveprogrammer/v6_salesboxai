@@ -1,4 +1,4 @@
-package workflow.engine;
+package workflow.engine.workflows;
 
 import com.uber.cadence.activity.ActivityOptions;
 import com.uber.cadence.workflow.Async;
@@ -7,6 +7,7 @@ import com.uber.cadence.workflow.SignalMethod;
 import com.uber.cadence.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import workflow.engine.SBEvent;
 import workflow.engine.activities.IGetter;
 import workflow.engine.dto.WorkflowStepDTO;
 
@@ -14,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SBWorkflow implements ISBWorkflow {
+public class SBEventWorkflow implements ISBEventWorkflow {
 
-    private static final Logger logger = LoggerFactory.getLogger(SBWorkflow.class);
+    private static final Logger logger = LoggerFactory.getLogger(SBEventWorkflow.class);
     private List<SBEvent> pendingEvents = new ArrayList<>();
     private final IGetter getter;
 
 
-    public SBWorkflow() {
+    public SBEventWorkflow() {
         ActivityOptions options = new ActivityOptions.Builder()
                 .setTaskList("events-workflow-tasklist")
                 .build();
