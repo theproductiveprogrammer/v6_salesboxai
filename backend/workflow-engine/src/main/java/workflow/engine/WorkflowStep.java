@@ -1,6 +1,6 @@
-package workflow.engine.dto;
+package workflow.engine;
 
-public class WorkflowStepDTO {
+public class WorkflowStep {
     public Long id;
     public Integer num;
     public Long tenantId;

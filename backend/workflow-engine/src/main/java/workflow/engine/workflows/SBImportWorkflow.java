@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import workflow.engine.SBEvent;
 import workflow.engine.activities.IGetter;
-import workflow.engine.dto.WorkflowStepDTO;
+import workflow.engine.WorkflowStep;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class SBImportWorkflow implements ISBImportWorkflow {
 
     @Override
     public void start(Long tenantId, int dripCount) {
-        List<WorkflowStepDTO> workflows = getter.getWorkflows(tenantId);
+        List<WorkflowStep> workflows = getter.getWorkflows(tenantId);
         while(pendingEvents.size() > 0 || inflight.size() > 0) {
             inflight = inflight.stream().filter(c -> !c.isCompleted()).collect(Collectors.toList());
 
@@ -41,9 +41,9 @@ public class SBImportWorkflow implements ISBImportWorkflow {
         }
     }
 
-    private void execute(List<WorkflowStepDTO> workflows, SBEvent event) {
+    private void execute(List<WorkflowStep> workflows, SBEvent event) {
         String eventCode = "evt/" + event.type;
-        List<WorkflowStepDTO> workflow = workflows.stream().filter(s -> eventCode.equals(s.eventCode)).collect(Collectors.toList());
+        List<WorkflowStep> workflow = workflows.stream().filter(s -> eventCode.equals(s.eventCode)).collect(Collectors.toList());
         if(workflow == null || workflow.size() < 2) {
             logger.info("No workflow for " + event.type + " found for tenant " + event.tenantId);
         } else {
