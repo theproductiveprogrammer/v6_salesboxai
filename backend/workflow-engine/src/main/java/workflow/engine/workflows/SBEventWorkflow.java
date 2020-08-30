@@ -10,6 +10,7 @@ import workflow.engine.SBEvent;
 import workflow.engine.activities.IGetter;
 import workflow.engine.WorkflowStep;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class SBEventWorkflow implements ISBEventWorkflow {
 
             if(dripCount > 0 && inflight.size() >= dripCount) Promise.anyOf(inflight).get();
             else if(pendingEvents.size() > 0) execute(workflows, pendingEvents.remove(0));
-            else Workflow.sleep(100);
+            else Workflow.await(Duration.ofSeconds(10), () -> pendingEvents.size() > 0);
         }
     }
 
