@@ -73,6 +73,7 @@ public class App {
             "v6_importer",
             "v6_activities",
             "v6_conversations",
+            "v6_scoring",
     };
     private static void createDBs(Connection conn) throws Exception {
         for(String db : dbs) {
