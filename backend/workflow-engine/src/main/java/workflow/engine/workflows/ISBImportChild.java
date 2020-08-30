@@ -6,7 +6,7 @@ import workflow.engine.dto.WorkflowStepDTO;
 
 import java.util.List;
 
-public interface ISBEventExecute {
+public interface ISBImportChild {
     @WorkflowMethod
     public boolean execute(SBEvent event, List<WorkflowStepDTO> workflow);
 }

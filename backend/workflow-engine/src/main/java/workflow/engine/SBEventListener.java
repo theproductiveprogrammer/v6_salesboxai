@@ -38,6 +38,7 @@ public class SBEventListener {
             ISBImportWorkflow workflow = client.newWorkflowStub(ISBImportWorkflow.class, workflowOptions);
             BatchRequest req = client.newSignalWithStartRequest();
             req.add(workflow::addImport, event);
+            req.add(workflow::start, event.tenantId, 1000);
             client.signalWithStart(req);
         } catch(Throwable t) {
             logger.error("Failed to invoke import workflow", t);
@@ -57,6 +58,7 @@ public class SBEventListener {
             ISBEventWorkflow workflow = client.newWorkflowStub(ISBEventWorkflow.class, workflowOptions);
             BatchRequest req = client.newSignalWithStartRequest();
             req.add(workflow::addEvent, event);
+            req.add(workflow::start, event.tenantId, 1000);
             client.signalWithStart(req);
         } catch(Throwable t) {
             logger.error("Failed to invoke events workflow", t);

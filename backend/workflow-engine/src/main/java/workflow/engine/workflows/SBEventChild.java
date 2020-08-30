@@ -8,14 +8,12 @@ import workflow.engine.dto.WorkflowStepDTO;
 
 import java.util.List;
 
-public class SBEventExecute implements ISBEventExecute {
-    private static final Logger logger = LoggerFactory.getLogger(SBEventExecute.class);
+public class SBEventChild implements ISBEventChild {
+    private static final Logger logger = LoggerFactory.getLogger(SBEventChild.class);
 
     @WorkflowMethod
     public boolean execute(SBEvent event, List<WorkflowStepDTO> workflow) {
         switch(event.type) {
-            case "new.lead":
-                return onNewLead(workflow, event);
             case "email.open":
                 return onEmailOpen(workflow, event);
             case "link.click":
@@ -28,17 +26,6 @@ public class SBEventExecute implements ISBEventExecute {
                 logger.info("Ignoring unknown event " + event.type);
                 return false;
         }
-    }
-
-    private boolean onNewLead(List<WorkflowStepDTO> workflow, SBEvent current) {
-        logger.info("TODO: handle workflow for new lead " + current.id + " on tenant " + current.tenantId);
-        logger.info("Workflow:");
-        for(WorkflowStepDTO step : workflow) {
-            Integer link1 = step.links != null && step.links.length > 0 ? step.links[0] : null;
-            Integer link2 = step.links != null && step.links.length > 1 ? step.links[1] : null;
-            logger.info(step.num + ". " + step.eventCode + "://" + step.code + "->" + link1 + "," + link2);
-        }
-        return true;
     }
 
     private boolean onEmailOpen(List<WorkflowStepDTO> workflow, SBEvent current) {

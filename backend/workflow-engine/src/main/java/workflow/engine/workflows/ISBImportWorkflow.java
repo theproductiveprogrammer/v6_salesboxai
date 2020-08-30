@@ -6,9 +6,7 @@ import workflow.engine.SBEvent;
 
 public interface ISBImportWorkflow {
     @WorkflowMethod
-    public void start();
+    public void start(Long tenantId, int dripCount);
     @SignalMethod
     public void addImport(SBEvent event);
-    @SignalMethod
-    public void setDripCount(int count);
 }
