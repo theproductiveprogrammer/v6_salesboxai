@@ -22,10 +22,7 @@ public class SBEventWorkflow implements ISBEventWorkflow {
     private List<Promise<?>> inflight = new ArrayList<>();
 
     public SBEventWorkflow() {
-        ActivityOptions options = new ActivityOptions.Builder()
-                .setTaskList("events-workflow-tasklist")
-                .build();
-        getter = Workflow.newActivityStub(IGetter.class, options);
+        getter = Workflow.newActivityStub(IGetter.class);
     }
 
     @Override

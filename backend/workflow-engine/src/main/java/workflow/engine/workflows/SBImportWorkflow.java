@@ -23,10 +23,7 @@ public class SBImportWorkflow implements ISBImportWorkflow {
 
 
     public SBImportWorkflow() {
-        ActivityOptions options = new ActivityOptions.Builder()
-                .setTaskList("events-workflow-tasklist")
-                .build();
-        getter = Workflow.newActivityStub(IGetter.class, options);
+        getter = Workflow.newActivityStub(IGetter.class);
     }
 
     @Override
