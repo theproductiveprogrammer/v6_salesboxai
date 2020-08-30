@@ -16,7 +16,7 @@ public class Getter implements IGetter {
     RxHttpClient httpClient;
 
     @Override
-    public List<WorkflowStep> getWorkflows(Long tenantId) {
+    synchronized public List<WorkflowStep> getWorkflows(Long tenantId) {
         return httpClient
                 .toBlocking()
                 .retrieve(HttpRequest.GET("http://localhost:6160/internal/workflows?&tenantId=" + tenantId), Res.class);

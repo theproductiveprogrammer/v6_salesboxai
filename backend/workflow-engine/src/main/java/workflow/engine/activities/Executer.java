@@ -22,7 +22,7 @@ public class Executer implements IExecuter {
     ConversationProducer conversationProducer;
 
     @Override
-    public NextStep doStep(SBEvent event, WorkflowStep step) {
+    synchronized public NextStep doStep(SBEvent event, WorkflowStep step) {
         logger.info("Executing " + step.code + " using " + step.handler + " for " + event.type + " on lead: " + event.id);
         try {
             Class<IEventHandler> class_ = (Class<IEventHandler>) Class.forName(step.handler);
