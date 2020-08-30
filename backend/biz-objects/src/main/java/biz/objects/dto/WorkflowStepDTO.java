@@ -12,6 +12,7 @@ public class WorkflowStepDTO {
     public String code;
     public List<Integer> links;
     public Pos pos;
+    public String handler;
 
     public WorkflowStepDTO() {}
 

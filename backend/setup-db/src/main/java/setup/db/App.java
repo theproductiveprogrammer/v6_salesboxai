@@ -140,26 +140,26 @@ public class App {
 
     private static void createWorkflowSteps(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.steps.url");
-        createWorkflowMeta(url, new WorkflowMeta(1L, "email", "Send Email", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(2L, "adaptive", "Adaptive", 64L));
-        createWorkflowMeta(url, new WorkflowMeta(3L, "chat", "Chat", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(4L, "decide", "Decide", 40L, 2L));
-        createWorkflowMeta(url, new WorkflowMeta(5L, "twitter", "Twitter", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(6L, "linkedin", "LinkedIn", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(7L, "salesforce", "Salesforce", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(8L, "sms", "SMS", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(9L, "listadd", "Add To List", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(10L, "facebook", "Facebook", 168L));
-        createWorkflowMeta(url, new WorkflowMeta(11L, "meeting", "Meeting", 64L));
+        createWorkflowMeta(url, new WorkflowMeta(1L, "email", "Send Email", "workflow.engine.handler.SendEmail",168L));
+        createWorkflowMeta(url, new WorkflowMeta(2L, "adaptive", "Adaptive", "workflow.engine.handler.SendAdaptive", 64L));
+        createWorkflowMeta(url, new WorkflowMeta(3L, "chat", "Chat", "workflow.engine.handler.Chat", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(4L, "decide", "Decide",40L, "workflow.engine.handler.Decide", 2L));
+        createWorkflowMeta(url, new WorkflowMeta(5L, "twitter", "Twitter", "workflow.engine.handler.Tweet", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(6L, "linkedin", "LinkedIn", "workflow.engine.handler.ConnectLinkedIn", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(7L, "salesforce", "Salesforce", "workflow.engine.handler.SendToSalesForce", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(8L, "sms", "SMS", "workflow.engine.handler.SendSMS", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(9L, "listadd", "Add To List", "workflow.engine.handler.AddToList", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(10L, "facebook", "Facebook", "workflow.engine.handler.ConnectFacebook", 168L));
+        createWorkflowMeta(url, new WorkflowMeta(11L, "meeting", "Meeting", "workflow.engine.handler.SetupMeeting", 64L));
     }
 
     private static void createWorkflowEvents(Properties props) throws Exception {
         String url = props.getProperty("workflowmeta.events.url");
-        createWorkflowMeta(url, new WorkflowMeta(1L, "evt/new.lead", "Event: New Lead", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(2L, "evt/email.open", "Event: Email Open", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(3L, "evt/link.click", "Event: Link Click", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(4L, "evt/email.reply", "Event: Email Reply", 96L));
-        createWorkflowMeta(url, new WorkflowMeta(5L, "evt/chat.reply", "Event: Chat Reply", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(1L, "evt/new.lead", "Event: New Lead", "workflow.engine.handler.EventStart", 96L));
+        createWorkflowMeta(url, new WorkflowMeta(2L, "evt/email.open", "Event: Email Open", "workflow.engine.handler.EventStart",96L));
+        createWorkflowMeta(url, new WorkflowMeta(3L, "evt/link.click", "Event: Link Click", "workflow.engine.handler.EventStart",96L));
+        createWorkflowMeta(url, new WorkflowMeta(4L, "evt/email.reply", "Event: Email Reply", "workflow.engine.handler.EventStart",96L));
+        createWorkflowMeta(url, new WorkflowMeta(5L, "evt/chat.reply", "Event: Chat Reply", "workflow.engine.handler.EventStart",96L));
     }
 
     private static void createWorkflowMeta(String url, WorkflowMeta workflowMeta) throws Exception {
@@ -167,24 +167,28 @@ public class App {
         data.put("code", workflowMeta.code);
         data.put("name", workflowMeta.name);
         data.put("iconszhint", workflowMeta.iconsize);
+        data.put("handler", workflowMeta.handler);
         if(workflowMeta.numlinks != null && workflowMeta.numlinks > 1) data.put("numlinks", workflowMeta.numlinks);
         int status = post(url, data.toString());
         if(status < 200 || status > 299) System.err.println("Failed to create step:" + workflowMeta.code);
     }
 
     static class WorkflowMeta {
-        public WorkflowMeta(Long id, String code, String name, Long iconsize) {
+
+        public WorkflowMeta(Long id, String code, String name, String handler, Long iconsize) {
             this.id = id;
             this.code = code;
             this.name = name;
             this.iconsize = iconsize;
+            this.handler = handler;
         }
 
-        public WorkflowMeta(Long id, String code, String name, Long iconsize, Long numlinks) {
+        public WorkflowMeta(Long id, String code, String name, Long iconsize, String handler, Long numlinks) {
             this.id = id;
             this.code = code;
             this.name = name;
             this.iconsize = iconsize;
+            this.handler = handler;
             this.numlinks = numlinks;
         }
 
@@ -193,6 +197,7 @@ public class App {
         String name;
         Long iconsize;
         Long numlinks;
+        String handler;
     }
 
 }

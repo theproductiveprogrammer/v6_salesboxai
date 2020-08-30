@@ -14,6 +14,7 @@ public class StepMeta {
     private String name;
     private Long numlinks;
     private Long iconszhint;
+    private String handler;
 
     public Long getId() {
         return id;
@@ -53,5 +54,13 @@ public class StepMeta {
 
     public void setIconszhint(Long iconszhint) {
         this.iconszhint = iconszhint;
+    }
+
+    public String getHandler() {
+        return handler;
+    }
+
+    public void setHandler(String handler) {
+        this.handler = handler;
     }
 }

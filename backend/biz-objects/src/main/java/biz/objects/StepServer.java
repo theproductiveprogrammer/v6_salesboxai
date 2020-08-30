@@ -61,6 +61,18 @@ public class StepServer {
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/internal/workflows")
     public List<WorkflowStepDTO> getSteps(Long tenantId) {
-        return workflowStepRepository.getByTenantId(tenantId).stream().map(WorkflowStepDTO::new).collect(Collectors.toList());
+        List<WorkflowStepDTO> steps = workflowStepRepository.getByTenantId(tenantId).stream().map(WorkflowStepDTO::new).collect(Collectors.toList());
+        List<StepMeta> meta = stepMetaRepository.findAll();
+        for(WorkflowStepDTO step : steps) {
+            step.handler = findHandler(meta, step.code);
+        }
+        return steps;
+    }
+
+    private String findHandler(List<StepMeta> meta, String code) {
+        for(StepMeta m : meta) {
+            if(code.equals(m.getCode())) return m.getHandler();
+        }
+        return null;
     }
 }
