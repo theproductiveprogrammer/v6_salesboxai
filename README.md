@@ -34,34 +34,54 @@ The backend is decoupled from the front end and contains all the microservices w
 
 ## How to Use
 
-1. Start all the backend services needed
+1. Start all the backend services needed:
+
+   *(The following are simply indicative - please follow the actual instructions if they don’t work for you)*
 
    ```sh
    $> cd <kafka folder>
    $> ./bin/zookeeper-server-start.sh ./config/zookeeper.properties
    $> ./bin/kafka-server-start.sh ./config/server.properties
    
-   $> cd <cassandra folder>
-   $> ./bin/cassandra -f
+   $> cd <cadence folder>
+   $> docker-compose up
    
-   $> cd backend/cadence-scripts
-   $> ./start-cadence.sh
+   $> cd <mysql folder>
+   $> bin/mysqld_safe --user=<user>
    ```
 
-2. Create the cadence domain
+2. Create the cadence domain:
 
    ```sh
-   $> cd backend/cadence-scripts
-   $> ./setup-domain.sh
+   $> docker run --network=host --rm ubercadence/cli:master --do salesboxai-domain domain register -rd 1
    ```
 
-3. Start the MySQL database
+3. Configure all the application links to the databases:
 
-   1. Running on localhost with root and no password by default
+   ```sh
+   $> cd setup-db && edit src/main/resources/application.properties
+   
+   $> cd importer && edit src/main/resources/application.yml
+   $> cd authenticator && edit src/main/resources/application.yml
+   $> cd biz-objects && edit src/main/resources/application.yml
+   ```
+
+4. Configure all application links to Kafka:
+
+   ```sh
+   $> cd importer && edit src/main/resources/application.yml
+   $> cd workflow-engine && edit src/main/resources/application.yml
+   ```
+
+5. Configure workflow engine to link to Cadence:
+
+   ```sh
+   $> cd workflow-engine && edit src/main/resources/application.yml
+   ```
 
    
 
-4. Create all the required databases:
+6. Create all the required databases:
 
    ```sh
    $> cd backend/setup-db
@@ -70,62 +90,60 @@ The backend is decoupled from the front end and contains all the microservices w
    $> ./gradlew run --args=recreate-dbs
    ```
 
-5. Start the Authenticator microservice:
+7. Start the Authenticator microservice:
 
    ```sh
    $> cd backend/authenticator
    $> ./gradlew run
    ```
 
-6. Populate the tenant DB with sample data:
+8. Populate the tenant DB with sample data:
 
    ```sh
    $> cd backend/setup-db
    $> ./gradlew run --args=create-tenants
    ```
 
-7. Start the ‘business object’ REST microservice:
+9. Start the ‘business object’ REST microservice:
 
    ```sh
    $> cd backend/biz-objects
    $> ./gradlew run
    ```
 
-8. Populate the biz objects with sample workflow metadata:
+10. Populate the biz objects with sample workflow metadata:
 
    ```sh
    $> cd backend/setup-db
    $> ./gradlew run --args=create-workflow-meta
    ```
 
-9. Start the other backend Microservices:
+11. Start the other backend Microservices:
 
-   ```sh
-   $> cd backend/importer
-   $> ./gradlew run
-   $> cd backend/workflow-engine
-   $> ./gradlew run
-   ```
+    ```sh
+    $> cd backend/importer
+    $> ./gradlew run
+    $> cd backend/workflow-engine
+    $> ./gradlew run
+    ```
 
-   
+12. Start the front end webapp:
 
-10. Start the front end webapp:
+    ```sh
+    $> cd webapp
+    $> npm start
+    ```
 
-   ```sh
-   $> cd webapp
-   $> npm start
-   ```
-
-11. Start the API Gateway:
+13. Start the API Gateway:
 
     ```sh
     $> cd backend/api-gateway
     $> go run gateway.go
     ```
 
-12. Navigate to http://localhost/ and Sign Up to Get Started!
+14. Navigate to http://localhost/ and Sign Up to Get Started!
 
-## Trying the Application
+## Using the Application
 
 1. Go to the workflow area and create the workflows you want for your tenant.
 
