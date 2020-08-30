@@ -38,7 +38,7 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-    implementation("com.uber.cadence:cadence-client:2.7.4")
+    implementation("com.uber.cadence:cadence-client:2.7.5")
     implementation("commons-configuration:commons-configuration:1.9")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
