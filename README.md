@@ -2,6 +2,8 @@
 
 This is the Salesbox v6 Reference Architecture
 
+![architecture](./architecture.png)
+
 ## Structure
 
 It is helpful to get an overview of the layout of this repository. The layout itself has been divided into two major portions:
