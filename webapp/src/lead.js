@@ -4,8 +4,11 @@ const { get, post, error_ } = require('./common.js')
 
 import './lead.css'
 
+let get_
 let lead_
 export function setup(rootstore) {
+  get_ = (url, data, cb) => get(rootstore, url, data, cb)
+
   lead_ = () => {
     let id = rootstore.get('lead')
     if(!id) return
@@ -44,6 +47,27 @@ export function show(store, on) {
     actlist
   ])
 
+  get_('conversations?leadId='+l.id, (err, conversations) => {
+    if(err) return error_(err, 'get/conversations')
+    convlist.c()
+    conversations.forEach(c => {
+      convlist.appendChild(h('.conversation', c.message))
+    })
+  })
+
+  get_('activities?leadId='+l.id, (err, activities) => {
+    if(err) return error_(err, 'get/activities')
+    actlist.c()
+    activities.forEach(c => {
+      actlist.appendChild(h('.activity', c.description))
+    })
+  })
+
+  get_('score?leadId='+l.id, (err, score_) => {
+    if(err) return error_(err, 'get/score')
+    if(score_.response) score_ = score_.response
+    score.c(""+score_)
+  })
 
   lead.c(
     h('.cont').c(title, subtitle),
