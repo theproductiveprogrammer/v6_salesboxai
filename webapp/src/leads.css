@@ -21,3 +21,13 @@
 .leads table {
   width: 100%;
 }
+
+.leads .nav-lead {
+  color: #3e4552;
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: center;
+}
+.leads .nav-lead:hover {
+  color: blue;
+}

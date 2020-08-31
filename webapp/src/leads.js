@@ -43,7 +43,9 @@ export function show(store, on) {
     if(!users) return
     users.forEach(user => {
       tblbody.appendChild(h('tr', [
-        h('td', user.id),
+        h('td.nav-lead', {
+          onclick: () => store.event('nav/lead', user.id)
+        }, user.id),
         h('td', user.firstName),
         h('td', user.lastName),
         h('td', user.email),
