@@ -1,4 +1,6 @@
 micronaut:
+  server:
+    port: 6006
   application:
     name: workflowEngine
   http.services:
