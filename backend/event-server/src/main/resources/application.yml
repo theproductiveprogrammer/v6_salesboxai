@@ -1,0 +1,6 @@
+micronaut:
+  server:
+    port: 6560
+  application:
+    name: eventServer
+kafka.bootstrap.servers: localhost:9092
