@@ -58,29 +58,10 @@ export function show(store, on) {
     actlist
   ])
 
-  get_('conversations?leadId='+l.id, (err, conversations) => {
-    if(err) return error_(err, 'get/conversations')
-    convlist.c()
-    conversations.forEach(c => {
-      convlist.appendChild(h('.conversation', c.message))
-    })
-  })
-
-  get_('activities?leadId='+l.id, (err, activities) => {
-    if(err) return error_(err, 'get/activities')
-    actlist.c()
-    activities.forEach(c => {
-      actlist.appendChild(h('.activity', c.description))
-    })
-  })
-
-  get_('score?leadId='+l.id, (err, score_) => {
-    if(err) return error_(err, 'get/score')
-    if(score_.response) score_ = score_.response
-    score.c(""+score_)
-  })
+  load_info_1()
 
   lead.c(
+    h('.refresh', { onclick: load_info_1}, 'Reload'),
     h('.cont').c(
       title, subtitle,
       h('.event-cont').c(
@@ -100,6 +81,31 @@ export function show(store, on) {
     }, err => {
       if(err) return error_(err, 'raise/event/' + code)
     })
-
   }
+
+  function load_info_1() {
+    get_('conversations?leadId='+l.id, (err, conversations) => {
+      if(err) return error_(err, 'get/conversations')
+      convlist.c()
+      conversations.forEach(c => {
+        convlist.appendChild(h('.conversation', c.message))
+      })
+    })
+
+    get_('activities?leadId='+l.id, (err, activities) => {
+      if(err) return error_(err, 'get/activities')
+      actlist.c()
+      activities.forEach(c => {
+        actlist.appendChild(h('.activity', c.description))
+      })
+    })
+
+    get_('score?leadId='+l.id, (err, score_) => {
+      if(err) return error_(err, 'get/score')
+      if(score_.response) score_ = score_.response
+      score.c(""+score_)
+    })
+  }
+
+
 }

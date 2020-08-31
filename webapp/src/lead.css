@@ -6,6 +6,17 @@
   margin-bottom: 48px;
 }
 
+.lead .refresh {
+  font-size: 12px;
+  font-variant: all-petite-caps;
+  color: #aaa;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.lead .refresh:hover {
+  color: #2f8be8;
+}
+
 .lead .title {
   font-size: 64px;
   color: #3e4552;
