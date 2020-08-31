@@ -58,10 +58,15 @@ export function show(store, on) {
     actlist
   ])
 
+  let refresh = h('.refresh', { onclick: load_info_1}, 'Reload')
+  let back = h('.back', {
+    onclick: () => store.event('lead/goback')
+  }, 'Back')
+
   load_info_1()
 
   lead.c(
-    h('.refresh', { onclick: load_info_1}, 'Reload'),
+    h('.nav-cont').c(back, refresh),
     h('.cont').c(
       title, subtitle,
       h('.event-cont').c(
