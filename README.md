@@ -60,16 +60,18 @@ The backend is decoupled from the front end and contains all the microservices w
 
    ```sh
    $> cd setup-db && edit src/main/resources/application.properties
-   
    $> cd importer && edit src/main/resources/application.yml
    $> cd authenticator && edit src/main/resources/application.yml
-   $> cd biz-objects && edit src/main/resources/application.yml
+   $> cd lead-scoring && edit src/main/resources/application.yml$> cd biz-objects && edit src/main/resources/application.yml
    ```
-
+   
 4. Configure all application links to Kafka:
 
    ```sh
    $> cd importer && edit src/main/resources/application.yml
+   $> cd activities && edit src/main/resources/application.yml
+   $> cd conversations && edit src/main/resources/application.yml
+   $> cd event-server && edit src/main/resources/application.yml
    $> cd workflow-engine && edit src/main/resources/application.yml
    ```
 
@@ -78,8 +80,6 @@ The backend is decoupled from the front end and contains all the microservices w
    ```sh
    $> cd workflow-engine && edit src/main/resources/application.yml
    ```
-
-   
 
 6. Create all the required databases:
 
@@ -113,18 +113,20 @@ The backend is decoupled from the front end and contains all the microservices w
 
 10. Populate the biz objects with sample workflow metadata:
 
-   ```sh
-   $> cd backend/setup-db
-   $> ./gradlew run --args=create-workflow-meta
-   ```
+    ```sh
+    $> cd backend/setup-db
+    $> ./gradlew run --args=create-workflow-meta
+    ```
 
 11. Start the other backend Microservices:
 
     ```sh
-    $> cd backend/importer
-    $> ./gradlew run
-    $> cd backend/workflow-engine
-    $> ./gradlew run
+    $> cd importer && ./gradlew run
+    $> cd activities && ./gradlew run
+    $> cd conversation && ./gradlew run
+    $> cd lead-scoring && ./gradlew run
+    $> cd event-server && ./gradlew run
+    $> cd workflow-engine && ./gradlew run
     ```
 
 12. Start the front end webapp:
@@ -147,16 +149,23 @@ The backend is decoupled from the front end and contains all the microservices w
 
 1. Go to the workflow area and create the workflows you want for your tenant.
 
-2. Generate a test import file:
+2. You can create additional workflow steps to demo that it is dynamic by using:
+
+   ```sh
+   $> cd backend/setup-db
+   $> ./gradlew run --args=add-workflow-meta
+   ```
+
+3. Generate a test import file:
 
    ```sh
    $> cd leadgen
    $> ./gradlew run --args=<num of leads>
    ```
 
-3. Go to Import area and drag the import file to start the import. This will trigger the workflow for new leads.
+4. Go to Import area and drag the import file to start the import. This will trigger the workflow for new leads.
 
-4. Go to Lead view and click the buttons that represent the lead performing certain actions. This will trigger the workflow for the appropriate events.
+5. Go to Lead view and click the buttons that represent the lead performing certain actions. This will trigger the workflow for the appropriate events.
 
 --------
 
