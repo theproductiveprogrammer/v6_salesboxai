@@ -1,0 +1,56 @@
+.lead {
+  padding: 32px;
+}
+
+.lead .cont {
+  margin-bottom: 48px;
+}
+
+.lead .title {
+  font-size: 64px;
+  color: #3e4552;
+}
+
+.lead .convs {
+  float: left;
+  margin-right: 10%;
+  width: 50%;
+  min-height: 100px;
+  border: 1px solid #2f8be8;
+  border-radius: 4px;
+  background: #f1f7fd;
+  box-shadow: inset 1px 1px 1px #1466b8;
+  padding: 8px;
+}
+
+.lead .acts {
+  float: left;
+  width: 20%;
+  min-height: 100px;
+  border: 1px solid #aaa;
+  padding: 8px;
+}
+
+.lead .card-title {
+  font-variant: all-small-caps;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.lead .score {
+  text-align: center;
+  font-size: 64px;
+  border-radius: 64px;
+  width: 128px;
+  height: 128px;
+  line-height: 128px;
+  margin: 0 auto;
+  margin-bottom: 8px;
+  border: 3px solid #2f8be8;
+  color: #2f8be8;
+}
+
+.lead .score-cont {
+  text-align: center;
+  margin-bottom: 64px;
+}

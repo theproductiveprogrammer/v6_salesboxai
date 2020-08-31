@@ -21,6 +21,7 @@ export function reducer(state, type, payload) {
     case 'dash/importer/go': return 'importer'
     case 'dash/leads/go': return 'leads'
     case 'nav/home': return anon() ? 'login' : 'dashboard'
+    case 'leads/lead/go': return 'lead'
     default: return state;
   }
 }

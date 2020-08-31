@@ -10,13 +10,14 @@ const dashboard_ = require('./dashboard.js')
 const wk_ = require('./workflow/index.js')
 const im_ = require('./importer.js')
 const leads_ = require('./leads.js')
+const lead_ = require('./lead.js')
 
 import './director.css'
 
 export function start(body) {
   let store = dux.createStore(reducer, init())
 
-  ;[ nav_, profile_, wk_, im_, leads_ ].forEach(m => {
+  ;[ nav_, profile_, wk_, im_, leads_, lead_ ].forEach(m => {
     if(m.setup) m.setup(store)
   })
 
@@ -34,6 +35,7 @@ function init() {
     workflow: wk_.init(),
     imports: im_.init(),
     leads: leads_.init(),
+    lead: lead_.init(),
   }
 }
 
@@ -45,6 +47,7 @@ function reducer(state, type, payload) {
     workflow: wk_.reducer(state.workflow, type, payload),
     imports: im_.reducer(state.imports, type, payload),
     leads: leads_.reducer(state.leads, type, payload),
+    lead: lead_.reducer(state.lead, type, payload),
   }
 }
 
@@ -63,6 +66,9 @@ function setupView(store, body) {
     currview = store.destroy(currview)
     display.innerHTML = ""
     switch(nav) {
+      case 'lead':
+        currview = store.fork('lead')
+        return lead_.show(currview, display)
       case 'leads':
         currview = store.fork('leads')
         return leads_.show(currview, display)
