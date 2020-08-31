@@ -133,6 +133,12 @@ function newStep(state, type, payload) {
   state.selected = state.steps.length
   state.steps = state.steps.concat(payload)
   state.steps[ndx] = curr
+  if(state.onevent) {
+    state.flows[state.onevent.code] = {
+      steps: steps2save(state.steps),
+      selected: state.selected,
+    }
+  }
   return state
 }
 
@@ -161,6 +167,7 @@ export function show(store, e) {
     events.forEach(e => sel.appendChild(h('option', {
       value: e.id,
     }, e.name)))
+    store.event('workflow/event/sel', events[0].id)
   })
 
   let sav = h('.btn',{ onclick: () => save(store) }, "Save")
