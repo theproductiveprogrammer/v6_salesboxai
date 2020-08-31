@@ -26,7 +26,8 @@ public class ScoringServer {
         score += scoreDTO.score;
 
         leadScore.setScore(score);
-        leadScoreRepository.save(leadScore);
+        if(leadScore.getId() == null) leadScoreRepository.save(leadScore);
+        else leadScoreRepository.update(leadScore);
     }
 
     @Get("/score")
