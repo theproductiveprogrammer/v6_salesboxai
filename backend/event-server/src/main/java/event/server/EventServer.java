@@ -16,7 +16,7 @@ public class EventServer {
     EventProducer eventProducer;
 
     @Post("/newevent")
-    public void newEvent(Authentication authentication, SBEvent sbEvent) {
+    public void newEvent(SBEvent sbEvent, Authentication authentication) {
         Long tenantId = (Long) authentication.getAttributes().get("tenant");
         if(tenantId == null || tenantId == 0) return;
         eventProducer.newEvent(tenantId, sbEvent);

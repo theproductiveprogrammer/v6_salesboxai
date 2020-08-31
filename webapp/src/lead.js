@@ -5,9 +5,11 @@ const { get, post, error_ } = require('./common.js')
 import './lead.css'
 
 let get_
+let post_
 let lead_
 export function setup(rootstore) {
   get_ = (url, data, cb) => get(rootstore, url, data, cb)
+  post_ = (url, data, cb) => post(rootstore, url, data, cb)
 
   lead_ = () => {
     let id = rootstore.get('lead')
@@ -34,10 +36,13 @@ export function show(store, on) {
   let subtitle = h('.subtitle', l.email)
 
   let eventtitle = h('.eventtitle', 'Lead Actions:')
-  let emailopen = h('.event', 'Opened Email')
-  let linkclick = h('.event', 'Clicked Link')
-  let reply = h('.event', 'Replied to Email')
-  let chat = h('.event', 'Replied to Chat')
+  let evt = (code,name) => h('.event', {
+    onclick: () => send_event_1(code)
+  }, name)
+  let emailopen = evt('email.open', 'Opened Email')
+  let linkclick = evt('link.click', 'Clicked Link')
+  let reply = evt('email.reply', 'Replied to Email')
+  let chat = evt('chat.reply', 'Replied to Chat')
 
   let score = h('.score', "0")
   let scoretitle = h('.scoretitle', 'Score')
@@ -86,4 +91,15 @@ export function show(store, on) {
     convs,
     acts,
   )
+
+
+  function send_event_1(code) {
+    post_('newevent', {
+      type: code,
+      id: l.id,
+    }, err => {
+      if(err) return error_(err, 'raise/event/' + code)
+    })
+
+  }
 }
