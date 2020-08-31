@@ -71,3 +71,32 @@
   display: list-item;
   color: #3e4552;
 }
+
+.lead .event-cont {
+  margin-top: 8px;
+  user-select: none;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 8px;
+  width: fit-content;
+}
+
+.lead .eventtitle {
+  display: inline-block;
+}
+
+.lead .event {
+  display: inline-block;
+  font-size: 12px;
+  font-variant: all-petite-caps;
+  margin: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #1669bc;
+  color: white;
+}
+
+.lead .event:hover {
+  background: #5fa6ec;
+}

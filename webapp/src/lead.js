@@ -33,6 +33,12 @@ export function show(store, on) {
   let title = h('.title', `${l.firstName} ${l.lastName}`)
   let subtitle = h('.subtitle', l.email)
 
+  let eventtitle = h('.eventtitle', 'Lead Actions:')
+  let emailopen = h('.event', 'Opened Email')
+  let linkclick = h('.event', 'Clicked Link')
+  let reply = h('.event', 'Replied to Email')
+  let chat = h('.event', 'Replied to Chat')
+
   let score = h('.score', "0")
   let scoretitle = h('.scoretitle', 'Score')
 
@@ -70,7 +76,12 @@ export function show(store, on) {
   })
 
   lead.c(
-    h('.cont').c(title, subtitle),
+    h('.cont').c(
+      title, subtitle,
+      h('.event-cont').c(
+        eventtitle, emailopen, linkclick, reply, chat
+      ),
+    ),
     h('.score-cont').c(score, scoretitle),
     convs,
     acts,
