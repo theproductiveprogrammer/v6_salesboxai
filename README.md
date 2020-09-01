@@ -38,14 +38,14 @@ The backend is decoupled from the front end and contains all the microservices w
 
 1. Start all the backend services needed:
 
-   *(The following are simply indicative - please follow the actual instructions if they don’t work for you)*
+   *(The following are simply indicative - please follow the instructions on each website for actually installing them)*
 
    ```sh
    $> cd <kafka folder>
    $> ./bin/zookeeper-server-start.sh ./config/zookeeper.properties
    $> ./bin/kafka-server-start.sh ./config/server.properties
    
-   $> cd <cadence folder>
+   $> cd <cadence folder>/docker
    $> docker-compose up
    
    $> cd <mysql folder>
@@ -64,9 +64,10 @@ The backend is decoupled from the front end and contains all the microservices w
    $> cd setup-db && edit src/main/resources/application.properties
    $> cd importer && edit src/main/resources/application.yml
    $> cd authenticator && edit src/main/resources/application.yml
-   $> cd lead-scoring && edit src/main/resources/application.yml$> cd biz-objects && edit src/main/resources/application.yml
+   $> cd lead-scoring && edit src/main/resources/application.yml
+   $> cd biz-objects && edit src/main/resources/application.yml
    ```
-   
+
 4. Configure all application links to Kafka:
 
    ```sh
