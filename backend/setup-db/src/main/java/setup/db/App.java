@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 
@@ -20,9 +19,8 @@ public class App {
             showHelp();
             return;
         }
-        Properties properties = new Properties();
-        InputStream is = App.class.getClassLoader().getResourceAsStream("application.properties");
-        properties.load(is);
+
+        Properties properties = appProperties();
 
         switch(args[0]) {
             case "create-dbs":
@@ -44,6 +42,25 @@ public class App {
                 System.out.println("Did not understand: " + args[0]);
                 showHelp();
         }
+    }
+
+    private static Properties appProperties() throws Exception {
+        Properties properties = new Properties();
+        ClassLoader loader = App.class.getClassLoader();
+        InputStream is = loader.getResourceAsStream("application.properties");
+        properties.load(is);
+
+        String envs = System.getenv("MICRONAUT_ENVIRONMENTS");
+        if(envs == null || envs.length() == 0) return properties;
+        String[] envs_ = envs.split(",");
+        for(String env : envs_) {
+            String name = "application-" + env + ".properties";
+            try {
+                is = loader.getResourceAsStream(name);
+                properties.load(is);
+            } catch(Throwable throwable) { /* ignore */ }
+        }
+        return properties;
     }
 
     private static void showHelp() {
