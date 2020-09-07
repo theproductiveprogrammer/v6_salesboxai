@@ -1,0 +1,5 @@
+kafka.bootstrap.servers: 10.114.0.3:9092
+cadence:
+  host: 10.114.0.2
+  port: 7933
+  domain: salesboxai-domain
