@@ -1,7 +1,5 @@
 datasources:
   default:
     url: jdbc:mysql://10.114.0.5:3306/v6_authenticator
-    driverClassName: com.mysql.cj.jdbc.Driver
     username: sbsql
     password: sb!@#$sql!!
-    dialect: MYSQL
