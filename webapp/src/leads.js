@@ -59,7 +59,7 @@ export function show(store, on, keep) {
 
 function getLeads(store) {
   get_('leads', (err, leads) => {
-    if(err) return error_(err, 'get/imports')
+    if(err) return error_(err, 'get/leads')
     store.event('leads/got', leads)
   })
 }
