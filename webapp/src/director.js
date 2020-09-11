@@ -62,16 +62,23 @@ function setupView(store, body) {
   nav_.show(store.fork('nav'), nav)
 
   let currview
+  let prevview
+  let prevhtml
   store.react('nav', nav => {
-    currview = store.destroy(currview)
-    display.innerHTML = ""
+    if(nav == 'prev') {
+      currview = prevview
+      display.innerHTML = prevhtml
+      prevview = undefined
+      prevhtml = undefined
+      return
+    }
+    prevview = store.destroy(prevview)
+    prevview = currview
+    prevhtml = display.innerHTML
     switch(nav) {
       case 'lead':
         currview = store.fork('lead')
         return lead_.show(currview, display)
-      case 'prevleads':
-        currview = store.fork('leads')
-        return leads_.show(currview, display, true)
       case 'leads':
         currview = store.fork('leads')
         return leads_.show(currview, display)

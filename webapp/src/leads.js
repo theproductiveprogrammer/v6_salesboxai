@@ -19,10 +19,10 @@ export function reducer(state, type, payload) {
   }
 }
 
-export function show(store, on, keep) {
+export function show(store, on) {
   let ld = h('.leads')
   on.appendChild(ld)
-  if(!keep) getLeads(store)
+  getLeads(store)
 
   let title = h('.title', 'Leads')
   let tblbody = h('tbody')
