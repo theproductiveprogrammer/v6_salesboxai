@@ -69,6 +69,9 @@ function setupView(store, body) {
       case 'lead':
         currview = store.fork('lead')
         return lead_.show(currview, display)
+      case 'prevleads':
+        currview = store.fork('leads')
+        return leads_.show(currview, display, true)
       case 'leads':
         currview = store.fork('leads')
         return leads_.show(currview, display)
