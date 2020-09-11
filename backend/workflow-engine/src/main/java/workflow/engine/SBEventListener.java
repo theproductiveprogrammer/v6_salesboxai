@@ -7,14 +7,19 @@ import com.uber.cadence.client.WorkflowOptions;
 import io.micronaut.configuration.kafka.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import workflow.engine.conf.CadenceConfig;
 import workflow.engine.workflows.ISBEventWorkflow;
 import workflow.engine.workflows.ISBImportWorkflow;
 
+import javax.inject.Inject;
 import java.time.Duration;
 
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class SBEventListener {
     public static final Logger logger = LoggerFactory.getLogger(SBEventListener.class);
+
+    @Inject
+    CadenceConfig cadenceConfig;
 
     @Topic("sb-event")
     public void onEvent(@KafkaKey Long tenantId, SBEvent event) {
@@ -26,7 +31,7 @@ public class SBEventListener {
     }
 
     private void launchImportWorkflow(SBEvent event) {
-        WorkflowClient client = WorkflowClient.newInstance("salesboxai-domain");
+        WorkflowClient client = WorkflowClient.newInstance(cadenceConfig.getHost(), cadenceConfig.getPort(), cadenceConfig.getDomain());
         WorkflowOptions workflowOptions =
                 new WorkflowOptions.Builder()
                         .setWorkflowId("import-" + event.tenantId)
