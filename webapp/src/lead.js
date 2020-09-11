@@ -14,7 +14,7 @@ export function setup(rootstore) {
   lead_ = () => {
     let id = rootstore.get('lead')
     if(!id) return
-    return rootstore.get('leads').filter(l => l.id = id)[0]
+    return rootstore.get('leads').filter(l => l.id == id)[0]
   }
 }
 
