@@ -58,33 +58,7 @@ The backend is decoupled from the front end and contains all the microservices w
    $> docker run --network=host --rm ubercadence/cli:master --do salesboxai-domain domain register -rd 1
    ```
 
-3. Configure all the application links to the databases:
-
-   ```sh
-   $> cd setup-db && edit src/main/resources/application.properties
-   $> cd importer && edit src/main/resources/application.yml
-   $> cd authenticator && edit src/main/resources/application.yml
-   $> cd lead-scoring && edit src/main/resources/application.yml
-   $> cd biz-objects && edit src/main/resources/application.yml
-   ```
-
-4. Configure all application links to Kafka:
-
-   ```sh
-   $> cd importer && edit src/main/resources/application.yml
-   $> cd activities && edit src/main/resources/application.yml
-   $> cd conversations && edit src/main/resources/application.yml
-   $> cd event-server && edit src/main/resources/application.yml
-   $> cd workflow-engine && edit src/main/resources/application.yml
-   ```
-
-5. Configure workflow engine to link to Cadence:
-
-   ```sh
-   $> cd workflow-engine && edit src/main/resources/application.yml
-   ```
-
-6. Create all the required databases:
+3. Create all the required databases:
 
    ```sh
    $> cd backend/setup-db
@@ -92,7 +66,7 @@ The backend is decoupled from the front end and contains all the microservices w
    (or to clear and restart)
    $> ./gradlew run --args=recreate-dbs
    ```
-
+   
 7. Start the Authenticator microservice:
 
    ```sh
