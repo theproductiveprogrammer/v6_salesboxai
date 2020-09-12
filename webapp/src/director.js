@@ -62,45 +62,48 @@ function setupView(store, body) {
   nav_.show(store.fork('nav'), nav)
 
   let currview
-  let prevview
-  let prevhtml
+  let currclose
+  let crumbs = []
   store.react('nav', nav => {
-    if(nav == 'prev') {
-      currview = prevview
-      display.innerHTML = prevhtml
-      prevview = undefined
-      prevhtml = undefined
-      return
+    let keep = false
+    if(currclose) currclose()
+    currclose = null
+    if(nav == 'back') {
+      keep = true
+      crumbs.pop()
+      nav = crumbs[crumbs.length-1]
+    } else {
+      crumbs.push(nav)
     }
-    prevview = store.destroy(prevview)
-    prevview = currview
-    prevhtml = display.innerHTML
+    currview = store.destroy(currview)
+    display.innerHTML = ""
     switch(nav) {
       case 'lead':
         currview = store.fork('lead')
-        return lead_.show(currview, display)
+        return lead_.show(currview, display, keep)
       case 'leads':
         currview = store.fork('leads')
-        return leads_.show(currview, display)
+        currclose = leads_.close
+        return leads_.show(currview, display, keep)
       case 'importer': {
         currview = store.fork('imports')
-        return im_.show(currview, display)
+        return im_.show(currview, display, keep)
       }
       case 'dashboard': {
         currview = store.fork()
-        return dashboard_.show(currview, display)
+        return dashboard_.show(currview, display, keep)
       }
       case 'workflow': {
         currview = store.fork('workflow')
-        return wk_.show(currview, display)
+        return wk_.show(currview, display, keep)
       }
       case 'login': {
         currview = store.fork('user')
-        return um_.showLogin(currview, display)
+        return um_.showLogin(currview, display, keep)
       }
       case 'signup': {
         currview = store.fork('user')
-        return um_.showSignup(currview, display)
+        return um_.showSignup(currview, display, keep)
       }
       default: {
         display.innerHTML = 'Cannot show page "' + nav + '"'

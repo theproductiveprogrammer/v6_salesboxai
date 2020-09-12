@@ -22,7 +22,7 @@ export function reducer(state, type, payload) {
     case 'dash/leads/go': return 'leads'
     case 'nav/home': return anon() ? 'login' : 'dashboard'
     case 'leads/lead/go': return 'lead'
-    case 'lead/goback': return 'prev'
+    case 'lead/goback': return 'back'
     default: return state;
   }
 }

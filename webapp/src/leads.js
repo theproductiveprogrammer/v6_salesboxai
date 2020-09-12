@@ -19,10 +19,16 @@ export function reducer(state, type, payload) {
   }
 }
 
-export function show(store, on) {
+let pageclosed = false
+export function close() {
+  pageclosed = true
+}
+
+export function show(store, on, keep) {
+  pageclosed = false
   let ld = h('.leads')
   on.appendChild(ld)
-  getLeads(store)
+  if(!keep) getLeads(store)
 
   let title = h('.title', 'Leads')
   let tblbody = h('tbody')
@@ -41,7 +47,20 @@ export function show(store, on) {
   store.react(users => {
     tblbody.innerHTML = ''
     if(!users) return
-    users.forEach(user => {
+
+    const batch = 256
+    show_in_batches_1(0)
+
+    function show_in_batches_1(i) {
+      if(i >= users.length || pageclosed) return
+      let j = i+batch < users.length ? i+batch : users.length
+      setTimeout(() => {
+        for(;i < j;i++) add_row_1(users[i])
+        show_in_batches_1(i)
+      }, 100)
+    }
+
+    function add_row_1(user) {
       tblbody.appendChild(h('tr', [
         h('td.nav-lead', {
           onclick: () => store.event('leads/lead/go', user.id)
@@ -50,7 +69,7 @@ export function show(store, on) {
         h('td', user.lastName),
         h('td', user.email),
       ]))
-    })
+    }
   })
 
 
