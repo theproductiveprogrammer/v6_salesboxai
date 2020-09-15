@@ -167,7 +167,6 @@ export function show(store, e) {
     events.forEach(e => sel.appendChild(h('option', {
       value: e.id,
     }, e.name)))
-    store.event('workflow/event/sel', events[0].id)
   })
 
   let sav = h('.btn',{ onclick: () => save(store) }, "Save")
